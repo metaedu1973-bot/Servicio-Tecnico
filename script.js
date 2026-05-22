@@ -96,6 +96,31 @@ lista.splice(i,1);
 localStorage.setItem("datos", JSON.stringify(lista));
 
 mostrar();
+function buscarEquipo(){
+
+let texto = document
+.getElementById("buscar")
+.value
+.toLowerCase();
+
+let tarjetas = document
+.querySelectorAll("#lista div");
+
+tarjetas.forEach(t => {
+
+if(t.innerText.toLowerCase().includes(texto)){
+
+t.style.display = "block";
+
+}else{
+
+t.style.display = "none";
+
+}
+
+});
+
+}
 
 }
     `;
