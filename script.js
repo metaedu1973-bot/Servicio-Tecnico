@@ -19,6 +19,8 @@ impresora: impresora.value,
 telefono: telefono.value,
 antivirus: antivirus.value,
 mantenimiento: mantenimiento.value
+  tecnico: tecnico.value,
+fecha: fecha.value
 
 };
 
@@ -62,7 +64,9 @@ cont.innerHTML += `
 <b>Impresora:</b> ${e.impresora}<br>
 <b>Teléfono:</b> ${e.telefono}<br>
 <b>Antivirus:</b> ${e.antivirus}<br>
-<b>Mantenimiento:</b> ${e.mantenimiento}<br><br>
+<b>Mantenimiento:</b> ${e.mantenimiento}<br>
+<b>Técnico:</b> ${e.tecnico}<br>
+<b>Fecha:</b> ${e.fecha}<br><br>
 
 <button onclick="eliminar(${i})">
 Eliminar
