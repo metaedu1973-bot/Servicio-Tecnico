@@ -32,6 +32,7 @@ localStorage.setItem("datos", JSON.stringify(lista));
 await addDoc(collection(db,"equipos"), datos);
 
 mostrar();
+actualizarDashboard();
 
 }
 
@@ -298,5 +299,17 @@ localStorage.removeItem("rol");
 
 window.location="login.html";
 
+function actualizarDashboard(){
+
+let lista = JSON.parse(localStorage.getItem("datos")) || [];
+
+document.getElementById("totalEquipos")
+.innerText = lista.length;
+
+document.getElementById("totalMantenimientos")
+.innerText = lista.length;
+
 }
+
+actualizarDashboard();
 
