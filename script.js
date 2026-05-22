@@ -265,6 +265,33 @@ ventana.document.close();
 
 ventana.print();
 
+function editar(i){
+
+let lista = JSON.parse(localStorage.getItem("datos")) || [];
+
+let e = lista[i];
+
+area.value = e.area;
+equipo.value = e.equipo;
+servicio.value = e.servicio;
+modelo.value = e.modelo;
+marca.value = e.marca;
+serie.value = e.serie;
+codigo.value = e.codigo;
+disco.value = e.disco;
+memoria.value = e.memoria;
+monitor.value = e.monitor;
+teclado.value = e.teclado;
+mouse.value = e.mouse;
+impresora.value = e.impresora;
+telefono.value = e.telefono;
+antivirus.value = e.antivirus;
+mantenimiento.value = e.mantenimiento;
+tecnico.value = e.tecnico;
+fecha.value = e.fecha;
+
+eliminar(i);
+
 }
 
 }
