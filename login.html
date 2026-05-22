@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+
+<style>
+
+body{
+
+font-family:Arial;
+background:linear-gradient(to right,#1565c0,#42a5f5);
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+
+}
+
+.login{
+
+background:white;
+padding:30px;
+border-radius:15px;
+width:300px;
+text-align:center;
+
+}
+
+input{
+
+width:90%;
+padding:10px;
+margin:10px;
+border-radius:8px;
+border:1px solid gray;
+
+}
+
+button{
+
+padding:10px 20px;
+background:green;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="login">
+
+<h2>🔐 Iniciar Sesión</h2>
+
+<input type="text" id="usuario" placeholder="Usuario">
+
+<input type="password" id="clave" placeholder="Contraseña">
+
+<button onclick="entrar()">
+Ingresar
+</button>
+
+</div>
+
+<script>
+
+function entrar(){
+
+let u = document.getElementById("usuario").value;
+
+let c = document.getElementById("clave").value;
+
+if(u=="admin" && c=="1234"){
+
+window.location="index.html";
+
+}else{
+
+alert("Usuario o contraseña incorrectos");
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
