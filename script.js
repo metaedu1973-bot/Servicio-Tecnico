@@ -7,6 +7,15 @@ function guardar() {
     marca: marca.value,
     serie: serie.value,
     codigo: codigo.value
+    disco: disco.value,
+memoria: memoria.value,
+monitor: monitor.value,
+teclado: teclado.value,
+mouse: mouse.value,
+impresora: impresora.value,
+telefono: telefono.value,
+antivirus: antivirus.value,
+mantenimiento: mantenimiento.value
   };
 
   let lista = JSON.parse(localStorage.getItem("datos")) || [];
