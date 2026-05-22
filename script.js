@@ -197,5 +197,64 @@ link.href = url;
 link.download = "servicio_tecnico.xls";
 
 link.click();
+  function generarPDF(){
+
+let ventana = window.open('', '', 'width=800,height=600');
+
+let contenido = document.getElementById("lista").innerHTML;
+
+ventana.document.write(`
+
+<html>
+
+<head>
+
+<title>Reporte Técnico</title>
+
+<style>
+
+body{
+
+font-family:Arial;
+padding:20px;
+
+}
+
+.card{
+
+border:1px solid gray;
+padding:10px;
+margin:10px;
+border-radius:10px;
+
+}
+
+button{
+
+display:none;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Reporte Servicio Técnico</h1>
+
+${contenido}
+
+</body>
+
+</html>
+
+`);
+
+ventana.document.close();
+
+ventana.print();
+
+}
 
 }
