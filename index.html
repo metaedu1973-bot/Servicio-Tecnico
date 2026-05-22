@@ -1,22 +1,26 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-  <meta charset="UTF-8">
-  <title>Servicio Técnico</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Sistema Servicio Técnico</title>
+
+<link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <h1>🛠️ Sistema de Servicio Técnico</h1>
+<h1>🛠️ Sistema de Servicio Técnico</h1>
 
-  <input id="area" placeholder="Área">
-  <input id="equipo" placeholder="Equipo">
-  <input id="servicio" placeholder="Servicio">
-  <input id="modelo" placeholder="Modelo">
-  <input id="marca" placeholder="Marca">
-  <input id="serie" placeholder="Serie">
-  <input id="codigo" placeholder="Código">
-  <input id="disco" placeholder="Disco Duro">
+<input id="area" placeholder="Área">
+<input id="equipo" placeholder="Equipo">
+<input id="servicio" placeholder="Servicio">
+<input id="modelo" placeholder="Modelo">
+<input id="marca" placeholder="Marca">
+<input id="serie" placeholder="Serie">
+<input id="codigo" placeholder="Código">
+
+<input id="disco" placeholder="Disco Duro">
 <input id="memoria" placeholder="Memoria RAM">
 <input id="monitor" placeholder="Monitor">
 <input id="teclado" placeholder="Teclado">
@@ -26,15 +30,21 @@
 <input id="antivirus" placeholder="Antivirus">
 <input id="mantenimiento" placeholder="Mantenimiento">
 
-  <button onclick="guardar()">Guardar</button>
-  <input 
-type="text" 
+<button onclick="guardar()">
+Guardar Registro
+</button>
+
+<br><br>
+
+<input
+type="text"
 id="buscar"
 placeholder="Buscar equipo..."
 onkeyup="buscarEquipo()">
-  <div id="lista"></div>
 
-  <script src="script.js"></script>
+<div id="lista"></div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
