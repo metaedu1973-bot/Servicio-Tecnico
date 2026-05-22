@@ -292,6 +292,11 @@ fecha.value = e.fecha;
 
 eliminar(i);
 
-}
+function cerrarSesion(){
+
+localStorage.removeItem("rol");
+
+window.location="login.html";
 
 }
+
