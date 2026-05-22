@@ -75,6 +75,9 @@ Editar
 </button>
 
 ${localStorage.getItem("rol")=="admin" ?
+<button onclick="editar(${i})">
+Editar
+</button>
 
 `<button onclick="eliminar(${i})">
 Eliminar
@@ -308,6 +311,35 @@ document.getElementById("totalEquipos")
 
 document.getElementById("totalMantenimientos")
 .innerText = lista.length;
+
+function editar(i){
+
+let lista = JSON.parse(localStorage.getItem("datos")) || [];
+
+let e = lista[i];
+
+document.getElementById("area").value = e.area;
+document.getElementById("equipo").value = e.equipo;
+document.getElementById("servicio").value = e.servicio;
+document.getElementById("modelo").value = e.modelo;
+document.getElementById("marca").value = e.marca;
+document.getElementById("serie").value = e.serie;
+document.getElementById("codigo").value = e.codigo;
+document.getElementById("disco").value = e.disco;
+document.getElementById("memoria").value = e.memoria;
+document.getElementById("monitor").value = e.monitor;
+document.getElementById("teclado").value = e.teclado;
+document.getElementById("mouse").value = e.mouse;
+document.getElementById("impresora").value = e.impresora;
+document.getElementById("telefono").value = e.telefono;
+document.getElementById("antivirus").value = e.antivirus;
+document.getElementById("mantenimiento").value = e.mantenimiento;
+
+lista.splice(i,1);
+
+localStorage.setItem("datos", JSON.stringify(lista));
+
+mostrar();
 
 }
 
