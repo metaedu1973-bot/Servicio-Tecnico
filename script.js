@@ -119,3 +119,82 @@ t.style.display="none";
 }
 
 mostrar();
+function exportarExcel(){
+
+let datos = JSON.parse(localStorage.getItem("datos")) || [];
+
+let contenido = `
+<table border="1">
+
+<tr>
+
+<th>Área</th>
+<th>Equipo</th>
+<th>Servicio</th>
+<th>Modelo</th>
+<th>Marca</th>
+<th>Serie</th>
+<th>Código</th>
+<th>Disco</th>
+<th>Memoria</th>
+<th>Monitor</th>
+<th>Teclado</th>
+<th>Mouse</th>
+<th>Impresora</th>
+<th>Teléfono</th>
+<th>Antivirus</th>
+<th>Mantenimiento</th>
+<th>Técnico</th>
+<th>Fecha</th>
+
+</tr>
+`;
+
+datos.forEach(e=>{
+
+contenido += `
+
+<tr>
+
+<td>${e.area}</td>
+<td>${e.equipo}</td>
+<td>${e.servicio}</td>
+<td>${e.modelo}</td>
+<td>${e.marca}</td>
+<td>${e.serie}</td>
+<td>${e.codigo}</td>
+<td>${e.disco}</td>
+<td>${e.memoria}</td>
+<td>${e.monitor}</td>
+<td>${e.teclado}</td>
+<td>${e.mouse}</td>
+<td>${e.impresora}</td>
+<td>${e.telefono}</td>
+<td>${e.antivirus}</td>
+<td>${e.mantenimiento}</td>
+<td>${e.tecnico}</td>
+<td>${e.fecha}</td>
+
+</tr>
+
+`;
+
+});
+
+contenido += `</table>`;
+
+let archivo = new Blob([contenido], {
+type:"application/vnd.ms-excel"
+});
+
+let url = URL.createObjectURL(archivo);
+
+let link = document.createElement("a");
+
+link.href = url;
+
+link.download = "servicio_tecnico.xls";
+
+link.click();
+
+}
