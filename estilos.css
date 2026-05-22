@@ -63,4 +63,17 @@ width:80%;
 box-shadow:0px 0px 10px rgba(0,0,0,0.3);
 text-align:left;
 
+.encabezado{
+
+padding:20px;
+
 }
+
+.encabezado p{
+
+color:white;
+font-size:18px;
+margin-top:-10px;
+
+}
+
