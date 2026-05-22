@@ -1,4 +1,4 @@
-function guardar(){
+async function guardar(){
 
 let datos = {
 
@@ -29,6 +29,7 @@ let lista = JSON.parse(localStorage.getItem("datos")) || [];
 lista.push(datos);
 
 localStorage.setItem("datos", JSON.stringify(lista));
+await addDoc(collection(db,"equipos"), datos);
 
 mostrar();
 
