@@ -69,9 +69,19 @@ cont.innerHTML += `
 <b>Técnico:</b> ${e.tecnico}<br>
 <b>Fecha:</b> ${e.fecha}<br><br>
 
-<button onclick="eliminar(${i})">
-Eliminar
+<button onclick="editar(${i})">
+Editar
 </button>
+
+${localStorage.getItem("rol")=="admin" ?
+
+`<button onclick="eliminar(${i})">
+Eliminar
+</button>`
+
+:
+
+""}
 
 </div>
 
