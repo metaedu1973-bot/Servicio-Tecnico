@@ -34,9 +34,31 @@ function mostrar() {
 
   lista.forEach(e => {
     cont.innerHTML += `
-      <p>
-        ${e.area} - ${e.equipo} - ${e.servicio} - ${e.modelo}
-      </p>
+<div style="background:white;
+padding:15px;
+margin:10px;
+border-radius:10px;
+box-shadow:0px 0px 5px gray;">
+
+<b>Área:</b> ${e.area}<br>
+<b>Equipo:</b> ${e.equipo}<br>
+<b>Servicio:</b> ${e.servicio}<br>
+<b>Modelo:</b> ${e.modelo}<br>
+<b>Marca:</b> ${e.marca}<br>
+<b>Serie:</b> ${e.serie}<br>
+<b>Código:</b> ${e.codigo}<br>
+<b>Disco:</b> ${e.disco}<br>
+<b>Memoria:</b> ${e.memoria}<br>
+<b>Monitor:</b> ${e.monitor}<br>
+<b>Teclado:</b> ${e.teclado}<br>
+<b>Mouse:</b> ${e.mouse}<br>
+<b>Impresora:</b> ${e.impresora}<br>
+<b>Teléfono:</b> ${e.telefono}<br>
+<b>Antivirus:</b> ${e.antivirus}<br>
+<b>Mantenimiento:</b> ${e.mantenimiento}<br>
+
+</div>
+`;
     `;
   });
 }
