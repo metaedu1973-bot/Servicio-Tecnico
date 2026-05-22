@@ -69,23 +69,54 @@ Ingresar
 
 </div>
 
-<script>
+<script type="module">
 
-function entrar(){
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-let u = document.getElementById("usuario").value;
+import {
+getAuth,
+signInWithEmailAndPassword
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-let c = document.getElementById("clave").value;
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDILlEvHJ05IUg146N17zVwGG5RD7X50Y4",
+  authDomain: "servicio-tecnico-8a5ef.firebaseapp.com",
+  databaseURL: "https://servicio-tecnico-8a5ef-default-rtdb.firebaseio.com",
+  projectId: "servicio-tecnico-8a5ef",
+  storageBucket: "servicio-tecnico-8a5ef.firebasestorage.app",
+  messagingSenderId: "895895342548",
+  appId: "1:895895342548:web:c400eb7e17ff78f57c1a41",
+  measurementId: "G-HTXDTJ735G"
+};
 
-if(u=="admin" && c=="1234"){
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+window.entrar = function(){
+
+let email =
+document.getElementById("usuario").value;
+
+let password =
+document.getElementById("clave").value;
+
+signInWithEmailAndPassword(auth,email,password)
+
+.then(()=>{
 
 window.location="index.html";
 
-}else{
+})
 
-alert("Usuario o contraseña incorrectos");
+.catch(()=>{
 
-}
+alert("Correo o contraseña incorrectos");
+
+});
 
 }
 
