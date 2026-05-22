@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Crear Técnicos</title>
+
+<style>
+
+body{
+
+font-family:Arial;
+background:#f2f2f2;
+text-align:center;
+padding:30px;
+
+}
+
+input{
+
+width:300px;
+padding:10px;
+margin:10px;
+border-radius:8px;
+border:1px solid gray;
+
+}
+
+button{
+
+padding:10px 20px;
+background:green;
+color:white;
+border:none;
+border-radius:8px;
+cursor:pointer;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>👨‍🔧 Crear Técnico</h1>
+
+<input type="email" id="correo" placeholder="Correo">
+
+<input type="password" id="clave" placeholder="Contraseña">
+
+<br>
+
+<button onclick="crear()">
+Crear Usuario
+</button>
+
+<script type="module">
+
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
+import {
+getAuth,
+createUserWithEmailAndPassword
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const firebaseConfig = {
+
+apiKey: "TU_APIKEY",
+authDomain: "TU_AUTHDOMAIN",
+projectId: "TU_PROJECTID",
+storageBucket: "TU_STORAGEBUCKET",
+messagingSenderId: "TU_MESSAGINGSENDERID",
+appId: "TU_APPID"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const auth = getAuth(app);
+
+window.crear = function(){
+
+let email =
+document.getElementById("correo").value;
+
+let password =
+document.getElementById("clave").value;
+
+createUserWithEmailAndPassword(auth,email,password)
+
+.then(()=>{
+
+alert("Técnico creado correctamente");
+
+})
+
+.catch((error)=>{
+
+alert(error.message);
+
+});
+
+}
+
+</script>
+
+</body>
+</html>
