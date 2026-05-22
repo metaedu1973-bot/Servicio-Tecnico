@@ -73,6 +73,18 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+  import {
+getFirestore,
+collection,
+addDoc
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const db = getFirestore(app);
+
+window.db = db;
+window.collection = collection;
+window.addDoc = addDoc;
 
 </script>
 <script src="script.js"></script>
