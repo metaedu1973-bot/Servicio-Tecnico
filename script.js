@@ -311,9 +311,19 @@ from
 
 const auth = getAuth(app);
 
+import {
+getAuth,
+signOut
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const auth = getAuth(app);
+
 window.cerrarSesion = function(){
 
 signOut(auth)
+
 .then(()=>{
 
 localStorage.clear();
@@ -321,10 +331,15 @@ localStorage.clear();
 window.location.href =
 "login.html";
 
+})
+
+.catch((error)=>{
+
+alert(error.message);
+
 });
 
 }
-
 }
 
 window.exportarExcel = function(){
