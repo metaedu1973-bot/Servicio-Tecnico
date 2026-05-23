@@ -248,7 +248,9 @@ push(ref(db,"usuarios"),{
 
 email: email,
 
-rol: "tecnico",
+rol:
+document.getElementById("rolUsuario")
+.value,
 
 estado: "activo"
 
