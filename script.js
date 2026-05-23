@@ -79,6 +79,8 @@ impresora: impresora.value,
 telefono: telefono.value,
 antivirus: antivirus.value,
 mantenimiento: mantenimiento.value,
+  observaciones:
+observaciones.value,
 tecnico: tecnico.value,
 foto: e.target.result
 
@@ -168,6 +170,8 @@ ${e.marca}</p>
 
 <p><b>🖥️ Modelo:</b>
 ${e.modelo}</p>
+<p><b>📝 Observaciones:</b><br>
+${e.observaciones}</p>
 
 <div class="estado pendiente">
 🟡 Pendiente
@@ -246,6 +250,8 @@ impresora.value = e.impresora;
 telefono.value = e.telefono;
 antivirus.value = e.antivirus;
 mantenimiento.value = e.mantenimiento;
+  observaciones.value =
+e.observaciones;
 tecnico.value = e.tecnico;
 
 document.getElementById("numeroReporte")
