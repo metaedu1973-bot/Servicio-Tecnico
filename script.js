@@ -304,9 +304,11 @@ card.style.display="none";
 
 window.cerrarSesion = function(){
 
-localStorage.removeItem("rol");
+localStorage.clear();
 
-window.location="login.html";
+window.location.href = "login.html";
+
+}
 
 }
 
