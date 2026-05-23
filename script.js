@@ -376,6 +376,10 @@ window.print();
 document.getElementById("tecnico")
 .value =
 localStorage.getItem("tecnico");
+  document.getElementById("nombreTecnico")
+.innerHTML =
+"👨‍🔧 " +
+localStorage.getItem("tecnico");
 }
 document.getElementById("tecnico")
 .value =
