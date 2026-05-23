@@ -8,10 +8,12 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Sistema Técnico</title>
+<title>CNE - Sistema Técnico</title>
 
 <link rel="stylesheet"
 href="estilos.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </head>
 
@@ -20,7 +22,7 @@ href="estilos.css">
 <header>
 
 <h1>
-🛠️ SISTEMA SERVICIO TÉCNICO
+🏢 CNE - SISTEMA TÉCNICO
 </h1>
 
 <button onclick="cerrarSesion()">
@@ -87,67 +89,31 @@ N° <span id="numeroReporte">
 
 <input type="text"
 id="area"
-placeholder="🏢 Área">
+placeholder="🏢 Ej: Contabilidad">
 
 <input type="text"
 id="equipo"
-placeholder="💻 Equipo">
+placeholder="💻 Ej: Computadora HP">
 
 <input type="text"
 id="servicio"
-placeholder="🛠️ Servicio">
+placeholder="🛠️ Ej: Mantenimiento Preventivo">
 
 <input type="text"
 id="modelo"
-placeholder="🖥️ Modelo">
+placeholder="🖥️ Ej: EliteDesk 800">
 
 <input type="text"
 id="marca"
-placeholder="💻 Marca">
+placeholder="🏷️ Ej: HP">
 
 <input type="text"
 id="serie"
-placeholder="🔢 Serie">
+placeholder="🔢 Ej: MX123ABC">
 
 <input type="text"
 id="codigo"
-placeholder="🏷️ Código">
-
-<input type="text"
-id="disco"
-placeholder="💾 Disco Duro">
-
-<input type="text"
-id="memoria"
-placeholder="🧠 Memoria RAM">
-
-<input type="text"
-id="monitor"
-placeholder="🖥️ Monitor">
-
-<input type="text"
-id="teclado"
-placeholder="⌨️ Teclado">
-
-<input type="text"
-id="mouse"
-placeholder="🖱️ Mouse">
-
-<input type="text"
-id="impresora"
-placeholder="🖨️ Impresora">
-
-<input type="text"
-id="telefono"
-placeholder="📞 Teléfono">
-
-<input type="text"
-id="antivirus"
-placeholder="🛡️ Antivirus">
-
-<input type="text"
-id="mantenimiento"
-placeholder="🔧 Mantenimiento">
+placeholder="📌 Ej: CNE-001">
 
 <select id="estado">
 
@@ -167,7 +133,7 @@ placeholder="🔧 Mantenimiento">
 
 <textarea
 id="observaciones"
-placeholder="📝 Observaciones Técnicas">
+placeholder="📝 Escriba observaciones técnicas...">
 </textarea>
 
 <input type="text"
@@ -176,8 +142,7 @@ readonly>
 
 <input type="file"
 id="foto"
-accept="image/*"
-capture="environment">
+accept="image/*">
 
 <button onclick="guardar()">
 💾 Guardar Registro
@@ -188,21 +153,47 @@ capture="environment">
 <div class="acciones">
 
 <button onclick="exportarExcel()">
-📊 Exportar Excel
+📊 Excel
 </button>
 
 <button onclick="generarPDF()">
-📄 Generar PDF
+📄 PDF
 </button>
 
 </div>
 
 <input type="text"
 id="buscar"
-placeholder="🔍 Buscar reporte..."
+placeholder="🔍 Buscar equipo, técnico o área..."
 onkeyup="buscarEquipo()">
 
-<div id="lista"></div>
+<div class="tabla-contenedor">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>#</th>
+<th>Fecha</th>
+<th>Equipo</th>
+<th>Área</th>
+<th>Estado</th>
+<th>Técnico</th>
+<th>Acciones</th>
+
+</tr>
+
+</thead>
+
+<tbody id="lista">
+
+</tbody>
+
+</table>
+
+</div>
 
 </div>
 
