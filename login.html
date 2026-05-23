@@ -80,6 +80,19 @@ placeholder="Contraseña">
 <button onclick="entrar()">
 Ingresar
 </button>
+  <br><br>
+
+<a href="#"
+onclick="recuperarClave()"
+style="
+color:#1565c0;
+font-weight:bold;
+text-decoration:none;
+">
+
+¿Olvidaste tu contraseña?
+
+</a>
 
 <hr>
 
@@ -111,6 +124,7 @@ import {
 getAuth,
 signInWithEmailAndPassword,
 createUserWithEmailAndPassword
+  sendPasswordResetEmail
 
 }
 
@@ -213,6 +227,41 @@ alert(error.message);
 }
 
 </script>
+  window.recuperarClave = function(){
+
+let email =
+document.getElementById("usuario").value;
+
+if(email==""){
+
+alert(
+"Ingrese su correo primero"
+);
+
+return;
+
+}
+
+sendPasswordResetEmail(
+auth,
+email
+)
+
+.then(()=>{
+
+alert(
+"Correo de recuperación enviado"
+);
+
+})
+
+.catch((error)=>{
+
+alert(error.message);
+
+});
+
+}
 
 </body>
 </html>
