@@ -93,10 +93,82 @@ font-size:18px;
 .formulario{
 
 display:grid;
+
 grid-template-columns:
-repeat(auto-fit,minmax(220px,1fr));
+repeat(6,1fr);
 
 gap:12px;
+
+align-items:start;
+
+}
+
+.formulario input,
+.formulario select{
+
+height:45px;
+
+padding:10px;
+
+border-radius:10px;
+
+border:1px solid #ccc;
+
+font-size:14px;
+
+box-sizing:border-box;
+
+}
+
+.formulario textarea{
+
+height:80px;
+
+padding:10px;
+
+border-radius:10px;
+
+border:1px solid #ccc;
+
+font-size:14px;
+
+resize:none;
+
+box-sizing:border-box;
+
+}
+
+#observaciones{
+
+grid-column:span 2;
+
+}
+
+#foto{
+
+height:45px;
+
+padding:8px;
+
+}
+
+.formulario button{
+
+height:45px;
+
+background:#079407;
+
+color:white;
+
+border:none;
+
+border-radius:10px;
+
+font-size:15px;
+
+font-weight:bold;
+
+cursor:pointer;
 
 }
 
