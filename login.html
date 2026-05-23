@@ -4,11 +4,16 @@
 <head>
 
 <meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>Login</title>
 
 <style>
 
 body{
+
 font-family:Arial;
 background:linear-gradient(to right,#1565c0,#42a5f5);
 display:flex;
@@ -16,24 +21,29 @@ justify-content:center;
 align-items:center;
 height:100vh;
 margin:0;
+
 }
 
 .login{
+
 background:white;
 padding:30px;
-border-radius:15px;
-width:320px;
+border-radius:20px;
+width:350px;
 text-align:center;
-box-shadow:0px 0px 20px rgba(0,0,0,0.3);
+box-shadow:0px 5px 20px rgba(0,0,0,0.3);
+
 }
 
 input{
+
 width:90%;
-padding:10px;
+padding:12px;
 margin:10px;
-border-radius:8px;
-border:1px solid gray;
+border-radius:10px;
+border:1px solid #ccc;
 font-size:15px;
+
 }
 
 button{
@@ -44,42 +54,23 @@ color:white;
 border:none;
 border-radius:10px;
 cursor:pointer;
-margin-top:10px;
-font-size:16px;
+font-size:15px;
 font-weight:bold;
-transition:all 0.15s ease;
+transition:0.2s;
 box-shadow:0px 5px 0px #006600;
-
-}
-
-button:hover{
-
-background:linear-gradient(to bottom,#00cc00,#009900);
 
 }
 
 button:active{
 
-transform:translateY(5px);
+transform:translateY(4px);
 box-shadow:0px 1px 0px #006600;
 
 }
 
-img{
-margin-bottom:10px;
-}
-
 hr{
+
 margin:25px 0;
-}
-
-.link{
-
-color:blue;
-cursor:pointer;
-font-size:14px;
-margin-top:10px;
-display:block;
 
 }
 
@@ -90,9 +81,6 @@ display:block;
 <body>
 
 <div class="login">
-
-<img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png"
-width="100">
 
 <h2>🔐 Iniciar Sesión</h2>
 
@@ -108,20 +96,13 @@ placeholder="Contraseña">
 Ingresar
 </button>
 
-<span class="link"
-onclick="recuperarClave()">
-
-¿Olvidaste tu contraseña?
-
-</span>
-
 <hr>
 
 <h3>👨‍🔧 Crear Técnico</h3>
 
 <input type="email"
 id="nuevoUsuario"
-placeholder="Correo Nuevo Técnico">
+placeholder="Correo Técnico">
 
 <input type="password"
 id="nuevaClave"
@@ -139,12 +120,27 @@ import { initializeApp }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
+
 getAuth,
 signInWithEmailAndPassword,
-createUserWithEmailAndPassword,
-sendPasswordResetEmail
+createUserWithEmailAndPassword
+
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+
+getDatabase,
+ref,
+push,
+onValue
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
 
@@ -170,6 +166,8 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
+const db = getDatabase(app);
+
 window.entrar = function(){
 
 let email =
@@ -182,17 +180,36 @@ signInWithEmailAndPassword(auth,email,password)
 
 .then(()=>{
 
-if(email=="admin@servicio.com"){
+const usuariosRef =
+ref(db,"usuarios");
 
-localStorage.setItem("rol","admin");
+onValue(usuariosRef,(snapshot)=>{
 
-}else{
+let datos = snapshot.val();
 
-localStorage.setItem("rol","tecnico");
+for(let id in datos){
+
+let u = datos[id];
+
+if(u.email==email){
+
+if(u.estado=="bloqueado"){
+
+alert("Usuario bloqueado");
+
+return;
 
 }
 
+localStorage.setItem("rol",u.rol);
+
 window.location="index.html";
+
+}
+
+}
+
+});
 
 })
 
@@ -216,36 +233,17 @@ createUserWithEmailAndPassword(auth,email,password)
 
 .then(()=>{
 
-alert("Técnico creado correctamente");
+push(ref(db,"usuarios"),{
 
-})
+email: email,
 
-.catch((error)=>{
+rol: "tecnico",
 
-alert(error.message);
+estado: "activo"
 
 });
 
-}
-
-window.recuperarClave = function(){
-
-let email =
-document.getElementById("usuario").value;
-
-if(email==""){
-
-alert("Ingrese su correo primero");
-
-return;
-
-}
-
-sendPasswordResetEmail(auth,email)
-
-.then(()=>{
-
-alert("Correo de recuperación enviado");
+alert("Técnico creado correctamente");
 
 })
 
