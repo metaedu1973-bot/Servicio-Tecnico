@@ -38,7 +38,7 @@ const equiposRef = ref(db,"equipos");
 
 let contador = 0;
 
-function guardar(){
+window.guardar = function(){
 
 contador++;
 
@@ -96,8 +96,6 @@ alert("Seleccione una foto");
 
 }
 
-window.guardar = guardar;
-
 onValue(equiposRef,(snapshot)=>{
 
 let datos = snapshot.val();
@@ -118,40 +116,61 @@ listaHTML += `
 
 <img src="${e.foto}">
 
-<div style="
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px;
-">
+<div class="card-contenido">
 
-<h2>📄 Reporte Técnico</h2>
+<div class="card-header">
 
-<div style="text-align:right;">
+<div>
 
-<b>#${e.numero}</b><br>
+<h3>📄 REPORTE TÉCNICO</h3>
 
+<div class="fecha">
 📅 ${e.fecha}
-
 </div>
 
 </div>
 
-<h3>${e.equipo}</h3>
+<div class="numero">
+#${e.numero}
+</div>
 
-<p><b>Técnico:</b> ${e.tecnico}</p>
+</div>
 
-<p><b>Área:</b> ${e.area}</p>
+<h2>${e.equipo}</h2>
 
-<p><b>Servicio:</b> ${e.servicio}</p>
+<p><b>👨‍🔧 Técnico:</b>
+${e.tecnico}</p>
 
-<p><b>Marca:</b> ${e.marca}</p>
+<p><b>🏢 Área:</b>
+${e.area}</p>
 
-<p><b>Modelo:</b> ${e.modelo}</p>
+<p><b>🛠️ Servicio:</b>
+${e.servicio}</p>
 
-<p><b>Serie:</b> ${e.serie}</p>
+<p><b>💻 Marca:</b>
+${e.marca}</p>
 
-<p><b>Código:</b> ${e.codigo}</p>
+<p><b>🖥️ Modelo:</b>
+${e.modelo}</p>
+
+<p><b>🔢 Serie:</b>
+${e.serie}</p>
+
+<p><b>💾 Disco:</b>
+${e.disco}</p>
+
+<p><b>🧠 RAM:</b>
+${e.memoria}</p>
+
+<div class="estado pendiente">
+🟡 Pendiente
+</div>
+
+<div class="botones-card">
+
+<button onclick="generarPDF()">
+📄 PDF
+</button>
 
 ${localStorage.getItem("rol")=="admin" ?
 
@@ -162,6 +181,10 @@ ${localStorage.getItem("rol")=="admin" ?
 :
 
 ""}
+
+</div>
+
+</div>
 
 </div>
 
@@ -178,15 +201,20 @@ document.getElementById("totalEquipos")
 document.getElementById("totalMantenimientos")
 .innerText = contador;
 
+document.getElementById("numeroReporte")
+.innerText = "#" + (contador + 1);
+
+document.getElementById("fechaActual")
+.innerText =
+new Date().toLocaleDateString();
+
 });
 
-function eliminar(id){
+window.eliminar = function(id){
 
 remove(ref(db,"equipos/"+id));
 
 }
-
-window.eliminar = eliminar;
 
 function limpiar(){
 
@@ -205,7 +233,7 @@ document.getElementById("foto").value="";
 
 }
 
-function buscarEquipo(){
+window.buscarEquipo = function(){
 
 let texto =
 document.getElementById("buscar")
@@ -231,9 +259,7 @@ card.style.display="none";
 
 }
 
-window.buscarEquipo = buscarEquipo;
-
-function cerrarSesion(){
+window.cerrarSesion = function(){
 
 localStorage.removeItem("rol");
 
@@ -241,20 +267,14 @@ window.location="login.html";
 
 }
 
-window.cerrarSesion = cerrarSesion;
-
-function exportarExcel(){
+window.exportarExcel = function(){
 
 window.print();
 
 }
 
-window.exportarExcel = exportarExcel;
-
-function generarPDF(){
+window.generarPDF = function(){
 
 window.print();
 
 }
-
-window.generarPDF = generarPDF;
