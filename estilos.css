@@ -2,18 +2,19 @@ body{
 
 font-family:Arial;
 margin:0;
-background:#f4f6f9;
+background:#eef2f7;
 
 }
 
 header{
 
-background:white;
-padding:15px 30px;
+background:linear-gradient(to right,#1565c0,#42a5f5);
+padding:15px 25px;
+color:white;
 display:flex;
 justify-content:space-between;
 align-items:center;
-box-shadow:0px 2px 10px rgba(0,0,0,0.1);
+box-shadow:0px 3px 10px rgba(0,0,0,0.2);
 
 }
 
@@ -21,14 +22,13 @@ header h1{
 
 margin:0;
 font-size:28px;
-color:#003087;
 
 }
 
 .dashboard{
 
 display:flex;
-gap:15px;
+gap:20px;
 padding:20px;
 justify-content:center;
 flex-wrap:wrap;
@@ -40,15 +40,15 @@ flex-wrap:wrap;
 background:white;
 padding:20px;
 width:220px;
-border-radius:15px;
+border-radius:18px;
 text-align:center;
-box-shadow:0px 3px 10px rgba(0,0,0,0.1);
+box-shadow:0px 5px 15px rgba(0,0,0,0.15);
 
 }
 
 .card-dashboard h2{
 
-font-size:40px;
+font-size:42px;
 margin:0;
 color:#1565c0;
 
@@ -57,13 +57,13 @@ color:#1565c0;
 .contenedor{
 
 width:95%;
-max-width:1500px;
+max-width:1600px;
 margin:auto;
-margin-top:15px;
+margin-top:20px;
 background:white;
 padding:20px;
-border-radius:18px;
-box-shadow:0px 3px 12px rgba(0,0,0,0.1);
+border-radius:20px;
+box-shadow:0px 5px 20px rgba(0,0,0,0.15);
 
 }
 
@@ -80,10 +80,10 @@ flex-wrap:wrap;
 .info-superior{
 
 display:flex;
-gap:20px;
+gap:25px;
 background:#1565c0;
-padding:12px 20px;
-border-radius:12px;
+padding:14px 22px;
+border-radius:14px;
 color:white;
 font-weight:bold;
 font-size:18px;
@@ -93,7 +93,6 @@ font-size:18px;
 .formulario{
 
 display:grid;
-
 grid-template-columns:
 repeat(6,1fr);
 
@@ -106,7 +105,7 @@ align-items:start;
 .formulario input,
 .formulario select{
 
-height:45px;
+height:46px;
 
 padding:10px;
 
@@ -118,11 +117,13 @@ font-size:14px;
 
 box-sizing:border-box;
 
+background:white;
+
 }
 
 .formulario textarea{
 
-height:80px;
+height:104px;
 
 padding:10px;
 
@@ -136,25 +137,33 @@ resize:none;
 
 box-sizing:border-box;
 
+grid-column:span 2;
+
 }
 
-#observaciones{
+.formulario input:focus,
+.formulario textarea:focus,
+.formulario select:focus{
 
-grid-column:span 2;
+border:2px solid #1565c0;
+
+outline:none;
 
 }
 
 #foto{
 
-height:45px;
+height:46px;
 
 padding:8px;
+
+background:white;
 
 }
 
 .formulario button{
 
-height:45px;
+height:46px;
 
 background:#079407;
 
@@ -170,54 +179,26 @@ font-weight:bold;
 
 cursor:pointer;
 
-}
-
-input,
-textarea,
-select{
-
-padding:10px;
-border-radius:10px;
-border:1px solid #ccc;
-font-size:14px;
-background:white;
-height:42px;
-box-sizing:border-box;
+transition:0.2s;
 
 }
 
-textarea{
+.formulario button:hover{
 
-height:90px;
-resize:none;
-
-}
-
-input:focus,
-textarea:focus,
-select:focus{
-
-border:2px solid #1565c0;
-outline:none;
+transform:scale(1.02);
 
 }
 
 button{
 
-padding:12px 18px;
+padding:10px 16px;
 border:none;
 border-radius:10px;
-background:#0a8f08;
+background:#079407;
 color:white;
-font-size:15px;
+font-size:14px;
 font-weight:bold;
 cursor:pointer;
-
-}
-
-button:hover{
-
-opacity:0.9;
 
 }
 
@@ -225,14 +206,19 @@ opacity:0.9;
 
 display:flex;
 gap:10px;
-margin-top:15px;
+margin-top:18px;
+flex-wrap:wrap;
 
 }
 
 #buscar{
 
-margin-top:15px;
+margin-top:18px;
 width:100%;
+height:45px;
+padding:10px;
+border-radius:10px;
+border:1px solid #ccc;
 
 }
 
@@ -260,9 +246,9 @@ color:white;
 
 th{
 
-padding:15px;
+padding:14px;
 text-align:left;
-font-size:15px;
+font-size:14px;
 
 }
 
@@ -327,6 +313,17 @@ object-fit:cover;
 
 }
 
+@media(max-width:1200px){
+
+.formulario{
+
+grid-template-columns:
+repeat(3,1fr);
+
+}
+
+}
+
 @media(max-width:700px){
 
 header{
@@ -343,9 +340,9 @@ grid-template-columns:1fr;
 
 }
 
-table{
+.formulario textarea{
 
-font-size:12px;
+grid-column:span 1;
 
 }
 
