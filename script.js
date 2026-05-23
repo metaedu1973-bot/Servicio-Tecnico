@@ -1,7 +1,40 @@
-let lista = JSON.parse(localStorage.getItem("datos")) || [];
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
-mostrar();
-actualizarDashboard();
+import {
+getDatabase,
+ref,
+push,
+onValue,
+remove
+}
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+const firebaseConfig = {
+
+apiKey: "AIzaSyDILlEvHJ05IUg146N17zVwGG5RD7X50Y4",
+
+authDomain: "servicio-tecnico-8a5ef.firebaseapp.com",
+
+databaseURL: "https://servicio-tecnico-8a5ef-default-rtdb.firebaseio.com",
+
+projectId: "servicio-tecnico-8a5ef",
+
+storageBucket: "servicio-tecnico-8a5ef.firebasestorage.app",
+
+messagingSenderId: "895895342548",
+
+appId: "1:895895342548:web:c400eb7e17ff78f57c1a41",
+
+measurementId: "G-HTXDTJ735G"
+
+};
+
+const app = initializeApp(firebaseConfig);
+
+const db = getDatabase(app);
+
+const equiposRef = ref(db,"equipos");
 
 function guardar(){
 
@@ -38,14 +71,7 @@ foto: e.target.result
 
 };
 
-lista.push(datos);
-
-localStorage.setItem("datos",
-JSON.stringify(lista));
-
-mostrar();
-
-actualizarDashboard();
+push(equiposRef,datos);
 
 limpiar();
 
@@ -63,11 +89,21 @@ alert("Seleccione una foto");
 
 }
 
-function mostrar(){
+window.guardar = guardar;
+
+onValue(equiposRef,(snapshot)=>{
+
+let datos = snapshot.val();
 
 let listaHTML = "";
 
-lista.forEach((e,i)=>{
+let total = 0;
+
+for(let id in datos){
+
+total++;
+
+let e = datos[id];
 
 listaHTML += `
 
@@ -83,18 +119,12 @@ listaHTML += `
 <p><b>Modelo:</b> ${e.modelo}</p>
 <p><b>Serie:</b> ${e.serie}</p>
 <p><b>Código:</b> ${e.codigo}</p>
-<p><b>Disco:</b> ${e.disco}</p>
-<p><b>Memoria:</b> ${e.memoria}</p>
 <p><b>Técnico:</b> ${e.tecnico}</p>
 <p><b>Fecha:</b> ${e.fecha}</p>
 
-<button onclick="editar(${i})">
-✏️ Editar
-</button>
-
 ${localStorage.getItem("rol")=="admin" ?
 
-`<button onclick="eliminar(${i})">
+`<button onclick="eliminar('${id}')">
 🗑️ Eliminar
 </button>`
 
@@ -106,62 +136,26 @@ ${localStorage.getItem("rol")=="admin" ?
 
 `;
 
-});
-
-document.getElementById("lista").innerHTML =
-listaHTML;
-
 }
 
-function eliminar(i){
-
-lista.splice(i,1);
-
-localStorage.setItem("datos",
-JSON.stringify(lista));
-
-mostrar();
-
-actualizarDashboard();
-
-}
-
-function editar(i){
-
-let e = lista[i];
-
-area.value = e.area;
-equipo.value = e.equipo;
-servicio.value = e.servicio;
-modelo.value = e.modelo;
-marca.value = e.marca;
-serie.value = e.serie;
-codigo.value = e.codigo;
-disco.value = e.disco;
-memoria.value = e.memoria;
-monitor.value = e.monitor;
-teclado.value = e.teclado;
-mouse.value = e.mouse;
-impresora.value = e.impresora;
-telefono.value = e.telefono;
-antivirus.value = e.antivirus;
-mantenimiento.value = e.mantenimiento;
-tecnico.value = e.tecnico;
-fecha.value = e.fecha;
-
-eliminar(i);
-
-}
-
-function actualizarDashboard(){
+document.getElementById("lista")
+.innerHTML = listaHTML;
 
 document.getElementById("totalEquipos")
-.innerText = lista.length;
+.innerText = total;
 
 document.getElementById("totalMantenimientos")
-.innerText = lista.length;
+.innerText = total;
+
+});
+
+function eliminar(id){
+
+remove(ref(db,"equipos/"+id));
 
 }
+
+window.eliminar = eliminar;
 
 function limpiar(){
 
@@ -206,61 +200,7 @@ card.style.display="none";
 
 }
 
-function exportarExcel(){
-
-let tabla = `
-<table border="1">
-
-<tr>
-
-<th>Equipo</th>
-<th>Área</th>
-<th>Servicio</th>
-<th>Marca</th>
-<th>Modelo</th>
-
-</tr>
-`;
-
-lista.forEach(e=>{
-
-tabla += `
-
-<tr>
-
-<td>${e.equipo}</td>
-<td>${e.area}</td>
-<td>${e.servicio}</td>
-<td>${e.marca}</td>
-<td>${e.modelo}</td>
-
-</tr>
-
-`;
-
-});
-
-tabla += "</table>";
-
-let blob = new Blob([tabla],
-{type:"application/vnd.ms-excel"});
-
-let link =
-document.createElement("a");
-
-link.href = URL.createObjectURL(blob);
-
-link.download = "reporte.xls";
-
-link.click();
-
-}
-
-function generarPDF(){
-
-window.print();
-
-}
+window.buscarEquipo = buscarEquipo;
 
 function cerrarSesion(){
 
@@ -269,3 +209,21 @@ localStorage.removeItem("rol");
 window.location="login.html";
 
 }
+
+window.cerrarSesion = cerrarSesion;
+
+function exportarExcel(){
+
+alert("Excel próximamente 😄");
+
+}
+
+window.exportarExcel = exportarExcel;
+
+function generarPDF(){
+
+window.print();
+
+}
+
+window.generarPDF = generarPDF;
