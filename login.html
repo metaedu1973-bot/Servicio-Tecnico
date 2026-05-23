@@ -35,7 +35,7 @@ box-shadow:0px 5px 20px rgba(0,0,0,0.3);
 
 }
 
-input{
+input,select{
 
 width:90%;
 padding:12px;
@@ -56,7 +56,6 @@ border-radius:10px;
 cursor:pointer;
 font-size:15px;
 font-weight:bold;
-transition:0.2s;
 box-shadow:0px 5px 0px #006600;
 
 }
@@ -86,12 +85,29 @@ margin:25px 0;
 
 <input type="email"
 id="usuario"
-placeholder="Correo Electrónico">
+placeholder="Correo">
 
 <input type="password"
 id="clave"
 placeholder="Contraseña">
-  <select id="rolUsuario">
+
+<button onclick="entrar()">
+Ingresar
+</button>
+
+<hr>
+
+<h3>👨‍🔧 Crear Usuario</h3>
+
+<input type="email"
+id="nuevoUsuario"
+placeholder="Correo">
+
+<input type="password"
+id="nuevaClave"
+placeholder="Contraseña">
+
+<select id="rolUsuario">
 
 <option value="tecnico">
 👨‍🔧 Técnico
@@ -103,24 +119,8 @@ placeholder="Contraseña">
 
 </select>
 
-<button onclick="entrar()">
-Ingresar
-</button>
-
-<hr>
-
-<h3>👨‍🔧 Crear Técnico</h3>
-
-<input type="email"
-id="nuevoUsuario"
-placeholder="Correo Técnico">
-
-<input type="password"
-id="nuevaClave"
-placeholder="Contraseña">
-
 <button onclick="crearUsuario()">
-Crear Técnico
+Crear Usuario
 </button>
 
 </div>
@@ -240,7 +240,14 @@ document.getElementById("nuevoUsuario").value;
 let password =
 document.getElementById("nuevaClave").value;
 
-createUserWithEmailAndPassword(auth,email,password)
+let rol =
+document.getElementById("rolUsuario").value;
+
+createUserWithEmailAndPassword(
+auth,
+email,
+password
+)
 
 .then(()=>{
 
@@ -248,15 +255,13 @@ push(ref(db,"usuarios"),{
 
 email: email,
 
-rol:
-document.getElementById("rolUsuario")
-.value,
+rol: rol,
 
 estado: "activo"
 
 });
 
-alert("Técnico creado correctamente");
+alert("Usuario creado correctamente");
 
 })
 
