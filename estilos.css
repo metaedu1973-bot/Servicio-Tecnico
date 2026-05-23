@@ -81,25 +81,49 @@ justify-content:space-between;
 align-items:center;
 margin-bottom:25px;
 flex-wrap:wrap;
+gap:20px;
 
 }
 
-.numero-reporte{
+.info-superior{
 
 display:flex;
-gap:30px;
-background:#f4f6f9;
-padding:15px 25px;
-border-radius:15px;
-box-shadow:0px 0px 10px rgba(0,0,0,0.15);
+gap:35px;
+align-items:center;
+background:linear-gradient(to right,#1565c0,#42a5f5);
+padding:18px 30px;
+border-radius:18px;
+font-weight:bold;
+color:white;
+flex-wrap:wrap;
+box-shadow:0px 5px 15px rgba(0,0,0,0.2);
 
 }
 
-.numero-reporte span{
+.info-superior div{
 
-font-size:26px;
+font-size:22px;
+
+}
+
+#numeroReporte{
+
+font-size:32px;
 font-weight:bold;
-color:#1565c0;
+color:#ffe082;
+
+}
+
+#nombreTecnico{
+
+font-size:24px;
+font-weight:bold;
+
+}
+
+#fechaActual{
+
+font-size:22px;
 
 }
 
@@ -114,8 +138,7 @@ gap:15px;
 }
 
 input,
-textarea,
-select{
+textarea{
 
 padding:12px;
 border-radius:12px;
@@ -125,7 +148,15 @@ outline:none;
 
 }
 
-input:focus{
+textarea{
+
+min-height:120px;
+resize:vertical;
+
+}
+
+input:focus,
+textarea:focus{
 
 border:2px solid #1565c0;
 
@@ -294,11 +325,15 @@ text-align:center;
 .titulo-reporte{
 
 flex-direction:column;
-gap:20px;
+align-items:flex-start;
 
-textarea{
+}
 
-min-height:120px;
-resize:vertical;
+.info-superior{
+
+width:100%;
+justify-content:center;
+
+}
 
 }
