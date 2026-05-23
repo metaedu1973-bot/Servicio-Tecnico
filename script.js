@@ -99,7 +99,8 @@ antivirus: antivirus.value,
 mantenimiento: mantenimiento.value,
 observaciones:
 observaciones.value,
-tecnico: tecnico.value,
+tecnico:
+localStorage.getItem("tecnico"),
 foto: e.target.result
 
 };
