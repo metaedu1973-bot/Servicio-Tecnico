@@ -38,6 +38,66 @@ const equiposRef = ref(db,"equipos");
 
 let contador = 0;
 
+function guardar(){
+
+contador++;
+
+let fotoInput =
+document.getElementById("foto");
+
+let archivo = fotoInput.files[0];
+
+let lector = new FileReader();
+
+lector.onload = function(e){
+
+let datos = {
+
+numero: contador,
+
+fecha: new Date().toLocaleDateString(),
+
+area: area.value,
+equipo: equipo.value,
+servicio: servicio.value,
+modelo: modelo.value,
+marca: marca.value,
+serie: serie.value,
+codigo: codigo.value,
+disco: disco.value,
+memoria: memoria.value,
+monitor: monitor.value,
+teclado: teclado.value,
+mouse: mouse.value,
+impresora: impresora.value,
+telefono: telefono.value,
+antivirus: antivirus.value,
+mantenimiento: mantenimiento.value,
+tecnico: tecnico.value,
+foto: e.target.result
+
+};
+
+push(equiposRef,datos);
+
+limpiar();
+
+}
+
+if(archivo){
+
+lector.readAsDataURL(archivo);
+
+}else{
+
+alert("Seleccione una foto");
+
+}
+
+}
+
+window.guardar = guardar;
+
 onValue(equiposRef,(snapshot)=>{
 
 let datos = snapshot.val();
@@ -62,13 +122,14 @@ listaHTML += `
 display:flex;
 justify-content:space-between;
 align-items:center;
+margin-bottom:10px;
 ">
 
 <h2>📄 Reporte Técnico</h2>
 
-<div>
+<div style="text-align:right;">
 
-<b>#${contador}</b><br>
+<b>#${e.numero}</b><br>
 
 📅 ${e.fecha}
 
@@ -91,8 +152,6 @@ align-items:center;
 <p><b>Serie:</b> ${e.serie}</p>
 
 <p><b>Código:</b> ${e.codigo}</p>
-
-<p><b>Fecha:</b> ${e.fecha}</p>
 
 ${localStorage.getItem("rol")=="admin" ?
 
@@ -120,63 +179,6 @@ document.getElementById("totalMantenimientos")
 .innerText = contador;
 
 });
-
-function guardar(){
-
-let fotoInput =
-document.getElementById("foto");
-
-let archivo = fotoInput.files[0];
-
-let lector = new FileReader();
-
-lector.onload = function(e){
-
-let datos = {
-
-numero: contador + 1,
-
-area: area.value,
-equipo: equipo.value,
-servicio: servicio.value,
-modelo: modelo.value,
-marca: marca.value,
-serie: serie.value,
-codigo: codigo.value,
-disco: disco.value,
-memoria: memoria.value,
-monitor: monitor.value,
-teclado: teclado.value,
-mouse: mouse.value,
-impresora: impresora.value,
-telefono: telefono.value,
-antivirus: antivirus.value,
-mantenimiento: mantenimiento.value,
-tecnico: tecnico.value,
-fecha: new Date().toLocaleDateString(),
-foto: e.target.result
-
-};
-
-push(equiposRef,datos);
-
-limpiar();
-
-}
-
-if(archivo){
-
-lector.readAsDataURL(archivo);
-
-}else{
-
-alert("Seleccione una foto");
-
-}
-
-}
-
-window.guardar = guardar;
 
 function eliminar(id){
 
@@ -243,7 +245,7 @@ window.cerrarSesion = cerrarSesion;
 
 function exportarExcel(){
 
-alert("Excel próximamente 😄");
+window.print();
 
 }
 
