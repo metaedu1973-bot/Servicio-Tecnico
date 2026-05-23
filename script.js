@@ -377,7 +377,9 @@ document.getElementById("tecnico")
 .value =
 localStorage.getItem("tecnico");
 }
-
+document.getElementById("tecnico")
+.value =
+localStorage.getItem("tecnico");
 window.generarPDF = function(){
 
 window.print();
