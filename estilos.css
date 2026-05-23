@@ -138,7 +138,8 @@ gap:15px;
 }
 
 input,
-textarea{
+textarea,
+select{
 
 padding:12px;
 border-radius:12px;
@@ -156,7 +157,8 @@ resize:vertical;
 }
 
 input:focus,
-textarea:focus{
+textarea:focus,
+select:focus{
 
 border:2px solid #1565c0;
 
@@ -288,9 +290,9 @@ font-size:15px;
 .estado{
 
 display:inline-block;
-padding:7px 14px;
-border-radius:20px;
-font-size:13px;
+padding:8px 16px;
+border-radius:25px;
+font-size:14px;
 font-weight:bold;
 margin-top:10px;
 
@@ -300,6 +302,20 @@ margin-top:10px;
 
 background:#fff3cd;
 color:#856404;
+
+}
+
+.reparacion{
+
+background:#d1ecff;
+color:#004085;
+
+}
+
+.entregado{
+
+background:#d4edda;
+color:#155724;
 
 }
 
