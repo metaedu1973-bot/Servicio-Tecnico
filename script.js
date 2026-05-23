@@ -302,11 +302,26 @@ card.style.display="none";
 
 }
 
+import {
+getAuth,
+signOut
+}
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+const auth = getAuth(app);
+
 window.cerrarSesion = function(){
+
+signOut(auth)
+.then(()=>{
 
 localStorage.clear();
 
-window.location.href = "login.html";
+window.location.href =
+"login.html";
+
+});
 
 }
 
