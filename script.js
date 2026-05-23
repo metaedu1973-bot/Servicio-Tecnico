@@ -1,13 +1,29 @@
+import { initializeApp }
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+
 import {
+
 getDatabase,
 ref,
 push,
 onValue,
 remove,
-update,
-set
+update
+
 }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+
+import {
+
+getAuth,
+signOut
+
+}
+
+from
+"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
 
@@ -33,6 +49,8 @@ const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app);
 
+const auth = getAuth(app);
+
 const equiposRef = ref(db,"equipos");
 
 let contador = 0;
@@ -53,13 +71,15 @@ lector.onload = function(e){
 let datos = {
 
 numero:
-editandoID ?
+editandoID
+?
 document.getElementById("numeroReporte")
 .innerText.replace("#","")
 :
 contador + 1,
 
-fecha: new Date().toLocaleDateString(),
+fecha:
+new Date().toLocaleDateString(),
 
 area: area.value,
 equipo: equipo.value,
@@ -77,6 +97,8 @@ impresora: impresora.value,
 telefono: telefono.value,
 antivirus: antivirus.value,
 mantenimiento: mantenimiento.value,
+observaciones:
+observaciones.value,
 tecnico: tecnico.value,
 foto: e.target.result
 
@@ -84,7 +106,10 @@ foto: e.target.result
 
 if(editandoID){
 
-update(ref(db,"equipos/"+editandoID),datos);
+update(
+ref(db,"equipos/"+editandoID),
+datos
+);
 
 editandoID = null;
 
@@ -167,6 +192,9 @@ ${e.marca}</p>
 <p><b>🖥️ Modelo:</b>
 ${e.modelo}</p>
 
+<p><b>📝 Observaciones:</b><br>
+${e.observaciones}</p>
+
 <div class="estado pendiente">
 🟡 Pendiente
 </div>
@@ -181,7 +209,9 @@ ${e.modelo}</p>
 📄 PDF
 </button>
 
-${localStorage.getItem("rol")=="admin" ?
+${localStorage.getItem("rol")=="admin"
+
+?
 
 `<button onclick="eliminar('${id}')">
 🗑️ Eliminar
@@ -211,7 +241,8 @@ document.getElementById("totalMantenimientos")
 .innerText = contador;
 
 document.getElementById("numeroReporte")
-.innerText = "#" + (contador + 1);
+.innerText =
+"#" + (contador + 1);
 
 document.getElementById("fechaActual")
 .innerText =
@@ -221,7 +252,8 @@ new Date().toLocaleDateString();
 
 window.editar = function(id){
 
-onValue(ref(db,"equipos/"+id),
+onValue(
+ref(db,"equipos/"+id),
 (snapshot)=>{
 
 let e = snapshot.val();
@@ -243,7 +275,10 @@ mouse.value = e.mouse;
 impresora.value = e.impresora;
 telefono.value = e.telefono;
 antivirus.value = e.antivirus;
-mantenimiento.value = e.mantenimiento;
+mantenimiento.value =
+e.mantenimiento;
+observaciones.value =
+e.observaciones;
 tecnico.value = e.tecnico;
 
 document.getElementById("numeroReporte")
@@ -261,12 +296,15 @@ remove(ref(db,"equipos/"+id));
 
 function limpiar(){
 
-document.querySelectorAll("input")
-.forEach(input=>{
+document.querySelectorAll(
+"input, textarea"
+)
 
-if(input.type!="file"){
+.forEach(campo=>{
 
-input.value="";
+if(campo.type!="file"){
+
+campo.value="";
 
 }
 
@@ -287,7 +325,8 @@ document.querySelectorAll(".card");
 
 cards.forEach(card=>{
 
-if(card.innerText.toLowerCase()
+if(card.innerText
+.toLowerCase()
 .includes(texto)){
 
 card.style.display="block";
@@ -301,24 +340,6 @@ card.style.display="none";
 });
 
 }
-
-import {
-getAuth,
-signOut
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-const auth = getAuth(app);
-
-import {
-getAuth,
-signOut
-}
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-const auth = getAuth(app);
 
 window.cerrarSesion = function(){
 
@@ -340,7 +361,6 @@ alert(error.message);
 });
 
 }
-}
 
 window.exportarExcel = function(){
 
@@ -351,76 +371,5 @@ window.print();
 window.generarPDF = function(){
 
 window.print();
-
-const usuariosRef = ref(db,"usuarios");
-
-if(localStorage.getItem("rol")=="admin"){
-
-document.getElementById("panelAdmin")
-.style.display="block";
-
-onValue(usuariosRef,(snapshot)=>{
-
-let datos = snapshot.val();
-
-let html = "";
-
-for(let id in datos){
-
-let u = datos[id];
-
-html += `
-
-<div class="card"
-style="padding:20px; margin-top:15px;">
-
-<h3>${u.email}</h3>
-
-<p>
-Estado:
-<b>${u.estado}</b>
-</p>
-
-<button onclick="cambiarEstado(
-'${id}',
-'${u.estado}'
-)">
-
-${u.estado=="activo"
-?
-"🔒 Bloquear"
-:
-"🔓 Activar"}
-
-</button>
-
-</div>
-
-`;
-
-}
-
-document.getElementById("listaUsuarios")
-.innerHTML = html;
-
-});
-
-}
-
-window.cambiarEstado =
-function(id,estado){
-
-let nuevoEstado =
-estado=="activo"
-?
-"bloqueado"
-:
-"activo";
-
-update(ref(db,"usuarios/"+id),{
-
-estado:nuevoEstado
-
-});
 
 }
