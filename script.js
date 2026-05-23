@@ -320,4 +320,75 @@ window.generarPDF = function(){
 
 window.print();
 
+const usuariosRef = ref(db,"usuarios");
+
+if(localStorage.getItem("rol")=="admin"){
+
+document.getElementById("panelAdmin")
+.style.display="block";
+
+onValue(usuariosRef,(snapshot)=>{
+
+let datos = snapshot.val();
+
+let html = "";
+
+for(let id in datos){
+
+let u = datos[id];
+
+html += `
+
+<div class="card"
+style="padding:20px; margin-top:15px;">
+
+<h3>${u.email}</h3>
+
+<p>
+Estado:
+<b>${u.estado}</b>
+</p>
+
+<button onclick="cambiarEstado(
+'${id}',
+'${u.estado}'
+)">
+
+${u.estado=="activo"
+?
+"🔒 Bloquear"
+:
+"🔓 Activar"}
+
+</button>
+
+</div>
+
+`;
+
+}
+
+document.getElementById("listaUsuarios")
+.innerHTML = html;
+
+});
+
+}
+
+window.cambiarEstado =
+function(id,estado){
+
+let nuevoEstado =
+estado=="activo"
+?
+"bloqueado"
+:
+"activo";
+
+update(ref(db,"usuarios/"+id),{
+
+estado:nuevoEstado
+
+});
+
 }
