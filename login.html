@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
 
-<title>Login</title>
+<title>Login Sistema Técnico</title>
 
 <style>
 
@@ -27,7 +27,7 @@ margin:0;
 .login{
 
 background:white;
-padding:30px;
+padding:35px;
 border-radius:20px;
 width:350px;
 text-align:center;
@@ -35,25 +35,52 @@ box-shadow:0px 5px 20px rgba(0,0,0,0.3);
 
 }
 
+h2{
+
+margin-top:0;
+color:#1565c0;
+
+}
+
 input{
 
-width:90%;
+width:100%;
 padding:12px;
-margin:10px;
+margin-top:12px;
 border-radius:10px;
 border:1px solid #ccc;
+box-sizing:border-box;
 
 }
 
 button{
 
-padding:12px 20px;
-background:green;
+width:100%;
+padding:12px;
+margin-top:15px;
+background:#0a8f08;
 color:white;
 border:none;
 border-radius:10px;
-cursor:pointer;
+font-size:15px;
 font-weight:bold;
+cursor:pointer;
+
+}
+
+button:hover{
+
+opacity:0.9;
+
+}
+
+a{
+
+display:block;
+margin-top:15px;
+color:#1565c0;
+font-weight:bold;
+text-decoration:none;
 
 }
 
@@ -65,7 +92,9 @@ font-weight:bold;
 
 <div class="login">
 
-<h2>🔐 Iniciar Sesión</h2>
+<h2>
+🔐 Sistema Técnico CNE
+</h2>
 
 <input
 type="email"
@@ -80,15 +109,9 @@ placeholder="Contraseña">
 <button onclick="entrar()">
 Ingresar
 </button>
-  <br><br>
 
 <a href="#"
-onclick="recuperarClave()"
-style="
-color:#1565c0;
-font-weight:bold;
-text-decoration:none;
-">
+onclick="recuperarClave()">
 
 ¿Olvidaste tu contraseña?
 
@@ -96,17 +119,19 @@ text-decoration:none;
 
 <hr>
 
-<h3>👨‍🔧 Crear Usuario</h3>
+<h3>
+👨‍🔧 Crear Usuario
+</h3>
 
 <input
 type="email"
 id="nuevoUsuario"
-placeholder="Correo">
+placeholder="Correo nuevo">
 
 <input
 type="password"
 id="nuevaClave"
-placeholder="Contraseña">
+placeholder="Contraseña nueva">
 
 <button onclick="crearUsuario()">
 Crear Usuario
@@ -126,6 +151,7 @@ signInWithEmailAndPassword,
 createUserWithEmailAndPassword,
 sendPasswordResetEmail
 
+}
 
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
@@ -224,6 +250,7 @@ alert(error.message);
 });
 
 }
+
 window.recuperarClave = function(){
 
 let email =
@@ -259,64 +286,8 @@ alert(error.message);
 });
 
 }
-  window.recuperarClave = function(){
 
-let email =
-document.getElementById("usuario").value;
-
-if(email==""){
-
-alert(
-"Ingrese su correo primero"
-);
-
-return;
-
-}
-
-sendPasswordResetEmail(
-auth,
-email
-)
-
-.then(()=>{
-
-alert(
-"Correo de recuperación enviado"
-);
-
-})
-
-.catch((error)=>{
-
-alert(error.message);
-
-});
-
-}
 </script>
- 
-
-sendPasswordResetEmail(
-auth,
-email
-)
-
-.then(()=>{
-
-alert(
-"Correo de recuperación enviado"
-);
-
-})
-
-.catch((error)=>{
-
-alert(error.message);
-
-});
-
-}
 
 </body>
 </html>
