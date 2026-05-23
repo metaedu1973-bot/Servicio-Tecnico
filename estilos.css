@@ -113,7 +113,8 @@ gap:15px;
 
 }
 
-input{
+input,
+textarea{
 
 padding:12px;
 border-radius:12px;
@@ -294,6 +295,9 @@ text-align:center;
 flex-direction:column;
 gap:20px;
 
-}
+textarea{
+
+min-height:120px;
+resize:vertical;
 
 }
