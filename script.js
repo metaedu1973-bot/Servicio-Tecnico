@@ -373,7 +373,9 @@ alert(error.message);
 window.exportarExcel = function(){
 
 window.print();
-
+document.getElementById("tecnico")
+.value =
+localStorage.getItem("tecnico");
 }
 
 window.generarPDF = function(){
