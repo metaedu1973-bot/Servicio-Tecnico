@@ -6,7 +6,8 @@ getDatabase,
 ref,
 push,
 onValue,
-remove
+remove,
+update
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
@@ -38,9 +39,9 @@ const equiposRef = ref(db,"equipos");
 
 let contador = 0;
 
-window.guardar = function(){
+let editandoID = null;
 
-contador++;
+window.guardar = function(){
 
 let fotoInput =
 document.getElementById("foto");
@@ -53,7 +54,12 @@ lector.onload = function(e){
 
 let datos = {
 
-numero: contador,
+numero:
+editandoID ?
+document.getElementById("numeroReporte")
+.innerText.replace("#","")
+:
+contador + 1,
 
 fecha: new Date().toLocaleDateString(),
 
@@ -78,7 +84,17 @@ foto: e.target.result
 
 };
 
+if(editandoID){
+
+update(ref(db,"equipos/"+editandoID),datos);
+
+editandoID = null;
+
+}else{
+
 push(equiposRef,datos);
+
+}
 
 limpiar();
 
@@ -153,20 +169,15 @@ ${e.marca}</p>
 <p><b>🖥️ Modelo:</b>
 ${e.modelo}</p>
 
-<p><b>🔢 Serie:</b>
-${e.serie}</p>
-
-<p><b>💾 Disco:</b>
-${e.disco}</p>
-
-<p><b>🧠 RAM:</b>
-${e.memoria}</p>
-
 <div class="estado pendiente">
 🟡 Pendiente
 </div>
 
 <div class="botones-card">
+
+<button onclick="editar('${id}')">
+✏️ Editar
+</button>
 
 <button onclick="generarPDF()">
 📄 PDF
@@ -209,6 +220,40 @@ document.getElementById("fechaActual")
 new Date().toLocaleDateString();
 
 });
+
+window.editar = function(id){
+
+onValue(ref(db,"equipos/"+id),
+(snapshot)=>{
+
+let e = snapshot.val();
+
+editandoID = id;
+
+area.value = e.area;
+equipo.value = e.equipo;
+servicio.value = e.servicio;
+modelo.value = e.modelo;
+marca.value = e.marca;
+serie.value = e.serie;
+codigo.value = e.codigo;
+disco.value = e.disco;
+memoria.value = e.memoria;
+monitor.value = e.monitor;
+teclado.value = e.teclado;
+mouse.value = e.mouse;
+impresora.value = e.impresora;
+telefono.value = e.telefono;
+antivirus.value = e.antivirus;
+mantenimiento.value = e.mantenimiento;
+tecnico.value = e.tecnico;
+
+document.getElementById("numeroReporte")
+.innerText = "#" + e.numero;
+
+});
+
+}
 
 window.eliminar = function(id){
 
