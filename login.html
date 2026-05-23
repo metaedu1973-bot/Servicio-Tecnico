@@ -35,41 +35,25 @@ box-shadow:0px 5px 20px rgba(0,0,0,0.3);
 
 }
 
-input,select{
+input{
 
 width:90%;
 padding:12px;
 margin:10px;
 border-radius:10px;
 border:1px solid #ccc;
-font-size:15px;
 
 }
 
 button{
 
 padding:12px 20px;
-background:linear-gradient(to bottom,#00b300,#008000);
+background:green;
 color:white;
 border:none;
 border-radius:10px;
 cursor:pointer;
-font-size:15px;
 font-weight:bold;
-box-shadow:0px 5px 0px #006600;
-
-}
-
-button:active{
-
-transform:translateY(4px);
-box-shadow:0px 1px 0px #006600;
-
-}
-
-hr{
-
-margin:25px 0;
 
 }
 
@@ -83,11 +67,13 @@ margin:25px 0;
 
 <h2>🔐 Iniciar Sesión</h2>
 
-<input type="email"
+<input
+type="email"
 id="usuario"
 placeholder="Correo">
 
-<input type="password"
+<input
+type="password"
 id="clave"
 placeholder="Contraseña">
 
@@ -99,25 +85,15 @@ Ingresar
 
 <h3>👨‍🔧 Crear Usuario</h3>
 
-<input type="email"
+<input
+type="email"
 id="nuevoUsuario"
 placeholder="Correo">
 
-<input type="password"
+<input
+type="password"
 id="nuevaClave"
 placeholder="Contraseña">
-
-<select id="rolUsuario">
-
-<option value="tecnico">
-👨‍🔧 Técnico
-</option>
-
-<option value="admin">
-👑 Admin
-</option>
-
-</select>
 
 <button onclick="crearUsuario()">
 Crear Usuario
@@ -140,18 +116,6 @@ createUserWithEmailAndPassword
 
 from
 "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import {
-
-getDatabase,
-ref,
-push,
-onValue
-
-}
-
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
 
@@ -177,8 +141,6 @@ const app = initializeApp(firebaseConfig);
 
 const auth = getAuth(app);
 
-const db = getDatabase(app);
-
 window.entrar = function(){
 
 let email =
@@ -187,40 +149,25 @@ document.getElementById("usuario").value;
 let password =
 document.getElementById("clave").value;
 
-signInWithEmailAndPassword(auth,email,password)
+signInWithEmailAndPassword(
+auth,
+email,
+password
+)
 
 .then(()=>{
 
-const usuariosRef =
-ref(db,"usuarios");
+localStorage.setItem(
+"rol",
+email=="metaedu1973@gmail.com"
+?
+"admin"
+:
+"tecnico"
+);
 
-onValue(usuariosRef,(snapshot)=>{
-
-let datos = snapshot.val();
-
-for(let id in datos){
-
-let u = datos[id];
-
-if(u.email==email){
-
-if(u.estado=="bloqueado"){
-
-alert("Usuario bloqueado");
-
-return;
-
-}
-
-localStorage.setItem("rol",u.rol);
-
-window.location="index.html";
-
-}
-
-}
-
-});
+window.location =
+"index.html";
 
 })
 
@@ -240,9 +187,6 @@ document.getElementById("nuevoUsuario").value;
 let password =
 document.getElementById("nuevaClave").value;
 
-let rol =
-document.getElementById("rolUsuario").value;
-
 createUserWithEmailAndPassword(
 auth,
 email,
@@ -251,17 +195,7 @@ password
 
 .then(()=>{
 
-push(ref(db,"usuarios"),{
-
-email: email,
-
-rol: rol,
-
-estado: "activo"
-
-});
-
-alert("Usuario creado correctamente");
+alert("Usuario creado");
 
 })
 
