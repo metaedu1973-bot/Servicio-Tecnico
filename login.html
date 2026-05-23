@@ -73,6 +73,16 @@ hr{
 margin:25px 0;
 }
 
+.link{
+
+color:blue;
+cursor:pointer;
+font-size:14px;
+margin-top:10px;
+display:block;
+
+}
+
 </style>
 
 </head>
@@ -97,6 +107,13 @@ placeholder="Contraseña">
 <button onclick="entrar()">
 Ingresar
 </button>
+
+<span class="link"
+onclick="recuperarClave()">
+
+¿Olvidaste tu contraseña?
+
+</span>
 
 <hr>
 
@@ -124,7 +141,8 @@ from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
 getAuth,
 signInWithEmailAndPassword,
-createUserWithEmailAndPassword
+createUserWithEmailAndPassword,
+sendPasswordResetEmail
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
@@ -198,9 +216,36 @@ createUserWithEmailAndPassword(auth,email,password)
 
 .then(()=>{
 
-localStorage.setItem("rol","tecnico");
+alert("Técnico creado correctamente");
 
-window.location="index.html";
+})
+
+.catch((error)=>{
+
+alert(error.message);
+
+});
+
+}
+
+window.recuperarClave = function(){
+
+let email =
+document.getElementById("usuario").value;
+
+if(email==""){
+
+alert("Ingrese su correo primero");
+
+return;
+
+}
+
+sendPasswordResetEmail(auth,email)
+
+.then(()=>{
+
+alert("Correo de recuperación enviado");
 
 })
 
