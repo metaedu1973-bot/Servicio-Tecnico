@@ -129,7 +129,14 @@ lector.readAsDataURL(archivo);
 
 }else{
 
-alert("Seleccione una foto");
+lector.onload({
+
+target:{
+result:
+"https://cdn-icons-png.flaticon.com/512/847/847969.png"
+}
+
+});
 
 }
 
