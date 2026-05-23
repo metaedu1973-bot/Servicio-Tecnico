@@ -227,20 +227,7 @@ alert(error.message);
 }
 
 </script>
-  window.recuperarClave = function(){
-
-let email =
-document.getElementById("usuario").value;
-
-if(email==""){
-
-alert(
-"Ingrese su correo primero"
-);
-
-return;
-
-}
+ 
 
 sendPasswordResetEmail(
 auth,
