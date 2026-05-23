@@ -58,7 +58,23 @@ listaHTML += `
 
 <img src="${e.foto}">
 
-<h2>📄 Reporte #${contador}</h2>
+<div style="
+display:flex;
+justify-content:space-between;
+align-items:center;
+">
+
+<h2>📄 Reporte Técnico</h2>
+
+<div>
+
+<b>#${contador}</b><br>
+
+📅 ${e.fecha}
+
+</div>
+
+</div>
 
 <h3>${e.equipo}</h3>
 
@@ -137,7 +153,7 @@ telefono: telefono.value,
 antivirus: antivirus.value,
 mantenimiento: mantenimiento.value,
 tecnico: tecnico.value,
-fecha: fecha.value,
+fecha: new Date().toLocaleDateString(),
 foto: e.target.result
 
 };
