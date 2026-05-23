@@ -123,8 +123,8 @@ import {
 
 getAuth,
 signInWithEmailAndPassword,
-createUserWithEmailAndPassword
-  sendPasswordResetEmail
+createUserWithEmailAndPassword,
+sendPasswordResetEmail
 
 }
 
@@ -225,7 +225,41 @@ alert(error.message);
 });
 
 }
+window.recuperarClave = function(){
 
+let email =
+document.getElementById("usuario").value;
+
+if(email==""){
+
+alert(
+"Ingrese su correo primero"
+);
+
+return;
+
+}
+
+sendPasswordResetEmail(
+auth,
+email
+)
+
+.then(()=>{
+
+alert(
+"Correo de recuperación enviado"
+);
+
+})
+
+.catch((error)=>{
+
+alert(error.message);
+
+});
+
+}
 </script>
  
 
