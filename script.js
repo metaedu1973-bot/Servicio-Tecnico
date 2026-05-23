@@ -1,4 +1,18 @@
-async function guardar(){
+let lista = JSON.parse(localStorage.getItem("datos")) || [];
+
+mostrar();
+actualizarDashboard();
+
+function guardar(){
+
+let fotoInput =
+document.getElementById("foto");
+
+let archivo = fotoInput.files[0];
+
+let lector = new FileReader();
+
+lector.onload = function(e){
 
 let datos = {
 
@@ -9,7 +23,6 @@ modelo: modelo.value,
 marca: marca.value,
 serie: serie.value,
 codigo: codigo.value,
-
 disco: disco.value,
 memoria: memoria.value,
 monitor: monitor.value,
@@ -18,69 +31,71 @@ mouse: mouse.value,
 impresora: impresora.value,
 telefono: telefono.value,
 antivirus: antivirus.value,
-mantenimiento: mantenimiento.value
-  tecnico: tecnico.value,
-fecha: fecha.value
+mantenimiento: mantenimiento.value,
+tecnico: tecnico.value,
+fecha: fecha.value,
+foto: e.target.result
 
 };
 
-let lista = JSON.parse(localStorage.getItem("datos")) || [];
-
 lista.push(datos);
 
-localStorage.setItem("datos", JSON.stringify(lista));
-await addDoc(collection(db,"equipos"), datos);
+localStorage.setItem("datos",
+JSON.stringify(lista));
 
 mostrar();
+
 actualizarDashboard();
+
+limpiar();
+
+}
+
+if(archivo){
+
+lector.readAsDataURL(archivo);
+
+}else{
+
+alert("Seleccione una foto");
+
+}
 
 }
 
 function mostrar(){
 
-let lista = JSON.parse(localStorage.getItem("datos")) || [];
-
-let cont = document.getElementById("lista");
-
-cont.innerHTML = "";
+let listaHTML = "";
 
 lista.forEach((e,i)=>{
 
-cont.innerHTML += `
+listaHTML += `
 
 <div class="card">
 
-<b>Área:</b> ${e.area}<br>
-<b>Equipo:</b> ${e.equipo}<br>
-<b>Servicio:</b> ${e.servicio}<br>
-<b>Modelo:</b> ${e.modelo}<br>
-<b>Marca:</b> ${e.marca}<br>
-<b>Serie:</b> ${e.serie}<br>
-<b>Código:</b> ${e.codigo}<br>
+<img src="${e.foto}">
 
-<b>Disco:</b> ${e.disco}<br>
-<b>Memoria:</b> ${e.memoria}<br>
-<b>Monitor:</b> ${e.monitor}<br>
-<b>Teclado:</b> ${e.teclado}<br>
-<b>Mouse:</b> ${e.mouse}<br>
-<b>Impresora:</b> ${e.impresora}<br>
-<b>Teléfono:</b> ${e.telefono}<br>
-<b>Antivirus:</b> ${e.antivirus}<br>
-<b>Mantenimiento:</b> ${e.mantenimiento}<br>
-<b>Técnico:</b> ${e.tecnico}<br>
-<b>Fecha:</b> ${e.fecha}<br><br>
+<h3>${e.equipo}</h3>
+
+<p><b>Área:</b> ${e.area}</p>
+<p><b>Servicio:</b> ${e.servicio}</p>
+<p><b>Marca:</b> ${e.marca}</p>
+<p><b>Modelo:</b> ${e.modelo}</p>
+<p><b>Serie:</b> ${e.serie}</p>
+<p><b>Código:</b> ${e.codigo}</p>
+<p><b>Disco:</b> ${e.disco}</p>
+<p><b>Memoria:</b> ${e.memoria}</p>
+<p><b>Técnico:</b> ${e.tecnico}</p>
+<p><b>Fecha:</b> ${e.fecha}</p>
 
 <button onclick="editar(${i})">
-Editar
+✏️ Editar
 </button>
 
 ${localStorage.getItem("rol")=="admin" ?
-<button onclick="editar(${i})">
-Editar
-</button>
 
 `<button onclick="eliminar(${i})">
-Eliminar
+🗑️ Eliminar
 </button>`
 
 :
@@ -93,185 +108,25 @@ Eliminar
 
 });
 
+document.getElementById("lista").innerHTML =
+listaHTML;
+
 }
 
 function eliminar(i){
 
-let lista = JSON.parse(localStorage.getItem("datos")) || [];
-
 lista.splice(i,1);
 
-localStorage.setItem("datos", JSON.stringify(lista));
+localStorage.setItem("datos",
+JSON.stringify(lista));
 
 mostrar();
 
-}
-
-function buscarEquipo(){
-
-let texto = document
-.getElementById("buscar")
-.value
-.toLowerCase();
-
-let tarjetas = document
-.querySelectorAll(".card");
-
-tarjetas.forEach(t=>{
-
-if(t.innerText.toLowerCase().includes(texto)){
-
-t.style.display="block";
-
-}else{
-
-t.style.display="none";
+actualizarDashboard();
 
 }
-
-});
-
-}
-
-mostrar();
-function exportarExcel(){
-
-let datos = JSON.parse(localStorage.getItem("datos")) || [];
-
-let contenido = `
-<table border="1">
-
-<tr>
-
-<th>Área</th>
-<th>Equipo</th>
-<th>Servicio</th>
-<th>Modelo</th>
-<th>Marca</th>
-<th>Serie</th>
-<th>Código</th>
-<th>Disco</th>
-<th>Memoria</th>
-<th>Monitor</th>
-<th>Teclado</th>
-<th>Mouse</th>
-<th>Impresora</th>
-<th>Teléfono</th>
-<th>Antivirus</th>
-<th>Mantenimiento</th>
-<th>Técnico</th>
-<th>Fecha</th>
-
-</tr>
-`;
-
-datos.forEach(e=>{
-
-contenido += `
-
-<tr>
-
-<td>${e.area}</td>
-<td>${e.equipo}</td>
-<td>${e.servicio}</td>
-<td>${e.modelo}</td>
-<td>${e.marca}</td>
-<td>${e.serie}</td>
-<td>${e.codigo}</td>
-<td>${e.disco}</td>
-<td>${e.memoria}</td>
-<td>${e.monitor}</td>
-<td>${e.teclado}</td>
-<td>${e.mouse}</td>
-<td>${e.impresora}</td>
-<td>${e.telefono}</td>
-<td>${e.antivirus}</td>
-<td>${e.mantenimiento}</td>
-<td>${e.tecnico}</td>
-<td>${e.fecha}</td>
-
-</tr>
-
-`;
-
-});
-
-contenido += `</table>`;
-
-let archivo = new Blob([contenido], {
-type:"application/vnd.ms-excel"
-});
-
-let url = URL.createObjectURL(archivo);
-
-let link = document.createElement("a");
-
-link.href = url;
-
-link.download = "servicio_tecnico.xls";
-
-link.click();
-  function generarPDF(){
-
-let ventana = window.open('', '', 'width=800,height=600');
-
-let contenido = document.getElementById("lista").innerHTML;
-
-ventana.document.write(`
-
-<html>
-
-<head>
-
-<title>Reporte Técnico</title>
-
-<style>
-
-body{
-
-font-family:Arial;
-padding:20px;
-
-}
-
-.card{
-
-border:1px solid gray;
-padding:10px;
-margin:10px;
-border-radius:10px;
-
-}
-
-button{
-
-display:none;
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<h1>Reporte Servicio Técnico</h1>
-
-${contenido}
-
-</body>
-
-</html>
-
-`);
-
-ventana.document.close();
-
-ventana.print();
 
 function editar(i){
-
-let lista = JSON.parse(localStorage.getItem("datos")) || [];
 
 let e = lista[i];
 
@@ -296,15 +151,9 @@ fecha.value = e.fecha;
 
 eliminar(i);
 
-function cerrarSesion(){
-
-localStorage.removeItem("rol");
-
-window.location="login.html";
+}
 
 function actualizarDashboard(){
-
-let lista = JSON.parse(localStorage.getItem("datos")) || [];
 
 document.getElementById("totalEquipos")
 .innerText = lista.length;
@@ -312,36 +161,111 @@ document.getElementById("totalEquipos")
 document.getElementById("totalMantenimientos")
 .innerText = lista.length;
 
-function editar(i){
+}
 
-let lista = JSON.parse(localStorage.getItem("datos")) || [];
+function limpiar(){
 
-let e = lista[i];
+document.querySelectorAll("input")
+.forEach(input=>{
 
-document.getElementById("area").value = e.area;
-document.getElementById("equipo").value = e.equipo;
-document.getElementById("servicio").value = e.servicio;
-document.getElementById("modelo").value = e.modelo;
-document.getElementById("marca").value = e.marca;
-document.getElementById("serie").value = e.serie;
-document.getElementById("codigo").value = e.codigo;
-document.getElementById("disco").value = e.disco;
-document.getElementById("memoria").value = e.memoria;
-document.getElementById("monitor").value = e.monitor;
-document.getElementById("teclado").value = e.teclado;
-document.getElementById("mouse").value = e.mouse;
-document.getElementById("impresora").value = e.impresora;
-document.getElementById("telefono").value = e.telefono;
-document.getElementById("antivirus").value = e.antivirus;
-document.getElementById("mantenimiento").value = e.mantenimiento;
+if(input.type!="file"){
 
-lista.splice(i,1);
-
-localStorage.setItem("datos", JSON.stringify(lista));
-
-mostrar();
+input.value="";
 
 }
 
-actualizarDashboard();
+});
 
+document.getElementById("foto").value="";
+
+}
+
+function buscarEquipo(){
+
+let texto =
+document.getElementById("buscar")
+.value.toLowerCase();
+
+let cards =
+document.querySelectorAll(".card");
+
+cards.forEach(card=>{
+
+if(card.innerText.toLowerCase()
+.includes(texto)){
+
+card.style.display="block";
+
+}else{
+
+card.style.display="none";
+
+}
+
+});
+
+}
+
+function exportarExcel(){
+
+let tabla = `
+<table border="1">
+
+<tr>
+
+<th>Equipo</th>
+<th>Área</th>
+<th>Servicio</th>
+<th>Marca</th>
+<th>Modelo</th>
+
+</tr>
+`;
+
+lista.forEach(e=>{
+
+tabla += `
+
+<tr>
+
+<td>${e.equipo}</td>
+<td>${e.area}</td>
+<td>${e.servicio}</td>
+<td>${e.marca}</td>
+<td>${e.modelo}</td>
+
+</tr>
+
+`;
+
+});
+
+tabla += "</table>";
+
+let blob = new Blob([tabla],
+{type:"application/vnd.ms-excel"});
+
+let link =
+document.createElement("a");
+
+link.href = URL.createObjectURL(blob);
+
+link.download = "reporte.xls";
+
+link.click();
+
+}
+
+function generarPDF(){
+
+window.print();
+
+}
+
+function cerrarSesion(){
+
+localStorage.removeItem("rol");
+
+window.location="login.html";
+
+}
