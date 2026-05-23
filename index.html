@@ -4,9 +4,14 @@
 <head>
 
 <meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
 <title>Sistema Técnico</title>
 
-<link rel="stylesheet" href="estilos.css">
+<link rel="stylesheet"
+href="estilos.css">
 
 </head>
 
@@ -14,10 +19,12 @@
 
 <header>
 
-<h1>🛠️ SISTEMA DE SERVICIO TÉCNICO</h1>
+<h1>
+🛠️ SISTEMA SERVICIO TÉCNICO
+</h1>
 
 <button onclick="cerrarSesion()">
-Cerrar Sesión
+🚪 Cerrar Sesión
 </button>
 
 </header>
@@ -25,40 +32,128 @@ Cerrar Sesión
 <div class="dashboard">
 
 <div class="card-dashboard">
-<h2 id="totalEquipos">0</h2>
-<p>Equipos</p>
+
+<h2 id="totalEquipos">
+0
+</h2>
+
+<p>Equipos Registrados</p>
+
 </div>
 
 <div class="card-dashboard">
-<h2 id="totalMantenimientos">0</h2>
+
+<h2 id="totalMantenimientos">
+0
+</h2>
+
 <p>Mantenimientos</p>
+
 </div>
 
 </div>
 
 <div class="contenedor">
 
-<h2>📋 Registro Técnico</h2>
+<div class="titulo-reporte">
+
+<h2>
+📋 Registro Técnico
+</h2>
+
+<div class="numero-reporte">
+
+<div>
+
+<b>N° Reporte</b><br>
+
+<span id="numeroReporte">
+#1
+</span>
+
+</div>
+
+<div>
+
+<b>Fecha</b><br>
+
+<span id="fechaActual"></span>
+
+</div>
+
+</div>
+
+</div>
 
 <div class="formulario">
 
-<input type="text" id="area" placeholder="Área">
-<input type="text" id="equipo" placeholder="Equipo">
-<input type="text" id="servicio" placeholder="Servicio">
-<input type="text" id="modelo" placeholder="Modelo">
-<input type="text" id="marca" placeholder="Marca">
-<input type="text" id="serie" placeholder="Serie">
-<input type="text" id="codigo" placeholder="Código">
-<input type="text" id="disco" placeholder="Disco Duro">
-<input type="text" id="memoria" placeholder="Memoria RAM">
-<input type="text" id="monitor" placeholder="Monitor">
-<input type="text" id="teclado" placeholder="Teclado">
-<input type="text" id="mouse" placeholder="Mouse">
-<input type="text" id="impresora" placeholder="Impresora">
-<input type="text" id="telefono" placeholder="Teléfono">
-<input type="text" id="antivirus" placeholder="Antivirus">
-<input type="text" id="mantenimiento" placeholder="Mantenimiento">
-<input type="text" id="tecnico" placeholder="Técnico Responsable">
+<input type="text"
+id="area"
+placeholder="🏢 Área">
+
+<input type="text"
+id="equipo"
+placeholder="💻 Equipo">
+
+<input type="text"
+id="servicio"
+placeholder="🛠️ Servicio">
+
+<input type="text"
+id="modelo"
+placeholder="🖥️ Modelo">
+
+<input type="text"
+id="marca"
+placeholder="💻 Marca">
+
+<input type="text"
+id="serie"
+placeholder="🔢 Serie">
+
+<input type="text"
+id="codigo"
+placeholder="🏷️ Código">
+
+<input type="text"
+id="disco"
+placeholder="💾 Disco Duro">
+
+<input type="text"
+id="memoria"
+placeholder="🧠 Memoria RAM">
+
+<input type="text"
+id="monitor"
+placeholder="🖥️ Monitor">
+
+<input type="text"
+id="teclado"
+placeholder="⌨️ Teclado">
+
+<input type="text"
+id="mouse"
+placeholder="🖱️ Mouse">
+
+<input type="text"
+id="impresora"
+placeholder="🖨️ Impresora">
+
+<input type="text"
+id="telefono"
+placeholder="📞 Teléfono">
+
+<input type="text"
+id="antivirus"
+placeholder="🛡️ Antivirus">
+
+<input type="text"
+id="mantenimiento"
+placeholder="🔧 Mantenimiento">
+
+<input type="text"
+id="tecnico"
+placeholder="👨‍🔧 Técnico Responsable">
 
 <input type="file"
 id="foto"
@@ -85,14 +180,15 @@ capture="environment">
 
 <input type="text"
 id="buscar"
-placeholder="🔍 Buscar equipo..."
+placeholder="🔍 Buscar reporte..."
 onkeyup="buscarEquipo()">
 
 <div id="lista"></div>
 
 </div>
 
-<script type="module" src="script.js"></script>
+<script type="module"
+src="script.js"></script>
 
 </body>
 </html>
