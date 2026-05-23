@@ -2,6 +2,7 @@
 <html lang="es">
 
 <head>
+
 <meta charset="UTF-8">
 <title>Login</title>
 
@@ -23,7 +24,7 @@ height:100vh;
 background:white;
 padding:30px;
 border-radius:15px;
-width:300px;
+width:320px;
 text-align:center;
 
 }
@@ -46,6 +47,13 @@ color:white;
 border:none;
 border-radius:8px;
 cursor:pointer;
+margin-top:10px;
+
+}
+
+img{
+
+margin-bottom:10px;
 
 }
 
@@ -57,43 +65,36 @@ cursor:pointer;
 
 <div class="login">
 
+<img src="https://cdn-icons-png.flaticon.com/512/1055/1055687.png"
+width="100">
+
 <h2>🔐 Iniciar Sesión</h2>
 
-<input type="text" id="usuario" placeholder="Usuario">
+<input type="email"
+id="usuario"
+placeholder="Correo Electrónico">
 
-<input type="password" id="clave" placeholder="Contraseña">
+<input type="password"
+id="clave"
+placeholder="Contraseña">
 
 <button onclick="entrar()">
 Ingresar
 </button>
-  <br><br>
+
+<hr>
 
 <h3>👨‍🔧 Crear Técnico</h3>
 
-<input type="text"
+<input type="email"
 id="nuevoUsuario"
-placeholder="Nuevo Usuario">
+placeholder="Correo Nuevo Técnico">
 
 <input type="password"
 id="nuevaClave"
-placeholder="Nueva Contraseña">
+placeholder="Contraseña">
 
 <button onclick="crearUsuario()">
-  <br><br>
-
-<h3>👨‍🔧 Crear Técnico</h3>
-
-<input type="text"
-id="nuevoUsuario"
-placeholder="Nuevo Usuario">
-
-<input type="password"
-id="nuevaClave"
-placeholder="Nueva Contraseña">
-
-<button onclick="crearUsuario()">
-Crear Usuario
-</button>
 Crear Usuario
 </button>
 
@@ -111,17 +112,24 @@ createUserWithEmailAndPassword
 }
 from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDILlEvHJ05IUg146N17zVwGG5RD7X50Y4",
-  authDomain: "servicio-tecnico-8a5ef.firebaseapp.com",
-  databaseURL: "https://servicio-tecnico-8a5ef-default-rtdb.firebaseio.com",
-  projectId: "servicio-tecnico-8a5ef",
-  storageBucket: "servicio-tecnico-8a5ef.firebasestorage.app",
-  messagingSenderId: "895895342548",
-  appId: "1:895895342548:web:c400eb7e17ff78f57c1a41",
-  measurementId: "G-HTXDTJ735G"
+
+apiKey: "AIzaSyDILlEvHJ05IUg146N17zVwGG5RD7X50Y4",
+
+authDomain: "servicio-tecnico-8a5ef.firebaseapp.com",
+
+databaseURL: "https://servicio-tecnico-8a5ef-default-rtdb.firebaseio.com",
+
+projectId: "servicio-tecnico-8a5ef",
+
+storageBucket: "servicio-tecnico-8a5ef.firebasestorage.app",
+
+messagingSenderId: "895895342548",
+
+appId: "1:895895342548:web:c400eb7e17ff78f57c1a41",
+
+measurementId: "G-HTXDTJ735G"
+
 };
 
 const app = initializeApp(firebaseConfig);
@@ -129,15 +137,46 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
 window.entrar = function(){
-  window.crearUsuario = function(){
 
-let usuario =
+let email =
+document.getElementById("usuario").value;
+
+let password =
+document.getElementById("clave").value;
+
+signInWithEmailAndPassword(auth,email,password)
+
+.then(()=>{
+
+if(email=="admin@servicio.com"){
+
+localStorage.setItem("rol","admin");
+
+}else{
+
+localStorage.setItem("rol","tecnico");
+
+}
+
+window.location="index.html";
+
+})
+
+.catch((error)=>{
+
+alert(error.message);
+
+});
+
+}
+
+window.crearUsuario = function(){
+
+let email =
 document.getElementById("nuevoUsuario").value;
 
 let password =
 document.getElementById("nuevaClave").value;
-
-let email = usuario + "@empresa.com";
 
 createUserWithEmailAndPassword(auth,email,password)
 
@@ -152,28 +191,6 @@ window.location="index.html";
 .catch((error)=>{
 
 alert(error.message);
-
-});
-
-}
-
-let email =
-document.getElementById("usuario").value;
-
-let password =
-document.getElementById("clave").value;
-
-signInWithEmailAndPassword(auth,email,password)
-
-.then(()=>{
-
-window.location="index.html";
-
-})
-
-.catch(()=>{
-
-alert("Correo o contraseña incorrectos");
 
 });
 
