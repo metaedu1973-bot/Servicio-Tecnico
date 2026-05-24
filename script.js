@@ -644,30 +644,102 @@ ventana.document.write(contenido);
 ventana.print();
 
 }
-
 window.exportarExcel = function(){
 
 let tabla =
 document.querySelector("table")
 .outerHTML;
 
-let url =
+let archivo =
 'data:application/vnd.ms-excel,' +
 encodeURIComponent(tabla);
 
-let link =
-document.createElement('a');
+let descarga =
+document.createElement("a");
 
-link.href = url;
+descarga.href = archivo;
 
-link.download =
+descarga.download =
 "ReporteTecnico.xls";
 
-link.click();
+descarga.click();
 
 }
 
 window.generarPDF = function(){
+
+let contenido =
+document.querySelector(
+".contenedor"
+).innerHTML;
+
+let ventana =
+window.open(
+"",
+"",
+"width=1000,height=800"
+);
+
+ventana.document.write(`
+
+<html>
+
+<head>
+
+<title>
+Reporte Técnico
+</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:20px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+table,th,td{
+border:1px solid #000;
+}
+
+th,td{
+padding:8px;
+text-align:left;
+}
+
+button{
+display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>
+🖥️ REPORTE TÉCNICO CNE
+</h2>
+
+${contenido}
+
+</body>
+
+</html>
+
+`);
+
+ventana.document.close();
+
+ventana.print();
+
+}
+
 
 let contenido = document.querySelector(
 ".contenedor"
