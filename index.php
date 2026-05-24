@@ -151,7 +151,8 @@ accept="image/*">
 </div>
 
 <div class="acciones">
-  <select id="filtroArea">
+
+<select id="filtroArea">
 
 <option value="">
 📋 Todas las Áreas
@@ -163,16 +164,16 @@ accept="image/*">
 🖨️ Imprimir Área
 </button>
 
-
 <button onclick="exportarExcel()">
-📊 Excel
+📊 Exportar Excel
 </button>
 
 <button onclick="generarPDF()">
-📄 PDF
+📄 Generar PDF
 </button>
 
 </div>
+
 
 <input type="text"
 id="buscar"
