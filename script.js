@@ -669,9 +669,77 @@ link.click();
 
 window.generarPDF = function(){
 
-window.print();
-cargarFiltroAreas(datos);
+let contenido = document.querySelector(
+".contenedor"
+).innerHTML;
+
+let ventana =
+window.open(
+"",
+"",
+"width=1000,height=800"
+);
+
+ventana.document.write(`
+
+<html>
+
+<head>
+
+<title>
+Reporte Técnico
+</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:20px;
 }
+
+table{
+width:100%;
+border-collapse:collapse;
+margin-top:20px;
+}
+
+table,th,td{
+border:1px solid #000;
+}
+
+th,td{
+padding:10px;
+text-align:left;
+}
+
+h2{
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>
+🖥️ REPORTE TÉCNICO CNE
+</h2>
+
+${contenido}
+
+</body>
+
+</html>
+
+`);
+
+ventana.document.close();
+
+ventana.print();
+
+}
+
 
 
 }
