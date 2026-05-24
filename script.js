@@ -60,7 +60,7 @@ let editandoID = null;
 document.getElementById(
 "tecnico"
 ).value =
-localStorage.getItem("usuarioActivo")
+localStorage.getItem("tecnico")
 
 document.getElementById(
 "nombreTecnico"
