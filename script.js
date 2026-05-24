@@ -209,9 +209,21 @@ ${e.estado}
 🖨️
 </button>
 
-<button onclick="eliminar('${id}')">
-🗑️
-</button>
+${
+localStorage.getItem("rol")
+=="admin"
+
+?
+
+`<button onclick="eliminar('${id}')">
+🗑️ </button>`
+
+:
+
+""
+
+}
+
 
 </div>
 
