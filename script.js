@@ -132,6 +132,7 @@ push(equiposRef,datos);
 }
 
 limpiar();
+  cargarListas();
 
 };
 
