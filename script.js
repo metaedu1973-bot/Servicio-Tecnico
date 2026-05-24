@@ -205,6 +205,9 @@ ${e.estado}
 <button onclick="editar('${id}')">
 ✏️
 </button>
+<button onclick="imprimirReporte('${id}')">
+🖨️
+</button>
 
 <button onclick="eliminar('${id}')">
 🗑️
@@ -809,10 +812,201 @@ ${contenido}
 ventana.document.close();
 
 ventana.print();
+window.imprimirReporte = function(id){
+
+onValue(
+ref(db,"equipos/"+id),
+(snapshot)=>{
+
+let e = snapshot.val();
+
+let ventana =
+window.open(
+"",
+"",
+"width=900,height=800"
+);
+
+ventana.document.write(`
+
+<html>
+
+<head>
+
+<title>
+Reporte Técnico
+</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:25px;
+}
+
+h2{
+text-align:center;
+margin-bottom:25px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+td{
+border:1px solid #000;
+padding:10px;
+}
+
+img{
+width:140px;
+border-radius:10px;
+margin-top:15px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>
+🖥️ REPORTE TÉCNICO CNE
+</h2>
+
+<table>
+
+<tr>
+<td><b>Número</b></td>
+<td>#${e.numero}</td>
+</tr>
+
+<tr>
+<td><b>Fecha</b></td>
+<td>${e.fecha}</td>
+</tr>
+
+<tr>
+<td><b>Área</b></td>
+<td>${e.area}</td>
+</tr>
+
+<tr>
+<td><b>Equipo</b></td>
+<td>${e.equipo}</td>
+</tr>
+
+<tr>
+<td><b>Servicio</b></td>
+<td>${e.servicio}</td>
+</tr>
+
+<tr>
+<td><b>Modelo</b></td>
+<td>${e.modelo}</td>
+</tr>
+
+<tr>
+<td><b>Marca</b></td>
+<td>${e.marca}</td>
+</tr>
+
+<tr>
+<td><b>Serie</b></td>
+<td>${e.serie}</td>
+</tr>
+
+<tr>
+<td><b>Código</b></td>
+<td>${e.codigo}</td>
+</tr>
+
+<tr>
+<td><b>Disco Duro</b></td>
+<td>${e.disco}</td>
+</tr>
+
+<tr>
+<td><b>Memoria RAM</b></td>
+<td>${e.memoria}</td>
+</tr>
+
+<tr>
+<td><b>Monitor</b></td>
+<td>${e.monitor}</td>
+</tr>
+
+<tr>
+<td><b>Teclado</b></td>
+<td>${e.teclado}</td>
+</tr>
+
+<tr>
+<td><b>Mouse</b></td>
+<td>${e.mouse}</td>
+</tr>
+
+<tr>
+<td><b>Impresora</b></td>
+<td>${e.impresora}</td>
+</tr>
+
+<tr>
+<td><b>Teléfono</b></td>
+<td>${e.telefono}</td>
+</tr>
+
+<tr>
+<td><b>Antivirus</b></td>
+<td>${e.antivirus}</td>
+</tr>
+
+<tr>
+<td><b>Mantenimiento</b></td>
+<td>${e.mantenimiento}</td>
+</tr>
+
+<tr>
+<td><b>Estado</b></td>
+<td>${e.estado}</td>
+</tr>
+
+<tr>
+<td><b>Observaciones</b></td>
+<td>${e.observaciones}</td>
+</tr>
+
+<tr>
+<td><b>Técnico</b></td>
+<td>${e.tecnico}</td>
+</tr>
+
+</table>
+
+<center>
+
+<img src="${e.foto}">
+
+</center>
+
+<script>
+
+window.onload = function(){
+
+window.print();
 
 }
 
+</script>
 
+</body>
+
+</html>
+
+`);
+
+});
 
 }
 
