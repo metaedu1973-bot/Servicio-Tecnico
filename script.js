@@ -215,8 +215,20 @@ localStorage.getItem("rol")
 
 ?
 
+${
+localStorage.getItem("rol")
+=="admin"
+
+?
+
 `<button onclick="eliminar('${id}')">
 🗑️ </button>`
+
+:
+
+""
+
+}
 
 :
 
