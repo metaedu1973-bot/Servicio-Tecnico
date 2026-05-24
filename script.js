@@ -523,6 +523,156 @@ window.open("","","width=900,height=700");
 ventana.document.write(contenido);
 
 ventana.print();
+  function cargarFiltroAreas(datos){
+
+let filtro =
+document.getElementById(
+"filtroArea"
+);
+
+if(!filtro) return;
+
+let areas = [];
+
+for(let id in datos){
+
+if(
+!areas.includes(datos[id].area)
+){
+
+areas.push(datos[id].area);
+
+}
+
+}
+
+filtro.innerHTML =
+'<option value="">📋 Todas las Áreas</option>';
+
+areas.forEach(area=>{
+
+filtro.innerHTML +=
+`<option value="${area}">
+${area}
+
+</option>`;
+
+});
+
+}
+
+window.imprimirArea = function(){
+
+let areaSeleccionada =
+document.getElementById(
+"filtroArea"
+).value;
+
+let filas =
+document.querySelectorAll(
+"#lista tr"
+);
+
+let contenido = `
+
+<h2>
+Reporte Área:
+${areaSeleccionada || "Todas"}
+</h2>
+
+<table border="1"
+style="
+width:100%;
+border-collapse:collapse;
+">
+
+<tr>
+
+<th>#</th>
+<th>Fecha</th>
+<th>Equipo</th>
+<th>Área</th>
+<th>Estado</th>
+<th>Técnico</th>
+
+</tr>
+
+`;
+
+filas.forEach(fila=>{
+
+if(
+
+areaSeleccionada=="" ||
+
+fila.children[3]
+.innerText
+== areaSeleccionada
+
+){
+
+contenido += `
+
+<tr>
+
+<td>${fila.children[0].innerHTML}</td>
+<td>${fila.children[1].innerHTML}</td>
+<td>${fila.children[2].innerHTML}</td>
+<td>${fila.children[3].innerHTML}</td>
+<td>${fila.children[4].innerHTML}</td>
+<td>${fila.children[5].innerHTML}</td>
+
+</tr>
+
+`;
+
+}
+
+});
+
+contenido += "</table>";
+
+let ventana =
+window.open(
+"",
+"",
+"width=900,height=700"
+);
+
+ventana.document.write(contenido);
+
+ventana.print();
+
+}
+
+window.exportarExcel = function(){
+
+let tabla =
+document.querySelector("table")
+.outerHTML;
+
+let url =
+'data:application/vnd.ms-excel,' +
+encodeURIComponent(tabla);
+
+let link =
+document.createElement('a');
+
+link.href = url;
+
+link.download =
+"ReporteTecnico.xls";
+
+link.click();
+
+}
+
+window.generarPDF = function(){
+
+window.print();
+cargarFiltroAreas(datos);
+}
+
 
 }
 
