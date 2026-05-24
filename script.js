@@ -33,9 +33,7 @@ storageBucket: "servicio-tecnico-8a5ef.firebasestorage.app",
 
 messagingSenderId: "895895342548",
 
-appId: "1:895895342548:web:c400eb7e17ff78f57c1a41",
-
-measurementId: "G-HTXDTJ735G"
+appId: "1:895895342548:web:c400eb7e17ff78f57c1a41"
 
 };
 
@@ -63,20 +61,10 @@ document.getElementById("fechaActual").innerHTML =
 new Date().toLocaleDateString();
 
 window.guardar = function(){
-  guardarLista(
-"areas",
-area.value
-);
 
-guardarLista(
-"equipos",
-equipo.value
-);
-
-guardarLista(
-"marcas",
-marca.value
-);
+guardarLista("areas",area.value);
+guardarLista("equipos",equipo.value);
+guardarLista("marcas",marca.value);
 
 let fotoInput =
 document.getElementById("foto");
@@ -107,6 +95,15 @@ modelo: modelo.value,
 marca: marca.value,
 serie: serie.value,
 codigo: codigo.value,
+disco: disco.value,
+memoria: memoria.value,
+monitor: monitor.value,
+teclado: teclado.value,
+mouse: mouse.value,
+impresora: impresora.value,
+telefono: telefono.value,
+antivirus: antivirus.value,
+mantenimiento: mantenimiento.value,
 estado: estado.value,
 observaciones:
 observaciones.value,
@@ -132,9 +129,10 @@ push(equiposRef,datos);
 }
 
 limpiar();
-  cargarListas();
 
-};
+cargarListas();
+
+}
 
 if(archivo){
 
@@ -151,7 +149,7 @@ result:
 
 }
 
-};
+}
 
 onValue(equiposRef,(snapshot)=>{
 
@@ -175,33 +173,24 @@ listaHTML += `
 
 <td>${e.fecha}</td>
 
-<td>
-
-<img src="${e.foto}"
-class="foto-tabla">
-
-<br><br>
-
-<b>${e.equipo}</b>
-
-</td>
+<td>${e.equipo}</td>
 
 <td>${e.area}</td>
 
 <td>
 
 <span class="estado
-${e.estado == 'Pendiente'
-? 'pendiente'
-: e.estado == 'Reparación'
-? 'reparacion'
-: 'entregado'}">
+${e.estado=="Pendiente"
+?
+"pendiente"
+:
+e.estado=="Reparación"
+?
+"reparacion"
+:
+"entregado"}">
 
-${e.estado == 'Pendiente'
-? '🟡 Pendiente'
-: e.estado == 'Reparación'
-? '🔵 Reparación'
-: '🟢 Entregado'}
+${e.estado}
 
 </span>
 
@@ -217,22 +206,9 @@ ${e.estado == 'Pendiente'
 ✏️
 </button>
 
-<button onclick="generarPDF()">
-📄
-</button>
-
-${localStorage.getItem("rol")
-=="admin"
-
-?
-
-`<button onclick="eliminar('${id}')">
+<button onclick="eliminar('${id}')">
 🗑️
-</button>`
-
-:
-
-""}
+</button>
 
 </div>
 
@@ -276,23 +252,30 @@ modelo.value = e.modelo;
 marca.value = e.marca;
 serie.value = e.serie;
 codigo.value = e.codigo;
-estado.value = e.estado;
+disco.value = e.disco;
+memoria.value = e.memoria;
+monitor.value = e.monitor;
+teclado.value = e.teclado;
+mouse.value = e.mouse;
+impresora.value = e.impresora;
+telefono.value = e.telefono;
+antivirus.value = e.antivirus;
+mantenimiento.value =
+e.mantenimiento;
+estado.value =
+e.estado;
 observaciones.value =
 e.observaciones;
 
-document.getElementById("numeroReporte")
-.innerText =
-"#" + e.numero;
-
 });
 
-};
+}
 
 window.eliminar = function(id){
 
 remove(ref(db,"equipos/"+id));
 
-};
+}
 
 function limpiar(){
 
@@ -310,10 +293,12 @@ campo.value="";
 
 });
 
-document.getElementById("tecnico").value =
+document.getElementById("tecnico")
+.value =
 localStorage.getItem("tecnico");
 
-document.getElementById("foto").value="";
+document.getElementById("foto")
+.value="";
 
 }
 
@@ -342,11 +327,9 @@ fila.style.display="none";
 
 });
 
-};
+}
 
 window.cerrarSesion = async function(){
-
-try{
 
 await signOut(auth);
 
@@ -355,23 +338,8 @@ localStorage.clear();
 window.location.href =
 "login.html";
 
-}catch(error){
-
-alert(error.message);
-
 }
 
-};
-
-window.exportarExcel = function(){
-
-window.print();
-
-};
-
-window.generarPDF = function(){
-
-window.print();
 function guardarLista(nombre,valor){
 
 if(valor=="") return;
