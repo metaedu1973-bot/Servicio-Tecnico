@@ -90,7 +90,20 @@ Ingresar
 
 <input type="email" id="nuevoUsuario" placeholder="Correo nuevo">
 
-<input type="password" id="nuevaClave" placeholder="Contraseña nueva">
+<input
+type="password"
+id="nuevaClave"
+placeholder="Contraseña nueva">
+
+<p style="
+font-size:13px;
+color:gray;
+margin-top:5px;
+">
+
+🔒 Mínimo 6 caracteres
+
+</p>
 
 <button onclick="crearUsuario()">
 Crear Usuario
@@ -140,6 +153,15 @@ document.getElementById("usuario").value;
 
 let password =
 document.getElementById("clave").value;
+  if(password.length < 6){
+
+alert(
+"⚠️ La contraseña debe tener mínimo 6 caracteres"
+);
+
+return;
+
+}
 
 signInWithEmailAndPassword(
 auth,
