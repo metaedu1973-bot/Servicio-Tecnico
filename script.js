@@ -278,6 +278,18 @@ remove(ref(db,"equipos/"+id));
 }
 
 function limpiar(){
+  window.nuevoReporte = function(){
+
+limpiar();
+
+editandoID = null;
+
+document.getElementById(
+"numeroReporte"
+).innerText =
+"#" + (contador + 1);
+
+}
 
 document.querySelectorAll(
 "input, textarea"
