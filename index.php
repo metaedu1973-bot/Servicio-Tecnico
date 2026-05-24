@@ -151,6 +151,18 @@ accept="image/*">
 </div>
 
 <div class="acciones">
+  <select id="filtroArea">
+
+<option value="">
+📋 Todas las Áreas
+</option>
+
+</select>
+
+<button onclick="imprimirArea()">
+🖨️ Imprimir Área
+</button>
+
 
 <button onclick="exportarExcel()">
 📊 Excel
