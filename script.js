@@ -63,6 +63,20 @@ document.getElementById("fechaActual").innerHTML =
 new Date().toLocaleDateString();
 
 window.guardar = function(){
+  guardarLista(
+"areas",
+area.value
+);
+
+guardarLista(
+"equipos",
+equipo.value
+);
+
+guardarLista(
+"marcas",
+marca.value
+);
 
 let fotoInput =
 document.getElementById("foto");
@@ -357,5 +371,69 @@ window.print();
 window.generarPDF = function(){
 
 window.print();
+function guardarLista(nombre,valor){
 
-};
+if(valor=="") return;
+
+let lista =
+JSON.parse(
+localStorage.getItem(nombre)
+) || [];
+
+if(!lista.includes(valor)){
+
+lista.push(valor);
+
+localStorage.setItem(
+nombre,
+JSON.stringify(lista)
+);
+
+}
+
+}
+
+function cargarListas(){
+
+let areas =
+JSON.parse(
+localStorage.getItem("areas")
+) || [];
+
+let equipos =
+JSON.parse(
+localStorage.getItem("equipos")
+) || [];
+
+let marcas =
+JSON.parse(
+localStorage.getItem("marcas")
+) || [];
+
+document.getElementById(
+"listaAreas"
+).innerHTML =
+
+areas.map(a=>
+`<option value="${a}">`
+).join("");
+
+document.getElementById(
+"listaEquipos"
+).innerHTML =
+
+equipos.map(a=>
+`<option value="${a}">`
+).join("");
+
+document.getElementById(
+"listaMarcas"
+).innerHTML =
+
+marcas.map(a=>
+`<option value="${a}">`
+).join("");
+
+}
+
+cargarListas();
