@@ -249,9 +249,36 @@ campo.type!="file"
 campo.id!="tecnico"
 ){
 
-campo.value="";
+campo.value = "";
 
 }
+
+});
+
+document.getElementById(
+"tecnico"
+).value =
+localStorage.getItem(
+"tecnico"
+) || "";
+
+document.getElementById(
+"nombreTecnico"
+).innerHTML =
+"👨‍🔧 " +
+(
+localStorage.getItem(
+"tecnico"
+) || "Técnico"
+);
+
+document.getElementById(
+"estado"
+).value =
+"Pendiente";
+
+}
+
 
 });
 
