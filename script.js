@@ -303,7 +303,7 @@ window.cerrarSesion = async function(){
 
 await signOut(auth);
 
-localStorage.clear();
+localStorage.removeItem("rol");
 
 window.location.href =
 "login.html";
