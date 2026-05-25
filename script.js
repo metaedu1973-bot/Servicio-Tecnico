@@ -49,8 +49,6 @@ let contador = 0;
 const tecnicoActivo =
 localStorage.getItem("usuarioActivo");
 
-if(tecnicoActivo){
-
 document.getElementById("nombreTecnico").innerHTML =
 "👨‍🔧 " + tecnicoActivo;
 
@@ -213,6 +211,47 @@ border-collapse:collapse;
 td{
 border:1px solid #000;
 padding:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>
+🖥️ REPORTE TÉCNICO
+</h2>
+
+<table>
+
+<tr><td>Número</td><td>#${e.numero}</td></tr>
+<tr><td>Fecha</td><td>${e.fecha}</td></tr>
+<tr><td>Área</td><td>${e.area}</td></tr>
+<tr><td>Equipo</td><td>${e.equipo}</td></tr>
+<tr><td>Modelo</td><td>${e.modelo}</td></tr>
+<tr><td>Marca</td><td>${e.marca}</td></tr>
+<tr><td>Serie</td><td>${e.serie}</td></tr>
+<tr><td>Estado</td><td>${e.estado}</td></tr>
+<tr><td>Observaciones</td><td>${e.observaciones}</td></tr>
+<tr><td>Técnico</td><td>${e.tecnico}</td></tr>
+
+</table>
+
+</body>
+
+</html>
+
+`);
+
+setTimeout(()=>{
+
+ventana.print();
+
+},800);
+
+});
+
 }
 
 </style>
