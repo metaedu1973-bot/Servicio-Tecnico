@@ -49,6 +49,13 @@ let contador = 0;
 const tecnicoActivo =
 localStorage.getItem("usuarioActivo");
 
+if(tecnicoActivo){
+
+document.getElementById("nombreTecnico").innerHTML =
+"👨‍🔧 " + tecnicoActivo;
+
+}
+
 document.getElementById("nombreTecnico").innerHTML =
 "👨‍🔧 " + tecnicoActivo;
 
