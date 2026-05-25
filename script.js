@@ -553,23 +553,11 @@ Firma Técnico Responsable
 
 <script>
 
-window.onload = function(){
+setTimeout(() => {
 
-window.print();
+ventana.print();
 
-}
-
-</script>
-
-</body>
-
-</html>
-
-`);
-
-});
-
-}
+}, 800);
 
 
 </script>
