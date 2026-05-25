@@ -570,4 +570,31 @@ ventana.print();
 
 });
 
+window.imprimirReporteSeleccionado =
+function(){
+
+let primeraFila =
+document.querySelector(
+"#lista tr"
+);
+
+if(!primeraFila){
+
+alert("No hay registros");
+
+return;
+
 }
+
+let boton =
+primeraFila.querySelector(
+"button[onclick*='imprimirReporte']"
+);
+
+if(boton){
+
+boton.click();
+
+}
+
+
