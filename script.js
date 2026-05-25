@@ -52,9 +52,11 @@ let editandoID = null;
 document.getElementById("tecnico").value =
 localStorage.getItem("usuarioActivo") || "";
 
-document.getElementById("nombreTecnico").innerHTML =
-"👨‍🔧 " +
+let tecnicoActivo =
 localStorage.getItem("usuarioActivo");
+
+document.getElementById("nombreTecnico").innerHTML =
+"👨‍🔧 " + tecnicoActivo;
 
 document.getElementById("fechaActual").innerHTML =
 "📅 " + new Date().toLocaleDateString();
