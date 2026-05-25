@@ -332,4 +332,81 @@ ventana.print();
 
 });
 
+window.imprimirArea = function(){
+
+let areaSeleccionada =
+document.getElementById(
+"filtroArea"
+).value;
+
+let filas =
+document.querySelectorAll(
+"#lista tr"
+);
+
+let contenido = `
+
+<h2 style="text-align:center;">
+🖥️ REGISTROS TÉCNICOS
+</h2>
+
+<table border="1"
+style="
+width:100%;
+border-collapse:collapse;
+font-family:Arial;
+">
+
+<tr>
+
+<th>#</th>
+<th>Fecha</th>
+<th>Equipo</th>
+<th>Área</th>
+<th>Estado</th>
+<th>Técnico</th>
+
+</tr>
+
+`;
+
+filas.forEach(fila=>{
+
+let areaFila =
+fila.children[3].innerText;
+
+if(
+areaSeleccionada=="" ||
+areaFila==areaSeleccionada
+){
+
+contenido += `
+
+<tr>
+${fila.innerHTML}
+</tr>
+`;
+
 }
+
+});
+
+contenido += "</table>";
+
+let ventana =
+window.open(
+"",
+"",
+"width=1000,height=800"
+);
+
+ventana.document.write(contenido);
+
+setTimeout(()=>{
+
+ventana.print();
+
+},800);
+
+}
+
