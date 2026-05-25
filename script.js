@@ -159,6 +159,10 @@ window.cerrarSesion = async function(){
 
 await signOut(auth);
 
+localStorage.removeItem(
+"usuarioActivo"
+);
+
 window.location.href =
 "login.html";
 
