@@ -86,10 +86,7 @@ document.getElementById("foto");
 let archivo =
 fotoInput.files[0];
 
-let lector =
-new FileReader();
-
-lector.onload = function(e){
+function guardarDatos(imagen){
 
 let datos = {
 
@@ -125,9 +122,13 @@ mantenimiento: mantenimiento.value,
 estado: estado.value,
 observaciones:
 observaciones.value,
+
 tecnico:
-localStorage.getItem("tecnico"),
-foto: e.target.result
+localStorage.getItem(
+"tecnico"
+),
+
+foto: imagen
 
 };
 
@@ -145,6 +146,38 @@ editandoID = null;
 push(equiposRef,datos);
 
 }
+
+limpiar();
+
+}
+
+if(archivo){
+
+let lector =
+new FileReader();
+
+lector.onload = function(e){
+
+guardarDatos(
+e.target.result
+);
+
+};
+
+lector.readAsDataURL(
+archivo
+);
+
+}else{
+
+guardarDatos(
+"https://cdn-icons-png.flaticon.com/512/847/847969.png"
+);
+
+}
+
+}
+
 
 limpiar();
 
