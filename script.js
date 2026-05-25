@@ -1,5 +1,4 @@
-import { initializeApp }
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 
 import {
 getDatabase,
@@ -9,15 +8,13 @@ onValue,
 remove,
 update
 }
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 import {
 getAuth,
 signOut
 }
-from
-"https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 const firebaseConfig = {
 
@@ -41,47 +38,28 @@ appId:
 
 };
 
-const app =
-initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 
-const db =
-getDatabase(app);
+const db = getDatabase(app);
 
-const auth =
-getAuth(app);
+const auth = getAuth(app);
 
-const equiposRef =
-ref(db,"equipos");
+const equiposRef = ref(db,"equipos");
 
 let contador = 0;
 
 let editandoID = null;
 
-document.getElementById(
-"tecnico"
-).value =
-localStorage.getItem("tecnico")
-
-document.getElementById(
-"nombreTecnico"
-).innerHTML =
-"👨‍🔧 " +
+document.getElementById("tecnico").value =
 localStorage.getItem("tecnico");
 
-document.getElementById(
-"fechaActual"
-).innerHTML =
-"📅 " +
-new Date().toLocaleDateString();
+document.getElementById("nombreTecnico").innerHTML =
+"👨‍🔧 " + localStorage.getItem("tecnico");
+
+document.getElementById("fechaActual").innerHTML =
+"📅 " + new Date().toLocaleDateString();
 
 window.guardar = function(){
-
-guardarLista("areas",area.value);
-guardarLista("equipos",equipo.value);
-guardarLista("marcas",marca.value);
-
-let imagenDefault =
-"https://cdn-icons-png.flaticon.com/512/847/847969.png";
 
 let fotoInput =
 document.getElementById("foto");
@@ -89,16 +67,15 @@ document.getElementById("foto");
 let archivo =
 fotoInput.files[0];
 
-function procesarGuardado(fotoFinal){
+function guardarDatos(imagen){
 
 let datos = {
 
 numero:
 editandoID
 ?
-document.getElementById(
-"numeroReporte"
-).innerText.replace("#","")
+document.getElementById("numeroReporte")
+.innerText.replace("#","")
 :
 contador + 1,
 
@@ -126,11 +103,9 @@ observaciones:
 observaciones.value,
 
 tecnico:
-localStorage.getItem(
-"tecnico"
-),
+localStorage.getItem("tecnico"),
 
-foto: fotoFinal
+foto: imagen
 
 };
 
@@ -151,11 +126,6 @@ push(equiposRef,datos);
 
 limpiar();
 
-document.getElementById(
-"numeroReporte"
-).innerText =
-"#" + (contador + 1);
-
 }
 
 if(archivo){
@@ -165,25 +135,24 @@ new FileReader();
 
 lector.onload = function(e){
 
-procesarGuardado(
+guardarDatos(
 e.target.result
 );
 
 };
 
-lector.readAsDataURL(
-archivo
-);
+lector.readAsDataURL(archivo);
 
 }else{
 
-procesarGuardado(
-imagenDefault
+guardarDatos(
+"https://cdn-icons-png.flaticon.com/512/847/847969.png"
 );
 
 }
 
 }
+
 onValue(equiposRef,(snapshot)=>{
 
 let datos = snapshot.val();
@@ -194,9 +163,7 @@ contador = 0;
 
 if(!datos){
 
-document.getElementById(
-"lista"
-).innerHTML = "";
+document.getElementById("lista").innerHTML = "";
 
 return;
 
@@ -220,21 +187,11 @@ listaHTML += `
 
 <td>${e.area}</td>
 
-<td>
-
-<span class="estado">
-
-${e.estado}
-
-</span>
-
-</td>
+<td>${e.estado}</td>
 
 <td>${e.tecnico}</td>
 
 <td>
-
-<div class="acciones-tabla">
 
 <button onclick="editar('${id}')">
 ✏️
@@ -244,23 +201,6 @@ ${e.estado}
 🖨️
 </button>
 
-${
-localStorage.getItem("rol")
-=="admin"
-
-?
-
-`<button onclick="eliminar('${id}')">
-🗑️ </button>`
-
-:
-
-""
-
-}
-
-</div>
-
 </td>
 
 </tr>
@@ -269,24 +209,17 @@ localStorage.getItem("rol")
 
 }
 
-document.getElementById(
-"lista"
-).innerHTML = listaHTML;
+document.getElementById("lista")
+.innerHTML = listaHTML;
 
-document.getElementById(
-"totalEquipos"
-).innerText = contador;
+document.getElementById("totalEquipos")
+.innerText = contador;
 
-document.getElementById(
-"totalMantenimientos"
-).innerText = contador;
+document.getElementById("totalMantenimientos")
+.innerText = contador;
 
-document.getElementById(
-"numeroReporte"
-).innerText =
-"#" + (contador + 1);
-
-cargarFiltroAreas(datos);
+document.getElementById("numeroReporte")
+.innerText = "#" + (contador + 1);
 
 });
 
@@ -315,34 +248,11 @@ mouse.value = e.mouse;
 impresora.value = e.impresora;
 telefono.value = e.telefono;
 antivirus.value = e.antivirus;
-mantenimiento.value =
-e.mantenimiento;
+mantenimiento.value = e.mantenimiento;
 estado.value = e.estado;
-observaciones.value =
-e.observaciones;
+observaciones.value = e.observaciones;
 
 });
-
-}
-
-window.eliminar = function(id){
-
-remove(
-ref(db,"equipos/"+id)
-);
-
-}
-
-window.nuevoReporte = function(){
-
-limpiar();
-
-editandoID = null;
-
-document.getElementById(
-"numeroReporte"
-).innerText =
-"#" + (contador + 1);
 
 }
 
@@ -354,34 +264,36 @@ document.querySelectorAll(
 
 .forEach(campo=>{
 
-if(campo.type!="file"){
+if(
+campo.type!="file"
+&&
+campo.id!="tecnico"
+){
 
-campo.value = "";
+campo.value="";
 
 }
 
 });
 
-document.getElementById(
-"tecnico"
-).value =
-localStorage.getItem(
-"tecnico"
-);
+document.getElementById("tecnico")
+.value =
+localStorage.getItem("tecnico");
+
+document.getElementById("estado")
+.value =
+"Pendiente";
 
 }
 
 window.buscarEquipo = function(){
 
 let texto =
-document.getElementById(
-"buscar"
-).value.toLowerCase();
+document.getElementById("buscar")
+.value.toLowerCase();
 
 let filas =
-document.querySelectorAll(
-"tbody tr"
-);
+document.querySelectorAll("tbody tr");
 
 filas.forEach(fila=>{
 
@@ -403,51 +315,25 @@ fila.style.display="none";
 
 }
 
-window.cerrarSesion =
-async function(){
+window.nuevoReporte = function(){
+
+limpiar();
+
+editandoID = null;
+
+}
+
+window.cerrarSesion = async function(){
 
 await signOut(auth);
 
 localStorage.clear();
 
-window.location.href =
-"login.html";
+window.location.href = "login.html";
 
 }
 
-window.exportarExcel =
-function(){
-
-let tabla =
-document.querySelector(
-"table"
-).outerHTML;
-
-let url =
-'data:application/vnd.ms-excel,' +
-encodeURIComponent(tabla);
-
-let link =
-document.createElement("a");
-
-link.href = url;
-
-link.download =
-"ReporteTecnico.xls";
-
-link.click();
-
-}
-
-window.generarPDF =
-function(){
-
-window.print();
-
-}
-
-window.imprimirReporte =
-function(id){
+window.imprimirReporte = function(id){
 
 onValue(
 ref(db,"equipos/"+id),
@@ -489,11 +375,6 @@ border:1px solid #000;
 padding:10px;
 }
 
-img{
-width:150px;
-margin-top:20px;
-}
-
 </style>
 
 </head>
@@ -501,56 +382,32 @@ margin-top:20px;
 <body>
 
 <h2>
-🖥️ REPORTE TÉCNICO CNE
+🖥️ REPORTE TÉCNICO
 </h2>
 
 <table>
 
-<tr><td><b>Área</b></td><td>${e.area}</td></tr>
-
-<tr><td><b>Equipo</b></td><td>${e.equipo}</td></tr>
-
-<tr><td><b>Servicio</b></td><td>${e.servicio}</td></tr>
-
-<tr><td><b>Modelo</b></td><td>${e.modelo}</td></tr>
-
-<tr><td><b>Marca</b></td><td>${e.marca}</td></tr>
-
-<tr><td><b>Serie</b></td><td>${e.serie}</td></tr>
-
-<tr><td><b>Código</b></td><td>${e.codigo}</td></tr>
-
-<tr><td><b>Disco</b></td><td>${e.disco}</td></tr>
-
-<tr><td><b>Memoria</b></td><td>${e.memoria}</td></tr>
-
-<tr><td><b>Monitor</b></td><td>${e.monitor}</td></tr>
-
-<tr><td><b>Teclado</b></td><td>${e.teclado}</td></tr>
-
-<tr><td><b>Mouse</b></td><td>${e.mouse}</td></tr>
-
-<tr><td><b>Impresora</b></td><td>${e.impresora}</td></tr>
-
-<tr><td><b>Teléfono</b></td><td>${e.telefono}</td></tr>
-
-<tr><td><b>Antivirus</b></td><td>${e.antivirus}</td></tr>
-
-<tr><td><b>Mantenimiento</b></td><td>${e.mantenimiento}</td></tr>
-
-<tr><td><b>Estado</b></td><td>${e.estado}</td></tr>
-
-<tr><td><b>Observaciones</b></td><td>${e.observaciones}</td></tr>
-
-<tr><td><b>Técnico</b></td><td>${e.tecnico}</td></tr>
+<tr><td>Área</td><td>${e.area}</td></tr>
+<tr><td>Equipo</td><td>${e.equipo}</td></tr>
+<tr><td>Servicio</td><td>${e.servicio}</td></tr>
+<tr><td>Modelo</td><td>${e.modelo}</td></tr>
+<tr><td>Marca</td><td>${e.marca}</td></tr>
+<tr><td>Serie</td><td>${e.serie}</td></tr>
+<tr><td>Código</td><td>${e.codigo}</td></tr>
+<tr><td>Disco</td><td>${e.disco}</td></tr>
+<tr><td>Memoria</td><td>${e.memoria}</td></tr>
+<tr><td>Monitor</td><td>${e.monitor}</td></tr>
+<tr><td>Teclado</td><td>${e.teclado}</td></tr>
+<tr><td>Mouse</td><td>${e.mouse}</td></tr>
+<tr><td>Impresora</td><td>${e.impresora}</td></tr>
+<tr><td>Teléfono</td><td>${e.telefono}</td></tr>
+<tr><td>Antivirus</td><td>${e.antivirus}</td></tr>
+<tr><td>Mantenimiento</td><td>${e.mantenimiento}</td></tr>
+<tr><td>Estado</td><td>${e.estado}</td></tr>
+<tr><td>Observaciones</td><td>${e.observaciones}</td></tr>
+<tr><td>Técnico</td><td>${e.tecnico}</td></tr>
 
 </table>
-
-<center>
-
-<img src="${e.foto}">
-
-</center>
 
 <script>
 
@@ -567,71 +424,6 @@ window.print();
 </html>
 
 `);
-
-});
-
-}
-
-function guardarLista(nombre,valor){
-
-if(valor=="") return;
-
-let lista =
-JSON.parse(
-localStorage.getItem(nombre)
-) || [];
-
-if(!lista.includes(valor)){
-
-lista.push(valor);
-
-localStorage.setItem(
-nombre,
-JSON.stringify(lista)
-);
-
-}
-
-}
-
-function cargarFiltroAreas(datos){
-
-let filtro =
-document.getElementById(
-"filtroArea"
-);
-
-if(!filtro) return;
-
-let areas = [];
-
-for(let id in datos){
-
-if(
-!areas.includes(datos[id].area)
-){
-
-areas.push(
-datos[id].area
-);
-
-}
-
-}
-
-filtro.innerHTML =
-'<option value="">
-📋 Todas las Áreas
-
-</option>';
-
-areas.forEach(area=>{
-
-filtro.innerHTML +=
-`<option value="${area}">
-${area}
-
-</option>`;
 
 });
 
