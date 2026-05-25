@@ -166,4 +166,84 @@ localStorage.removeItem(
 window.location.href =
 "login.html";
 
+window.imprimirReporte = function(id){
+
+onValue(
+ref(db,"equipos/"+id),
+(snapshot)=>{
+
+let e = snapshot.val();
+
+let ventana =
+window.open(
+"",
+"",
+"width=900,height=900"
+);
+
+ventana.document.write(`
+
+<html>
+
+<head>
+
+<title>
+Reporte Técnico
+</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:30px;
 }
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+td{
+border:1px solid #000;
+padding:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>
+🖥️ REGISTRO TÉCNICO
+</h2>
+
+<table>
+
+<tr><td>Área</td><td>${e.area}</td></tr>
+<tr><td>Equipo</td><td>${e.equipo}</td></tr>
+<tr><td>Modelo</td><td>${e.modelo}</td></tr>
+<tr><td>Marca</td><td>${e.marca}</td></tr>
+<tr><td>Serie</td><td>${e.serie}</td></tr>
+<tr><td>Estado</td><td>${e.estado}</td></tr>
+<tr><td>Observaciones</td><td>${e.observaciones}</td></tr>
+<tr><td>Técnico</td><td>${e.tecnico}</td></tr>
+
+</table>
+
+</body>
+
+</html>
+
+`);
+
+setTimeout(()=>{
+
+ventana.print();
+
+},800);
+
+});
+
+}
+
