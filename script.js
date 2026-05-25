@@ -303,6 +303,176 @@ window.location.href =
 }
 
 window.imprimirReporte = function(id){
+window.imprimirReporte = function(id){
+
+onValue(
+ref(db,"equipos/"+id),
+(snapshot)=>{
+
+let e = snapshot.val();
+
+let ventana =
+window.open(
+"",
+"",
+"width=900,height=900"
+);
+
+ventana.document.write(`
+
+<html>
+
+<head>
+
+<title>
+Reporte Técnico
+</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:30px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+td{
+border:1px solid #000;
+padding:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h2>
+🖥️ REGISTRO TÉCNICO
+</h2>
+
+<table>
+
+<tr><td>Área</td><td>${e.area}</td></tr>
+<tr><td>Equipo</td><td>${e.equipo}</td></tr>
+<tr><td>Servicio</td><td>${e.servicio}</td></tr>
+<tr><td>Modelo</td><td>${e.modelo}</td></tr>
+<tr><td>Marca</td><td>${e.marca}</td></tr>
+<tr><td>Serie</td><td>${e.serie}</td></tr>
+<tr><td>Código</td><td>${e.codigo}</td></tr>
+<tr><td>Disco</td><td>${e.disco}</td></tr>
+<tr><td>Memoria</td><td>${e.memoria}</td></tr>
+<tr><td>Monitor</td><td>${e.monitor}</td></tr>
+<tr><td>Teclado</td><td>${e.teclado}</td></tr>
+<tr><td>Mouse</td><td>${e.mouse}</td></tr>
+<tr><td>Impresora</td><td>${e.impresora}</td></tr>
+<tr><td>Teléfono</td><td>${e.telefono}</td></tr>
+<tr><td>Antivirus</td><td>${e.antivirus}</td></tr>
+<tr><td>Mantenimiento</td><td>${e.mantenimiento}</td></tr>
+<tr><td>Estado</td><td>${e.estado}</td></tr>
+<tr><td>Observaciones</td><td>${e.observaciones}</td></tr>
+<tr><td>Técnico</td><td>${e.tecnico}</td></tr>
+
+</table>
+
+</body>
+
+</html>
+
+`);
+
+setTimeout(()=>{
+
+ventana.print();
+
+},800);
+
+});
+
+}
+
+window.imprimirArea = function(){
+
+let areaSeleccionada =
+document.getElementById(
+"filtroArea"
+).value;
+
+let filas =
+document.querySelectorAll(
+"#lista tr"
+);
+
+let contenido = `
+
+<h2 style="text-align:center;">
+🖥️ REGISTROS TÉCNICOS
+</h2>
+
+<table border="1"
+style="
+width:100%;
+border-collapse:collapse;
+font-family:Arial;
+">
+
+<tr>
+
+<th>#</th>
+<th>Fecha</th>
+<th>Equipo</th>
+<th>Área</th>
+<th>Estado</th>
+<th>Técnico</th>
+
+</tr>
+
+`;
+
+filas.forEach(fila=>{
+
+let areaFila =
+fila.children[3].innerText;
+
+if(
+areaSeleccionada=="" ||
+areaFila==areaSeleccionada
+){
+
+contenido += `
+
+<tr>
+${fila.innerHTML}
+</tr>
+`;
+
+}
+
+});
+
+contenido += "</table>";
+
+let ventana =
+window.open(
+"",
+"",
+"width=1000,height=800"
+);
+
+ventana.document.write(contenido);
+
+setTimeout(()=>{
+
+ventana.print();
+
+},800);
+
+}
+
 
 onValue(
 ref(db,"equipos/"+id),
