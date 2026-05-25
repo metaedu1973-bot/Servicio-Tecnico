@@ -184,6 +184,7 @@ imagenDefault
 }
 
 }
+onValue(equiposRef,(snapshot)=>{
 
 let datos = snapshot.val();
 
