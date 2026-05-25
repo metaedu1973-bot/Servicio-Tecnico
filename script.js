@@ -80,13 +80,16 @@ guardarLista("areas",area.value);
 guardarLista("equipos",equipo.value);
 guardarLista("marcas",marca.value);
 
+let imagenDefault =
+"https://cdn-icons-png.flaticon.com/512/847/847969.png";
+
 let fotoInput =
 document.getElementById("foto");
 
 let archivo =
 fotoInput.files[0];
 
-function guardarDatos(imagen){
+function procesarGuardado(fotoFinal){
 
 let datos = {
 
@@ -100,8 +103,7 @@ document.getElementById(
 contador + 1,
 
 fecha:
-new Date()
-.toLocaleDateString(),
+new Date().toLocaleDateString(),
 
 area: area.value,
 equipo: equipo.value,
@@ -128,7 +130,7 @@ localStorage.getItem(
 "tecnico"
 ),
 
-foto: imagen
+foto: fotoFinal
 
 };
 
@@ -149,6 +151,11 @@ push(equiposRef,datos);
 
 limpiar();
 
+document.getElementById(
+"numeroReporte"
+).innerText =
+"#" + (contador + 1);
+
 }
 
 if(archivo){
@@ -158,7 +165,7 @@ new FileReader();
 
 lector.onload = function(e){
 
-guardarDatos(
+procesarGuardado(
 e.target.result
 );
 
@@ -170,39 +177,13 @@ archivo
 
 }else{
 
-guardarDatos(
-"https://cdn-icons-png.flaticon.com/512/847/847969.png"
+procesarGuardado(
+imagenDefault
 );
 
 }
 
 }
-
-
-limpiar();
-
-}
-
-if(archivo){
-
-lector.readAsDataURL(
-archivo
-);
-
-}else{
-
-lector.onload({
-target:{
-result:
-"https://cdn-icons-png.flaticon.com/512/847/847969.png"
-}
-});
-
-}
-
-}
-
-onValue(equiposRef,(snapshot)=>{
 
 let datos = snapshot.val();
 
