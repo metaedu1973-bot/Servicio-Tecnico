@@ -54,7 +54,7 @@ localStorage.getItem("tecnico") || "";
 
 document.getElementById("nombreTecnico").innerHTML =
 "👨‍🔧 " +
-(localStorage.getItem("tecnico") || "Técnico");
+localStorage.getItem("usuarioActivo");
 
 document.getElementById("fechaActual").innerHTML =
 "📅 " + new Date().toLocaleDateString();
