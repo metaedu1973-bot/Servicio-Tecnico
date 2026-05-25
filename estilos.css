@@ -216,11 +216,45 @@ cursor:pointer;
 .acciones{
 
 display:flex;
-gap:10px;
-margin-top:18px;
+
 flex-wrap:wrap;
 
+gap:12px;
+
+margin-top:20px;
+
+margin-bottom:20px;
+
+align-items:center;
+
 }
+
+.acciones button{
+
+padding:12px 18px;
+
+border:none;
+
+border-radius:10px;
+
+cursor:pointer;
+
+font-size:14px;
+
+font-weight:bold;
+
+}
+
+.acciones select{
+
+padding:12px;
+
+border-radius:10px;
+
+min-width:220px;
+
+}
+
 
 #buscar{
 
