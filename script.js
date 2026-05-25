@@ -255,6 +255,7 @@ campo.value="";
 
 });
 
+
 document.getElementById("estado")
 .value =
 "Pendiente";
