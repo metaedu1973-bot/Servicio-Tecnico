@@ -52,7 +52,7 @@ let editandoID = null;
 document.getElementById("tecnico").value =
 localStorage.getItem("usuarioActivo") || "";
 
-let tecnicoActivo =
+const tecnicoActivo =
 localStorage.getItem("usuarioActivo");
 
 document.getElementById("nombreTecnico").innerHTML =
