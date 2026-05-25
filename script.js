@@ -283,16 +283,6 @@ document.getElementById(
 });
 
 
-document.getElementById("estado")
-.value =
-"Pendiente";
-
-document.getElementById("tecnico")
-.value =
-localStorage.getItem("tecnico");
-
-}
-
 window.nuevoReporte = function(){
 
 limpiar();
