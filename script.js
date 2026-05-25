@@ -159,6 +159,46 @@ document.getElementById("totalMantenimientos")
 document.getElementById("numeroReporte")
 .innerText =
 "#" + (contador + 1);
+let filtro =
+document.getElementById(
+"filtroArea"
+);
+
+if(filtro){
+
+let areas = [];
+
+for(let id in datos){
+
+if(
+!areas.includes(datos[id].area)
+){
+
+areas.push(
+datos[id].area
+);
+
+}
+
+}
+
+filtro.innerHTML =
+'<option value="">
+📋 Todas las Áreas
+
+</option>';
+
+areas.forEach(area=>{
+
+filtro.innerHTML +=
+`<option value="${area}">
+${area}
+
+</option>`;
+
+});
+
+}
 
 });
 
