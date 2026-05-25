@@ -47,12 +47,7 @@ const equiposRef = ref(db,"equipos");
 let contador = 0;
 
 const tecnicoActivo =
-localStorage.getItem("usuarioActivo");
-
-document.getElementById("nombreTecnico").innerHTML =
-"👨‍🔧 " + tecnicoActivo;
-
-}
+localStorage.getItem("usuarioActivo") || "Técnico";
 
 document.getElementById("nombreTecnico").innerHTML =
 "👨‍🔧 " + tecnicoActivo;
@@ -99,6 +94,8 @@ let html = "";
 
 contador = 0;
 
+if(datos){
+
 for(let id in datos){
 
 contador++;
@@ -110,15 +107,32 @@ html += `
 <tr>
 
 <td>#${e.numero}</td>
+
 <td>${e.fecha}</td>
+
 <td>${e.equipo}</td>
+
 <td>${e.area}</td>
+
 <td>${e.estado}</td>
+
 <td>${e.tecnico}</td>
+
+<td>
+
+<button onclick="imprimirReporte('${id}')">
+
+🖨️ Imprimir
+
+</button>
+
+</td>
 
 </tr>
 
 `;
+
+}
 
 }
 
@@ -171,6 +185,8 @@ localStorage.removeItem(
 window.location.href =
 "login.html";
 
+}
+
 window.imprimirReporte = function(id){
 
 onValue(
@@ -203,9 +219,14 @@ font-family:Arial;
 padding:30px;
 }
 
+h2{
+text-align:center;
+}
+
 table{
 width:100%;
 border-collapse:collapse;
+margin-top:20px;
 }
 
 td{
@@ -225,16 +246,25 @@ padding:10px;
 
 <table>
 
-<tr><td>Número</td><td>#${e.numero}</td></tr>
-<tr><td>Fecha</td><td>${e.fecha}</td></tr>
-<tr><td>Área</td><td>${e.area}</td></tr>
-<tr><td>Equipo</td><td>${e.equipo}</td></tr>
-<tr><td>Modelo</td><td>${e.modelo}</td></tr>
-<tr><td>Marca</td><td>${e.marca}</td></tr>
-<tr><td>Serie</td><td>${e.serie}</td></tr>
-<tr><td>Estado</td><td>${e.estado}</td></tr>
-<tr><td>Observaciones</td><td>${e.observaciones}</td></tr>
-<tr><td>Técnico</td><td>${e.tecnico}</td></tr>
+<tr><td><b>Número</b></td><td>#${e.numero}</td></tr>
+
+<tr><td><b>Fecha</b></td><td>${e.fecha}</td></tr>
+
+<tr><td><b>Área</b></td><td>${e.area}</td></tr>
+
+<tr><td><b>Equipo</b></td><td>${e.equipo}</td></tr>
+
+<tr><td><b>Modelo</b></td><td>${e.modelo}</td></tr>
+
+<tr><td><b>Marca</b></td><td>${e.marca}</td></tr>
+
+<tr><td><b>Serie</b></td><td>${e.serie}</td></tr>
+
+<tr><td><b>Estado</b></td><td>${e.estado}</td></tr>
+
+<tr><td><b>Observaciones</b></td><td>${e.observaciones}</td></tr>
+
+<tr><td><b>Técnico</b></td><td>${e.tecnico}</td></tr>
 
 </table>
 
@@ -253,43 +283,3 @@ ventana.print();
 });
 
 }
-
-</style>
-
-</head>
-
-<body>
-
-<h2>
-🖥️ REGISTRO TÉCNICO
-</h2>
-
-<table>
-
-<tr><td>Área</td><td>${e.area}</td></tr>
-<tr><td>Equipo</td><td>${e.equipo}</td></tr>
-<tr><td>Modelo</td><td>${e.modelo}</td></tr>
-<tr><td>Marca</td><td>${e.marca}</td></tr>
-<tr><td>Serie</td><td>${e.serie}</td></tr>
-<tr><td>Estado</td><td>${e.estado}</td></tr>
-<tr><td>Observaciones</td><td>${e.observaciones}</td></tr>
-<tr><td>Técnico</td><td>${e.tecnico}</td></tr>
-
-</table>
-
-</body>
-
-</html>
-
-`);
-
-setTimeout(()=>{
-
-ventana.print();
-
-},800);
-
-});
-
-}
-
