@@ -1,43 +1,357 @@
-let corredores = [];
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control de Vueltas - Corredores</title>
 
-function agregarCorredor() {
-  let numero = document.getElementById("numero").value;
-  let nombre = document.getElementById("nombre").value;
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
 
-  if (numero === "" || nombre === "") {
-    alert("Ingresa número y nombre del corredor");
-    return;
-  }
+    body {
+      background: #f1f5f9;
+      min-height: 100vh;
+      padding: 20px;
+      color: #0f172a;
+    }
 
-  corredores.push({
-    numero: numero,
-    nombre: nombre,
-    vueltas: 0
-  });
+    .contenedor {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    }
 
-  document.getElementById("numero").value = "";
-  document.getElementById("nombre").value = "";
+    h1 {
+      text-align: center;
+      margin-bottom: 8px;
+      color: #1e40af;
+    }
 
-  mostrarCorredores();
-}
+    .subtitulo {
+      text-align: center;
+      color: #64748b;
+      margin-bottom: 25px;
+    }
 
-function sumarVuelta(index) {
-  corredores[index].vueltas++;
-  mostrarCorredores();
-}
+    .formulario {
+      display: grid;
+      grid-template-columns: 1fr 2fr auto;
+      gap: 10px;
+      margin-bottom: 25px;
+    }
 
-function mostrarCorredores() {
-  let lista = document.getElementById("lista");
-  lista.innerHTML = "";
+    input {
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+    }
 
-  corredores.forEach((corredor, index) => {
-    lista.innerHTML += `
-      <div class="corredor">
-        <h3>#${corredor.numero}</h3>
-        <p><strong>${corredor.nombre}</strong></p>
-        <p>Vueltas: ${corredor.vueltas}</p>
-        <button onclick="sumarVuelta(${index})">+1 Vuelta</button>
+    input:focus {
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37,99,235,0.15);
+    }
+
+    button {
+      border: none;
+      border-radius: 10px;
+      padding: 12px 16px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .btn-agregar {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-vuelta {
+      background: #16a34a;
+      color: white;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .btn-restar {
+      background: #f59e0b;
+      color: white;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .btn-eliminar {
+      background: #dc2626;
+      color: white;
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .btn-limpiar {
+      background: #0f172a;
+      color: white;
+      margin-bottom: 18px;
+    }
+
+    button:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .resumen {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .card-resumen {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      padding: 15px;
+      border-radius: 14px;
+      text-align: center;
+    }
+
+    .card-resumen h2 {
+      color: #1d4ed8;
+      font-size: 28px;
+    }
+
+    .card-resumen p {
+      color: #64748b;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    #lista {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 15px;
+    }
+
+    .corredor {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 6px 18px rgba(15,23,42,0.08);
+    }
+
+    .numero {
+      display: inline-block;
+      background: #1e40af;
+      color: white;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .nombre {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .vueltas {
+      font-size: 32px;
+      color: #16a34a;
+      font-weight: bold;
+      margin-bottom: 3px;
+    }
+
+    .texto-vueltas {
+      color: #64748b;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .vacio {
+      text-align: center;
+      color: #64748b;
+      padding: 25px;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px dashed #cbd5e1;
+    }
+
+    @media (max-width: 650px) {
+      .formulario {
+        grid-template-columns: 1fr;
+      }
+
+      .resumen {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="contenedor">
+    <h1>Control de Vueltas</h1>
+    <p class="subtitulo">Sistema para registrar corredores y sumar vueltas</p>
+
+    <div class="formulario">
+      <input type="number" id="numero" placeholder="N° corredor">
+      <input type="text" id="nombre" placeholder="Nombre del corredor">
+      <button class="btn-agregar" onclick="agregarCorredor()">Agregar</button>
+    </div>
+
+    <div class="resumen">
+      <div class="card-resumen">
+        <h2 id="totalCorredores">0</h2>
+        <p>Corredores</p>
       </div>
-    `;
-  });
-}
+
+      <div class="card-resumen">
+        <h2 id="totalVueltas">0</h2>
+        <p>Vueltas totales</p>
+      </div>
+
+      <div class="card-resumen">
+        <h2 id="mayorVueltas">0</h2>
+        <p>Mayor vuelta</p>
+      </div>
+    </div>
+
+    <button class="btn-limpiar" onclick="limpiarTodo()">Limpiar todo</button>
+
+    <div id="lista">
+      <div class="vacio">Todavía no hay corredores registrados</div>
+    </div>
+  </div>
+
+  <script>
+    let corredores = JSON.parse(localStorage.getItem("corredores")) || [];
+
+    function guardarDatos() {
+      localStorage.setItem("corredores", JSON.stringify(corredores));
+    }
+
+    function agregarCorredor() {
+      let numero = document.getElementById("numero").value.trim();
+      let nombre = document.getElementById("nombre").value.trim();
+
+      if (numero === "" || nombre === "") {
+        alert("Ingresa número y nombre del corredor");
+        return;
+      }
+
+      let existeNumero = corredores.some(corredor => corredor.numero === numero);
+
+      if (existeNumero) {
+        alert("Ya existe un corredor con ese número");
+        return;
+      }
+
+      corredores.push({
+        numero: numero,
+        nombre: nombre,
+        vueltas: 0
+      });
+
+      document.getElementById("numero").value = "";
+      document.getElementById("nombre").value = "";
+
+      guardarDatos();
+      mostrarCorredores();
+    }
+
+    function sumarVuelta(index) {
+      corredores[index].vueltas++;
+      guardarDatos();
+      mostrarCorredores();
+    }
+
+    function restarVuelta(index) {
+      if (corredores[index].vueltas > 0) {
+        corredores[index].vueltas--;
+        guardarDatos();
+        mostrarCorredores();
+      }
+    }
+
+    function eliminarCorredor(index) {
+      if (confirm("¿Seguro que deseas eliminar este corredor?")) {
+        corredores.splice(index, 1);
+        guardarDatos();
+        mostrarCorredores();
+      }
+    }
+
+    function limpiarTodo() {
+      if (confirm("¿Seguro que deseas borrar todos los corredores?")) {
+        corredores = [];
+        guardarDatos();
+        mostrarCorredores();
+      }
+    }
+
+    function mostrarCorredores() {
+      let lista = document.getElementById("lista");
+      lista.innerHTML = "";
+
+      if (corredores.length === 0) {
+        lista.innerHTML = '<div class="vacio">Todavía no hay corredores registrados</div>';
+        actualizarResumen();
+        return;
+      }
+
+      corredores.forEach((corredor, index) => {
+        lista.innerHTML += `
+          <div class="corredor">
+            <span class="numero">#${corredor.numero}</span>
+            <div class="nombre">${corredor.nombre}</div>
+
+            <div class="vueltas">${corredor.vueltas}</div>
+            <div class="texto-vueltas">Vueltas</div>
+
+            <button class="btn-vuelta" onclick="sumarVuelta(${index})">+1 Vuelta</button>
+            <button class="btn-restar" onclick="restarVuelta(${index})">-1 Vuelta</button>
+            <button class="btn-eliminar" onclick="eliminarCorredor(${index})">Eliminar</button>
+          </div>
+        `;
+      });
+
+      actualizarResumen();
+    }
+
+    function actualizarResumen() {
+      let totalCorredores = corredores.length;
+      let totalVueltas = corredores.reduce((suma, corredor) => suma + corredor.vueltas, 0);
+      let mayorVueltas = corredores.length > 0 ? Math.max(...corredores.map(corredor => corredor.vueltas)) : 0;
+
+      document.getElementById("totalCorredores").textContent = totalCorredores;
+      document.getElementById("totalVueltas").textContent = totalVueltas;
+      document.getElementById("mayorVueltas").textContent = mayorVueltas;
+    }
+
+    document.getElementById("nombre").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        agregarCorredor();
+      }
+    });
+
+    document.getElementById("numero").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        agregarCorredor();
+      }
+    });
+
+    mostrarCorredores();
+  </script>
+
+</body>
+</html>
