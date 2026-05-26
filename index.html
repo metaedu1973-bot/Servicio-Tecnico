@@ -335,6 +335,7 @@
       padding: 22px;
       box-shadow: var(--shadow);
       border: 1px solid var(--border);
+      margin-bottom: 20px;
     }
 
     .panel-title {
@@ -442,6 +443,16 @@
       color: #b91c1c;
     }
 
+    .rol-tecnico {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .rol-supervisor {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
     .row-actions {
       display: flex;
       gap: 7px;
@@ -500,6 +511,10 @@
       margin-bottom: 14px;
       font-size: 13px;
       font-weight: 600;
+    }
+
+    #panelUsuarios {
+      display: none;
     }
 
     @media (max-width: 1000px) {
@@ -571,7 +586,7 @@
         padding: 0;
       }
 
-      .topbar, .dashboard, .panel:first-child, .toolbar, .search-box, .footer-note, .notice {
+      .topbar, .dashboard, .panel:first-child, .toolbar, .search-box, .footer-note, .notice, #panelUsuarios {
         display: none !important;
       }
 
@@ -696,6 +711,31 @@
       <div class="stat-card">
         <h2 id="entregados">0</h2>
         <p>Entregados</p>
+      </div>
+    </section>
+
+    <section class="panel" id="panelUsuarios">
+      <div class="table-header">
+        <h2 class="panel-title">👥 Administración de usuarios</h2>
+      </div>
+
+      <div class="notice">
+        Solo el supervisor puede administrar usuarios. Puede eliminar técnicos, pero no puede eliminarse a sí mismo ni eliminar otros supervisores.
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>N°</th>
+              <th>Nombre</th>
+              <th>Usuario</th>
+              <th>Rol</th>
+              <th>Acción</th>
+            </tr>
+          </thead>
+          <tbody id="tablaUsuarios"></tbody>
+        </table>
       </div>
     </section>
 
@@ -874,8 +914,16 @@
       return "registrosServicioTecnicoCNE_" + usuarioActivo.usuario;
     }
 
+    function claveRegistrosPorUsuario(usuario) {
+      return "registrosServicioTecnicoCNE_" + usuario;
+    }
+
     function claveBorradorUsuario() {
       return "borradorServicioTecnicoCNE_" + usuarioActivo.usuario;
+    }
+
+    function claveBorradorPorUsuario(usuario) {
+      return "borradorServicioTecnicoCNE_" + usuario;
     }
 
     function cargarRegistrosUsuario() {
@@ -998,10 +1046,12 @@
 
       if (esSupervisor()) {
         document.getElementById("btnLimpiarTodo").style.display = "inline-flex";
-        document.getElementById("avisoRol").textContent = "Supervisor: puedes crear, editar y borrar reportes.";
+        document.getElementById("panelUsuarios").style.display = "block";
+        document.getElementById("avisoRol").textContent = "Supervisor: puedes crear, editar y borrar reportes. También puedes eliminar usuarios técnicos.";
       } else {
         document.getElementById("btnLimpiarTodo").style.display = "none";
-        document.getElementById("avisoRol").textContent = "Técnico: puedes crear y editar reportes. No tienes permiso para borrar registros.";
+        document.getElementById("panelUsuarios").style.display = "none";
+        document.getElementById("avisoRol").textContent = "Técnico: puedes crear y editar reportes. No tienes permiso para borrar registros ni usuarios.";
       }
 
       cargarRegistrosUsuario();
@@ -1009,6 +1059,7 @@
       nuevoRegistro(false);
       cargarBorrador();
       renderTabla();
+      renderUsuarios();
     }
 
     function cerrarSesion() {
@@ -1019,6 +1070,87 @@
       document.getElementById("app").style.display = "none";
       document.getElementById("loginScreen").style.display = "flex";
       mensajeLogin.className = "mensaje";
+    }
+
+    function renderUsuarios() {
+      const tbody = document.getElementById("tablaUsuarios");
+
+      if (!tbody) return;
+
+      if (!esSupervisor()) {
+        tbody.innerHTML = "";
+        return;
+      }
+
+      const usuarios = obtenerUsuarios();
+
+      if (usuarios.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="empty">No hay usuarios registrados</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = usuarios.map((u, index) => {
+        let claseRol = u.rol === "supervisor" ? "rol-supervisor" : "rol-tecnico";
+        let boton = "";
+
+        if (u.usuario === usuarioActivo.usuario) {
+          boton = `<button class="icon-btn btn-disabled" onclick="alert('No puedes eliminar tu propio usuario.')">🔒</button>`;
+        } else if (u.rol === "supervisor") {
+          boton = `<button class="icon-btn btn-disabled" onclick="alert('No puedes eliminar otro supervisor desde este panel.')">🔒</button>`;
+        } else {
+          boton = `<button class="icon-btn btn-danger" onclick="eliminarTecnico('${escapeJS(u.usuario)}')">🗑️ Eliminar</button>`;
+        }
+
+        return `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${escapeHTML(u.nombre)}</td>
+            <td>${escapeHTML(u.usuario)}</td>
+            <td><span class="badge ${claseRol}">${escapeHTML(u.rol)}</span></td>
+            <td>${boton}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function eliminarTecnico(usuario) {
+      if (!esSupervisor()) {
+        alert("No tienes permiso para eliminar usuarios.");
+        return;
+      }
+
+      let usuarios = obtenerUsuarios();
+      const usuarioEncontrado = usuarios.find(u => u.usuario === usuario);
+
+      if (!usuarioEncontrado) {
+        alert("Usuario no encontrado.");
+        return;
+      }
+
+      if (usuarioEncontrado.rol === "supervisor") {
+        alert("No se puede eliminar un supervisor desde este panel.");
+        return;
+      }
+
+      if (usuarioEncontrado.usuario === usuarioActivo.usuario) {
+        alert("No puedes eliminar tu propio usuario.");
+        return;
+      }
+
+      const confirmar = confirm(
+        "¿Seguro que deseas eliminar al técnico '" + usuarioEncontrado.nombre + "'?\n\nTambién se eliminarán sus registros guardados y su borrador."
+      );
+
+      if (!confirmar) return;
+
+      usuarios = usuarios.filter(u => u.usuario !== usuario);
+      guardarUsuarios(usuarios);
+
+      localStorage.removeItem(claveRegistrosPorUsuario(usuario));
+      localStorage.removeItem(claveBorradorPorUsuario(usuario));
+
+      renderUsuarios();
+      alert("Técnico eliminado correctamente.");
     }
 
     form.addEventListener("submit", function(e) {
@@ -1440,6 +1572,10 @@
         .replaceAll(">", "&gt;")
         .replaceAll('"', "&quot;")
         .replaceAll("'", "&#039;");
+    }
+
+    function escapeJS(texto) {
+      return String(texto).replaceAll("\\", "\\\\").replaceAll("'", "\\'");
     }
 
     iniciarSistema();
