@@ -31,6 +31,18 @@
     table{width:100%;border-collapse:collapse;min-width:1000px;background:white}th{background:var(--oscuro);color:white;padding:12px;text-align:left;font-size:13px}td{padding:11px 12px;border-bottom:1px solid var(--borde);font-size:14px;vertical-align:top}tr:hover td{background:#f8fafc}
     .badge{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;display:inline-block;white-space:nowrap}.estado-recibido{background:#dbeafe;color:#1d4ed8}.estado-revision{background:#fef3c7;color:#b45309}.estado-reparacion{background:#ffedd5;color:#c2410c}.estado-listo{background:#dcfce7;color:#15803d}.estado-entregado{background:#e0e7ff;color:#4338ca}.estado-no{background:#fee2e2;color:#b91c1c}.rol-tecnico{background:#dbeafe;color:#1d4ed8}.rol-supervisor{background:#dcfce7;color:#15803d}
     .row-actions{display:flex;gap:6px;flex-wrap:wrap}.icon-btn{border:none;border-radius:9px;padding:8px 10px;color:white;cursor:pointer;font-weight:800}.empty{text-align:center;color:var(--gris);padding:25px;font-weight:700}.mensaje{margin-top:12px;padding:10px;border-radius:12px;font-size:14px;display:none}.mensaje.ok{background:#dcfce7;color:#166534;display:block}.mensaje.error{background:#fee2e2;color:#991b1b;display:block}#panelUsuarios{display:none}.footer-note{text-align:center;color:var(--gris);font-size:13px;margin-top:16px}
+
+    .password-wrap{position:relative;display:flex;align-items:center}
+    .password-wrap input{padding-right:48px}
+    .eye-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:none;background:transparent;cursor:pointer;font-size:18px;padding:6px;border-radius:8px;width:auto}
+    .eye-btn:hover{background:#e2e8f0;transform:translateY(-50%)}
+    .recover-link{border:none;background:transparent;color:var(--azul2);font-size:13px;font-weight:800;cursor:pointer;margin:10px auto 0;display:block;text-decoration:underline;padding:4px}
+    .recover-link:hover{color:var(--azul);opacity:.9}
+    .modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.65);display:none;align-items:center;justify-content:center;z-index:9999;padding:16px}
+    .modal-card{width:100%;max-width:420px;background:white;border-radius:18px;padding:22px;box-shadow:0 20px 50px rgba(0,0,0,.25)}
+    .modal-card h2{font-size:20px;margin-bottom:8px;color:#0f172a}
+    .modal-card p{color:#64748b;font-size:14px;margin-bottom:16px}
+    .modal-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
     @media(max-width:1000px){.dashboard{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.filters{grid-template-columns:1fr}}@media(max-width:650px){body{padding:12px}.topbar{flex-direction:column;align-items:flex-start}.top-actions{width:100%;justify-content:flex-start}.user-box{width:100%}.dashboard{grid-template-columns:1fr}.form-row,.actions{grid-template-columns:1fr}.btn{width:100%}.toolbar .btn{width:100%}.brand h1{font-size:21px}}
     @media print{body{background:white;padding:0}.topbar,.dashboard,.panel:first-child,.toolbar,.filters,.footer-note,.notice,#panelUsuarios{display:none!important}.grid{display:block}.panel{box-shadow:none;border:none}th{background:#111!important;color:white!important}.row-actions{display:none}}
   </style>
@@ -49,7 +61,7 @@
         <div class="form-group"><label>Usuario</label><input type="text" id="loginUsuario" placeholder="Ej: tecnico_cne" required></div>
         <div class="form-group"><label>Contraseña</label><div class="password-wrap"><input type="password" id="loginPassword" placeholder="Ingresa tu contraseña" required><button type="button" class="eye-btn" onclick="togglePassword('loginPassword', this)">👁️</button></div></div>
         <button type="submit" class="btn btn-primary btn-full">🔐 Ingresar</button>
-        <button type="button" class="btn btn-dark btn-full" onclick="recuperarContrasena()">🔑 Olvidé mi contraseña</button>
+        <button type="button" class="recover-link" onclick="abrirModalRecuperar()">¿Olvidaste tu contraseña?</button>
       </form>
       <form id="formRegistroUsuario" style="display:none;">
         <div class="form-group"><label>Nombre completo</label><input type="text" id="nuevoNombre" placeholder="Nombre del funcionario" required></div>
@@ -120,59 +132,33 @@
   </div>
 
 
-  <div class="modal-overlay" id="modalClave">
+
+  <div class="modal-overlay" id="modalRecuperar">
     <div class="modal-card">
-      <h2>🔑 Cambiar contraseña</h2>
-      <p id="textoModalClave">Escribe la nueva contraseña del técnico.</p>
+      <h2>🔑 Recuperar contraseña</h2>
+      <p>Escribe tu usuario y tu nombre completo registrado para recuperar tu contraseña.</p>
 
       <div class="form-group">
-        <label>Nueva contraseña</label>
+        <label>Usuario</label>
+        <input type="text" id="recuperarUsuario" placeholder="Ej: tecnico_cne">
+      </div>
+
+      <div class="form-group">
+        <label>Nombre completo registrado</label>
+        <input type="text" id="recuperarNombre" placeholder="Nombre completo">
+      </div>
+
+      <div class="form-group">
+        <label>Contraseña recuperada</label>
         <div class="password-wrap">
-          <input type="password" id="nuevaClaveTecnico" placeholder="Nueva contraseña">
-          <button type="button" class="eye-btn" onclick="togglePassword('nuevaClaveTecnico', this)">👁️</button>
+          <input type="password" id="recuperarResultado" placeholder="Aquí aparecerá tu contraseña" readonly>
+          <button type="button" class="eye-btn" onclick="togglePassword('recuperarResultado', this)">👁️</button>
         </div>
       </div>
 
       <div class="modal-actions">
-        <button type="button" class="btn btn-dark" onclick="cerrarModalClave()">Cancelar</button>
-        <button type="button" class="btn btn-success" onclick="guardarNuevaClave()">Guardar clave</button>
-      </div>
-    </div>
-  </div>
-
-
-  <div class="modal-overlay" id="modalMiClave">
-    <div class="modal-card">
-      <h2>🔑 Cambiar mi contraseña</h2>
-      <p>Escribe tu contraseña actual y luego tu nueva contraseña.</p>
-
-      <div class="form-group">
-        <label>Contraseña actual</label>
-        <div class="password-wrap">
-          <input type="password" id="claveActualUsuario" placeholder="Contraseña actual">
-          <button type="button" class="eye-btn" onclick="togglePassword('claveActualUsuario', this)">👁️</button>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Nueva contraseña</label>
-        <div class="password-wrap">
-          <input type="password" id="claveNuevaUsuario" placeholder="Nueva contraseña">
-          <button type="button" class="eye-btn" onclick="togglePassword('claveNuevaUsuario', this)">👁️</button>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <label>Confirmar nueva contraseña</label>
-        <div class="password-wrap">
-          <input type="password" id="claveConfirmarUsuario" placeholder="Confirmar contraseña">
-          <button type="button" class="eye-btn" onclick="togglePassword('claveConfirmarUsuario', this)">👁️</button>
-        </div>
-      </div>
-
-      <div class="modal-actions">
-        <button type="button" class="btn btn-dark" onclick="cerrarModalMiClave()">Cancelar</button>
-        <button type="button" class="btn btn-success" onclick="guardarMiClave()">Guardar mi clave</button>
+        <button type="button" class="btn btn-dark" onclick="cerrarModalRecuperar()">Cerrar</button>
+        <button type="button" class="btn btn-success" onclick="recuperarContrasena()">Recuperar</button>
       </div>
     </div>
   </div>
@@ -485,132 +471,50 @@
         }else if(u.rol==="supervisor"){
           botones=`<button class="icon-btn btn-disabled" onclick="alert('No puedes modificar otro supervisor desde este panel.')">🔒</button>`;
         }else{
-          botones=`<button class="icon-btn btn-warning" onclick="abrirModalClave('${escapeJS(u.usuario)}')">🔑 Clave</button><button class="icon-btn btn-danger" onclick="eliminarTecnico('${escapeJS(u.usuario)}')">🗑️ Eliminar</button>`;
+          botones=`<button class="icon-btn btn-danger" onclick="eliminarTecnico('${escapeJS(u.usuario)}')">🗑️ Eliminar</button>`;
         }
         return `<tr><td>${index+1}</td><td>${escapeHTML(u.nombre)}</td><td>${escapeHTML(u.usuario)}</td><td><span class="badge ${claseRol}">${escapeHTML(u.rol)}</span></td><td><div class="row-actions">${botones}</div></td></tr>`;
       }).join("");
     }
 
+    function abrirModalRecuperar(){
+      document.getElementById("recuperarUsuario").value = "";
+      document.getElementById("recuperarNombre").value = "";
+      document.getElementById("recuperarResultado").value = "";
+      document.getElementById("recuperarResultado").type = "password";
+      document.getElementById("modalRecuperar").style.display = "flex";
+      setTimeout(() => document.getElementById("recuperarUsuario").focus(), 100);
+    }
+
+    function cerrarModalRecuperar(){
+      document.getElementById("modalRecuperar").style.display = "none";
+      document.getElementById("recuperarUsuario").value = "";
+      document.getElementById("recuperarNombre").value = "";
+      document.getElementById("recuperarResultado").value = "";
+    }
+
     function recuperarContrasena(){
-      alert("Si olvidaste tu contraseña, solicita al supervisor que la cambie desde Administración de usuarios con el botón 🔑 Clave.");
-    }
+      const usuario = document.getElementById("recuperarUsuario").value.trim().toLowerCase();
+      const nombre = document.getElementById("recuperarNombre").value.trim().toLowerCase();
 
-    function abrirModalClave(usuario){
-      if(!esSupervisor()){
-        alert("No tienes permiso para cambiar contraseñas.");
+      if(!usuario || !nombre){
+        alert("Escribe tu usuario y tu nombre completo registrado.");
         return;
       }
 
-      const usuarioEncontrado=usuarios.find(u=>u.usuario===usuario);
+      const usuarioEncontrado = usuarios.find(u =>
+        (u.usuario || "").toLowerCase() === usuario &&
+        (u.nombre || "").toLowerCase() === nombre
+      );
 
       if(!usuarioEncontrado){
-        alert("Usuario no encontrado.");
+        alert("No se encontró un usuario con esos datos. Revisa que el usuario y el nombre completo estén escritos igual como fueron registrados.");
+        document.getElementById("recuperarResultado").value = "";
         return;
       }
 
-      if(usuarioEncontrado.rol==="supervisor"){
-        alert("No puedes cambiar la contraseña de otro supervisor desde este panel.");
-        return;
-      }
-
-      usuarioClavePendiente = usuario;
-      document.getElementById("textoModalClave").textContent = "Nueva contraseña para: " + usuarioEncontrado.nombre;
-      document.getElementById("nuevaClaveTecnico").value = "";
-      document.getElementById("nuevaClaveTecnico").type = "password";
-      document.getElementById("modalClave").style.display = "flex";
-      setTimeout(() => document.getElementById("nuevaClaveTecnico").focus(), 100);
-    }
-
-    function cerrarModalClave(){
-      usuarioClavePendiente = null;
-      document.getElementById("modalClave").style.display = "none";
-      document.getElementById("nuevaClaveTecnico").value = "";
-    }
-
-    async function guardarNuevaClave(){
-      if(!usuarioClavePendiente){
-        alert("No hay usuario seleccionado.");
-        return;
-      }
-
-      const nuevaClave = document.getElementById("nuevaClaveTecnico").value.trim();
-
-      if(!nuevaClave || nuevaClave.length < 4){
-        alert("La contraseña debe tener al menos 4 caracteres.");
-        return;
-      }
-
-      await update(ref(db,"usuarios/"+limpiarClave(usuarioClavePendiente)),{password:nuevaClave});
-      cerrarModalClave();
-      alert("Contraseña actualizada correctamente. El técnico ya puede ingresar con la nueva clave.");
-    }
-
-    function abrirModalMiClave(){
-      if(!usuarioActivo){
-        alert("Debes iniciar sesión.");
-        return;
-      }
-
-      document.getElementById("claveActualUsuario").value = "";
-      document.getElementById("claveNuevaUsuario").value = "";
-      document.getElementById("claveConfirmarUsuario").value = "";
-
-      document.getElementById("claveActualUsuario").type = "password";
-      document.getElementById("claveNuevaUsuario").type = "password";
-      document.getElementById("claveConfirmarUsuario").type = "password";
-
-      document.getElementById("modalMiClave").style.display = "flex";
-      setTimeout(() => document.getElementById("claveActualUsuario").focus(), 100);
-    }
-
-    function cerrarModalMiClave(){
-      document.getElementById("modalMiClave").style.display = "none";
-      document.getElementById("claveActualUsuario").value = "";
-      document.getElementById("claveNuevaUsuario").value = "";
-      document.getElementById("claveConfirmarUsuario").value = "";
-    }
-
-    async function guardarMiClave(){
-      if(!usuarioActivo){
-        alert("Debes iniciar sesión.");
-        return;
-      }
-
-      const actual = document.getElementById("claveActualUsuario").value.trim();
-      const nueva = document.getElementById("claveNuevaUsuario").value.trim();
-      const confirmar = document.getElementById("claveConfirmarUsuario").value.trim();
-
-      if(!actual || !nueva || !confirmar){
-        alert("Completa todos los campos.");
-        return;
-      }
-
-      if(nueva.length < 4){
-        alert("La nueva contraseña debe tener al menos 4 caracteres.");
-        return;
-      }
-
-      if(nueva !== confirmar){
-        alert("La nueva contraseña y la confirmación no coinciden.");
-        return;
-      }
-
-      const usuarioEncontrado = usuarios.find(u => u.usuario === usuarioActivo.usuario);
-
-      if(!usuarioEncontrado){
-        alert("Usuario no encontrado.");
-        return;
-      }
-
-      if(usuarioEncontrado.password !== actual){
-        alert("La contraseña actual no es correcta.");
-        return;
-      }
-
-      await update(ref(db,"usuarios/"+limpiarClave(usuarioActivo.usuario)),{password:nueva});
-
-      cerrarModalMiClave();
-      alert("Tu contraseña fue actualizada correctamente. La próxima vez ingresa con tu nueva clave.");
+      document.getElementById("recuperarResultado").value = usuarioEncontrado.password || "";
+      alert("Contraseña recuperada. Usa el ojito para verla.");
     }
 
     function togglePassword(id, boton){
@@ -722,14 +626,10 @@
     function escapeJS(texto){return String(texto).replaceAll("\\","\\\\").replaceAll("'","\\'");}
     function limpiarClave(texto){return String(texto).toLowerCase().trim().replace(/[.#$\[\]\/]/g,"_");}
 
-    window.cambiarTab=cambiarTab;window.cerrarSesion=cerrarSesion;window.nuevoRegistro=nuevoRegistro;window.renderTabla=renderTabla;window.limpiarFiltros=limpiarFiltros;window.exportarCSV=exportarCSV;window.imprimirReporteFiltrado=imprimirReporteFiltrado;window.editarRegistro=editarRegistro;window.eliminarRegistro=eliminarRegistro;window.sinPermisoBorrar=sinPermisoBorrar;window.imprimirComprobante=imprimirComprobante;window.eliminarTecnico=eliminarTecnico;window.abrirModalClave=abrirModalClave;window.cerrarModalClave=cerrarModalClave;window.guardarNuevaClave=guardarNuevaClave;window.abrirModalMiClave=abrirModalMiClave;window.cerrarModalMiClave=cerrarModalMiClave;window.guardarMiClave=guardarMiClave;window.togglePassword=togglePassword;window.recuperarContrasena=recuperarContrasena;window.limpiarTodo=limpiarTodo;
+    window.cambiarTab=cambiarTab;window.cerrarSesion=cerrarSesion;window.nuevoRegistro=nuevoRegistro;window.renderTabla=renderTabla;window.limpiarFiltros=limpiarFiltros;window.exportarCSV=exportarCSV;window.imprimirReporteFiltrado=imprimirReporteFiltrado;window.editarRegistro=editarRegistro;window.eliminarRegistro=eliminarRegistro;window.sinPermisoBorrar=sinPermisoBorrar;window.imprimirComprobante=imprimirComprobante;window.eliminarTecnico=eliminarTecnico;window.abrirModalRecuperar=abrirModalRecuperar;window.cerrarModalRecuperar=cerrarModalRecuperar;window.recuperarContrasena=recuperarContrasena;window.togglePassword=togglePassword;window.limpiarTodo=limpiarTodo;
 
 
-    document.getElementById("nuevaClaveTecnico").addEventListener("keydown", function(e){
-      if(e.key === "Enter"){
-        guardarNuevaClave();
-      }
-    });
+    ["recuperarUsuario","recuperarNombre"].forEach(id => { document.getElementById(id).addEventListener("keydown", function(e){ if(e.key === "Enter"){ recuperarContrasena(); } }); });
 
     ["claveActualUsuario","claveNuevaUsuario","claveConfirmarUsuario"].forEach(id => {
       document.getElementById(id).addEventListener("keydown", function(e){
