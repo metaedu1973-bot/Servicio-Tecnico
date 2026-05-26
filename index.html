@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CNE - Sistema de Servicio Técnico</title>
 
   <style>
@@ -104,7 +104,7 @@
     }
 
     .app {
-      max-width: 1250px;
+      max-width: 1350px;
       margin: auto;
       display: none;
     }
@@ -182,65 +182,78 @@
       text-transform: uppercase;
     }
 
-    .btn {
-      border: none;
-      padding: 11px 16px;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: .2s;
-      display: inline-flex;
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      right: -25px;
+      top: -25px;
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      background: rgba(37, 99, 235, 0.10);
+    }
+
+    .stat-card h2 {
+      font-size: 32px;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+
+    .stat-card p {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 430px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .panel-title {
+      font-size: 20px;
+      margin-bottom: 16px;
+      display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 7px;
+      gap: 8px;
     }
 
-    .btn:hover {
-      transform: translateY(-1px);
-      opacity: .92;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: white;
-    }
-
-    .btn-dark {
-      background: #020617;
-      color: white;
-    }
-
-    .btn-success {
-      background: var(--success);
-      color: white;
-    }
-
-    .btn-warning {
-      background: var(--warning);
-      color: white;
-    }
-
-    .btn-danger {
-      background: var(--danger);
-      color: white;
-    }
-
-    .btn-light {
-      background: white;
-      color: var(--primary);
-      border: 1px solid rgba(255,255,255,.25);
-    }
-
-    .btn-disabled {
-      background: #94a3b8;
-      color: white;
-      cursor: not-allowed;
-      opacity: 0.8;
-    }
-
-    .btn-full {
-      width: 100%;
-      margin-top: 8px;
+    .notice {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      padding: 12px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      font-weight: 600;
     }
 
     label {
@@ -283,75 +296,39 @@
       gap: 12px;
     }
 
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 22px;
-    }
-
-    .stat-card {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 20px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .stat-card::after {
-      content: "";
-      position: absolute;
-      right: -25px;
-      top: -25px;
-      width: 85px;
-      height: 85px;
-      border-radius: 50%;
-      background: rgba(37, 99, 235, 0.10);
-    }
-
-    .stat-card h2 {
-      font-size: 32px;
-      color: var(--accent);
-      margin-bottom: 5px;
-    }
-
-    .stat-card p {
-      color: var(--muted);
-      font-weight: 600;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 390px 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-
-    .panel {
-      background: var(--card);
-      border-radius: var(--radius);
-      padding: 22px;
-      box-shadow: var(--shadow);
-      border: 1px solid var(--border);
-      margin-bottom: 20px;
-    }
-
-    .panel-title {
-      font-size: 20px;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
     .actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
       margin-top: 15px;
     }
+
+    .btn {
+      border: none;
+      padding: 11px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: .2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: .92;
+    }
+
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-dark { background: #020617; color: white; }
+    .btn-success { background: var(--success); color: white; }
+    .btn-warning { background: var(--warning); color: white; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-light { background: white; color: var(--primary); }
+    .btn-disabled { background: #94a3b8; color: white; cursor: not-allowed; opacity: .8; }
+    .btn-full { width: 100%; margin-top: 8px; }
 
     .table-header {
       display: flex;
@@ -363,7 +340,7 @@
     }
 
     .search-box {
-      max-width: 330px;
+      max-width: 350px;
     }
 
     .toolbar {
@@ -381,7 +358,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      min-width: 850px;
+      min-width: 1000px;
       background: white;
     }
 
@@ -413,45 +390,14 @@
       white-space: nowrap;
     }
 
-    .estado-recibido {
-      background: #dbeafe;
-      color: #1d4ed8;
-    }
-
-    .estado-revision {
-      background: #fef3c7;
-      color: #b45309;
-    }
-
-    .estado-reparacion {
-      background: #ffedd5;
-      color: #c2410c;
-    }
-
-    .estado-listo {
-      background: #dcfce7;
-      color: #15803d;
-    }
-
-    .estado-entregado {
-      background: #e0e7ff;
-      color: #4338ca;
-    }
-
-    .estado-no {
-      background: #fee2e2;
-      color: #b91c1c;
-    }
-
-    .rol-tecnico {
-      background: #dbeafe;
-      color: #1d4ed8;
-    }
-
-    .rol-supervisor {
-      background: #dcfce7;
-      color: #15803d;
-    }
+    .estado-recibido { background: #dbeafe; color: #1d4ed8; }
+    .estado-revision { background: #fef3c7; color: #b45309; }
+    .estado-reparacion { background: #ffedd5; color: #c2410c; }
+    .estado-listo { background: #dcfce7; color: #15803d; }
+    .estado-entregado { background: #e0e7ff; color: #4338ca; }
+    .estado-no { background: #fee2e2; color: #b91c1c; }
+    .rol-tecnico { background: #dbeafe; color: #1d4ed8; }
+    .rol-supervisor { background: #dcfce7; color: #15803d; }
 
     .row-actions {
       display: flex;
@@ -490,123 +436,42 @@
       display: none;
     }
 
-    .mensaje.ok {
-      background: #dcfce7;
-      color: #166534;
-      display: block;
-    }
-
-    .mensaje.error {
-      background: #fee2e2;
-      color: #991b1b;
-      display: block;
-    }
-
-    .notice {
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-      color: #1e40af;
-      padding: 12px;
-      border-radius: 12px;
-      margin-bottom: 14px;
-      font-size: 13px;
-      font-weight: 600;
-    }
+    .mensaje.ok { background: #dcfce7; color: #166534; display: block; }
+    .mensaje.error { background: #fee2e2; color: #991b1b; display: block; }
 
     #panelUsuarios {
       display: none;
     }
 
     @media (max-width: 1000px) {
-      .dashboard {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .grid {
-        grid-template-columns: 1fr;
-      }
+      .dashboard { grid-template-columns: repeat(2, 1fr); }
+      .grid { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 650px) {
-      body {
-        padding: 12px;
-      }
-
-      .topbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-
-      .top-actions {
-        width: 100%;
-        justify-content: flex-start;
-      }
-
-      .user-box {
-        width: 100%;
-      }
-
-      .brand h1 {
-        font-size: 21px;
-      }
-
-      .dashboard {
-        grid-template-columns: 1fr;
-      }
-
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-
-      .actions {
-        grid-template-columns: 1fr;
-      }
-
-      .btn {
-        width: 100%;
-      }
-
-      .toolbar {
-        width: 100%;
-      }
-
-      .toolbar .btn {
-        width: auto;
-        flex: 1;
-      }
-
-      .search-box {
-        max-width: 100%;
-      }
+      body { padding: 12px; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+      .top-actions { width: 100%; justify-content: flex-start; }
+      .user-box { width: 100%; }
+      .brand h1 { font-size: 21px; }
+      .dashboard { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+      .actions { grid-template-columns: 1fr; }
+      .btn { width: 100%; }
+      .toolbar { width: 100%; }
+      .toolbar .btn { flex: 1; }
+      .search-box { max-width: 100%; }
     }
 
     @media print {
-      body {
-        background: white;
-        padding: 0;
-      }
-
+      body { background: white; padding: 0; }
       .topbar, .dashboard, .panel:first-child, .toolbar, .search-box, .footer-note, .notice, #panelUsuarios {
         display: none !important;
       }
-
-      .grid {
-        display: block;
-      }
-
-      .panel {
-        box-shadow: none;
-        border: none;
-      }
-
-      th {
-        background: #111 !important;
-        color: white !important;
-      }
-
-      .row-actions {
-        display: none;
-      }
+      .grid { display: block; }
+      .panel { box-shadow: none; border: none; }
+      th { background: #111 !important; color: white !important; }
+      .row-actions { display: none; }
     }
   </style>
 </head>
@@ -627,7 +492,7 @@
       <form id="formLogin">
         <div class="form-group">
           <label>Usuario</label>
-          <input type="text" id="loginUsuario" placeholder="Ej: responsable1" required>
+          <input type="text" id="loginUsuario" placeholder="Ej: tecnico_cne" required>
         </div>
 
         <div class="form-group">
@@ -654,15 +519,7 @@
           <input type="password" id="nuevoPassword" placeholder="Crea una contraseña" required>
         </div>
 
-        <div class="form-group">
-          <label>Tipo de usuario</label>
-          <select id="nuevoRol" required>
-            <option value="tecnico">Técnico</option>
-            <option value="supervisor">Supervisor</option>
-          </select>
-        </div>
-
-        <button type="submit" class="btn btn-success btn-full">✅ Guardar usuario</button>
+        <button type="submit" class="btn btn-success btn-full">✅ Guardar usuario técnico</button>
       </form>
 
       <div class="mensaje" id="mensajeLogin"></div>
@@ -720,7 +577,7 @@
       </div>
 
       <div class="notice">
-        Solo el supervisor puede administrar usuarios. Puede eliminar técnicos, pero no puede eliminarse a sí mismo ni eliminar otros supervisores.
+        Solo el supervisor puede eliminar usuarios técnicos. No puede eliminarse a sí mismo ni eliminar otros supervisores.
       </div>
 
       <div class="table-wrap">
@@ -742,7 +599,7 @@
     <main class="grid">
 
       <section class="panel">
-        <h2 class="panel-title">📝 Registro Técnico</h2>
+        <h2 class="panel-title">📝 Registro Técnico Institucional</h2>
 
         <div class="notice" id="avisoRol">
           El técnico puede crear y editar reportes. Solo el supervisor puede borrar registros.
@@ -752,6 +609,12 @@
           <input type="hidden" id="editIndex">
 
           <div class="form-group">
+            <label>Área</label>
+            <input type="text" id="area" list="listaAreas" placeholder="Ej: Dirección, Secretaría, Sistemas" required>
+            <datalist id="listaAreas"></datalist>
+          </div>
+
+          <div class="form-group">
             <label>Responsable</label>
             <input type="text" id="responsable" list="listaResponsables" placeholder="Nombre del responsable" required>
             <datalist id="listaResponsables"></datalist>
@@ -759,9 +622,114 @@
 
           <div class="form-row">
             <div class="form-group">
-              <label>Teléfono / Extensión</label>
-              <input type="text" id="telefono" list="listaTelefonos" placeholder="Teléfono o extensión">
-              <datalist id="listaTelefonos"></datalist>
+              <label>Equipo</label>
+              <input type="text" id="equipo" list="listaEquipos" placeholder="Ej: Laptop, CPU, impresora" required>
+              <datalist id="listaEquipos"></datalist>
+            </div>
+
+            <div class="form-group">
+              <label>Servicio</label>
+              <select id="servicio" required>
+                <option value="Mantenimiento preventivo">Mantenimiento preventivo</option>
+                <option value="Mantenimiento correctivo">Mantenimiento correctivo</option>
+                <option value="Instalación de software">Instalación de software</option>
+                <option value="Revisión de hardware">Revisión de hardware</option>
+                <option value="Soporte técnico">Soporte técnico</option>
+                <option value="Configuración">Configuración</option>
+                <option value="Otro">Otro</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Marca</label>
+              <input type="text" id="marca" list="listaMarcas" placeholder="Ej: HP, Dell, Lenovo">
+              <datalist id="listaMarcas"></datalist>
+            </div>
+
+            <div class="form-group">
+              <label>Modelo</label>
+              <input type="text" id="modelo" list="listaModelos" placeholder="Ej: 240 G8, Optiplex">
+              <datalist id="listaModelos"></datalist>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Serie</label>
+              <input type="text" id="serie" list="listaSeries" placeholder="Número de serie">
+              <datalist id="listaSeries"></datalist>
+            </div>
+
+            <div class="form-group">
+              <label>Código institucional</label>
+              <input type="text" id="codigo" list="listaCodigos" placeholder="Código del bien">
+              <datalist id="listaCodigos"></datalist>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Disco duro / Capacidad</label>
+              <input type="text" id="disco" list="listaDiscos" placeholder="Ej: SSD 256GB, HDD 1TB">
+              <datalist id="listaDiscos"></datalist>
+            </div>
+
+            <div class="form-group">
+              <label>Memoria RAM</label>
+              <input type="text" id="memoria" list="listaMemorias" placeholder="Ej: 4GB, 8GB, 16GB">
+              <datalist id="listaMemorias"></datalist>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Monitor</label>
+              <input type="text" id="monitor" list="listaMonitores" placeholder="Marca/modelo o N/A">
+              <datalist id="listaMonitores"></datalist>
+            </div>
+
+            <div class="form-group">
+              <label>Teclado</label>
+              <input type="text" id="teclado" list="listaTeclados" placeholder="Marca/modelo o N/A">
+              <datalist id="listaTeclados"></datalist>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Mouse</label>
+              <input type="text" id="mouse" list="listaMouses" placeholder="Marca/modelo o N/A">
+              <datalist id="listaMouses"></datalist>
+            </div>
+
+            <div class="form-group">
+              <label>Impresora</label>
+              <input type="text" id="impresora" list="listaImpresoras" placeholder="Marca/modelo o N/A">
+              <datalist id="listaImpresoras"></datalist>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Teléfono / Marca</label>
+              <input type="text" id="telefonoMarca" list="listaTelefonosMarca" placeholder="Ej: Cisco, Panasonic, N/A">
+              <datalist id="listaTelefonosMarca"></datalist>
+            </div>
+
+            <div class="form-group">
+              <label>Antivirus</label>
+              <input type="text" id="antivirus" list="listaAntivirus" placeholder="Ej: Windows Defender, ESET">
+              <datalist id="listaAntivirus"></datalist>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Técnico</label>
+              <input type="text" id="tecnico" list="listaTecnicos" placeholder="Nombre del técnico" required>
+              <datalist id="listaTecnicos"></datalist>
             </div>
 
             <div class="form-group">
@@ -771,39 +739,13 @@
           </div>
 
           <div class="form-group">
-            <label>Equipo</label>
-            <input type="text" id="equipo" list="listaEquipos" placeholder="Ej: Laptop, impresora, CPU, cámara" required>
-            <datalist id="listaEquipos"></datalist>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Marca / Modelo</label>
-              <input type="text" id="marca" list="listaMarcas" placeholder="Ej: HP 240 G8">
-              <datalist id="listaMarcas"></datalist>
-            </div>
-
-            <div class="form-group">
-              <label>Técnico</label>
-              <input type="text" id="tecnico" list="listaTecnicos" placeholder="Nombre del técnico" required>
-              <datalist id="listaTecnicos"></datalist>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Área / Departamento</label>
-            <input type="text" id="area" list="listaAreas" placeholder="Ej: Sistemas, Secretaría, Dirección">
-            <datalist id="listaAreas"></datalist>
-          </div>
-
-          <div class="form-group">
             <label>Problema reportado</label>
-            <textarea id="problema" placeholder="Describe el daño o problema del equipo"></textarea>
+            <textarea id="problema" placeholder="Describe el problema encontrado o reportado"></textarea>
           </div>
 
           <div class="form-group">
             <label>Trabajo realizado / Diagnóstico</label>
-            <textarea id="trabajo" placeholder="Describe el mantenimiento o reparación realizada"></textarea>
+            <textarea id="trabajo" placeholder="Describe el mantenimiento, diagnóstico o solución realizada"></textarea>
           </div>
 
           <div class="form-row">
@@ -836,7 +778,7 @@
         <div class="table-header">
           <h2 class="panel-title">📋 Reportes registrados</h2>
 
-          <input class="search-box" type="text" id="buscar" placeholder="🔎 Buscar responsable, equipo, técnico..." oninput="renderTabla()">
+          <input class="search-box" type="text" id="buscar" placeholder="🔎 Buscar área, responsable, equipo, código..." oninput="renderTabla()">
 
           <div class="toolbar">
             <button class="btn btn-success" onclick="exportarCSV()">📊 Excel</button>
@@ -850,18 +792,19 @@
               <tr>
                 <th>N°</th>
                 <th>Fecha</th>
-                <th>Responsable</th>
+                <th>Área / Responsable</th>
                 <th>Equipo</th>
+                <th>Código / Serie</th>
+                <th>Servicio</th>
                 <th>Estado</th>
                 <th>Técnico</th>
-                <th>Costo</th>
                 <th>Acciones</th>
               </tr>
             </thead>
 
             <tbody id="tablaRegistros">
               <tr>
-                <td colspan="8" class="empty">No hay registros todavía</td>
+                <td colspan="9" class="empty">No hay registros todavía</td>
               </tr>
             </tbody>
           </table>
@@ -871,7 +814,7 @@
     </main>
 
     <p class="footer-note">
-      CNE - Sistema de control técnico | Datos guardados por usuario en este navegador
+      CNE - Sistema de control técnico | Datos guardados en este navegador
     </p>
   </div>
 
@@ -882,70 +825,50 @@
     const formLogin = document.getElementById("formLogin");
     const formRegistroUsuario = document.getElementById("formRegistroUsuario");
     const mensajeLogin = document.getElementById("mensajeLogin");
-
     const form = document.getElementById("formRegistro");
     const fechaInput = document.getElementById("fecha");
 
-    const camposBorrador = [
-      "responsable",
-      "telefono",
-      "fecha",
-      "equipo",
-      "marca",
-      "tecnico",
-      "area",
-      "problema",
-      "trabajo",
-      "costo",
-      "estado"
+    const campos = [
+      "area", "responsable", "equipo", "servicio", "marca", "modelo", "serie", "codigo",
+      "disco", "memoria", "monitor", "teclado", "mouse", "impresora", "telefonoMarca",
+      "antivirus", "tecnico", "fecha", "problema", "trabajo", "costo", "estado"
     ];
 
     fechaInput.valueAsDate = new Date();
 
     function obtenerUsuarios() {
-      return JSON.parse(localStorage.getItem("usuariosServicioTecnicoCNE")) || [];
+      let usuarios = JSON.parse(localStorage.getItem("usuariosServicioTecnicoCNE")) || [];
+
+      const existeSupervisor = usuarios.some(u => u.usuario === "supervisor");
+
+      if (!existeSupervisor) {
+        usuarios.push({
+          nombre: "Supervisor CNE",
+          usuario: "supervisor",
+          password: "admin123",
+          rol: "supervisor"
+        });
+
+        localStorage.setItem("usuariosServicioTecnicoCNE", JSON.stringify(usuarios));
+      }
+
+      return usuarios;
     }
 
     function guardarUsuarios(usuarios) {
       localStorage.setItem("usuariosServicioTecnicoCNE", JSON.stringify(usuarios));
     }
 
-    function claveRegistrosUsuario() {
-      return "registrosServicioTecnicoCNE_" + usuarioActivo.usuario;
+    function cargarRegistros() {
+      registros = JSON.parse(localStorage.getItem("registrosServicioTecnicoCNE")) || [];
     }
 
-    function claveRegistrosPorUsuario(usuario) {
-      return "registrosServicioTecnicoCNE_" + usuario;
+    function guardarRegistros() {
+      localStorage.setItem("registrosServicioTecnicoCNE", JSON.stringify(registros));
     }
 
     function claveBorradorUsuario() {
       return "borradorServicioTecnicoCNE_" + usuarioActivo.usuario;
-    }
-
-    function claveBorradorPorUsuario(usuario) {
-      return "borradorServicioTecnicoCNE_" + usuario;
-    }
-
-    function cargarRegistrosUsuario() {
-      if (!usuarioActivo) {
-        registros = [];
-        return;
-      }
-
-      registros = JSON.parse(localStorage.getItem(claveRegistrosUsuario())) || [];
-    }
-
-    function guardar() {
-      localStorage.setItem(claveRegistrosUsuario(), JSON.stringify(registros));
-    }
-
-    function mostrarMensaje(texto, tipo) {
-      mensajeLogin.textContent = texto;
-      mensajeLogin.className = "mensaje " + tipo;
-    }
-
-    function esSupervisor() {
-      return usuarioActivo && usuarioActivo.rol === "supervisor";
     }
 
     function cambiarTab(tab) {
@@ -964,15 +887,23 @@
       }
     }
 
+    function mostrarMensaje(texto, tipo) {
+      mensajeLogin.textContent = texto;
+      mensajeLogin.className = "mensaje " + tipo;
+    }
+
+    function esSupervisor() {
+      return usuarioActivo && usuarioActivo.rol === "supervisor";
+    }
+
     formRegistroUsuario.addEventListener("submit", function(e) {
       e.preventDefault();
 
       const nombre = document.getElementById("nuevoNombre").value.trim();
       const usuario = document.getElementById("nuevoUsuario").value.trim().toLowerCase();
       const password = document.getElementById("nuevoPassword").value.trim();
-      const rol = document.getElementById("nuevoRol").value;
 
-      if (!nombre || !usuario || !password || !rol) {
+      if (!nombre || !usuario || !password) {
         mostrarMensaje("Completa todos los campos.", "error");
         return;
       }
@@ -989,7 +920,7 @@
         nombre: nombre,
         usuario: usuario,
         password: password,
-        rol: rol
+        rol: "tecnico"
       });
 
       guardarUsuarios(usuarios);
@@ -997,9 +928,8 @@
       document.getElementById("nuevoNombre").value = "";
       document.getElementById("nuevoUsuario").value = "";
       document.getElementById("nuevoPassword").value = "";
-      document.getElementById("nuevoRol").value = "tecnico";
 
-      mostrarMensaje("Usuario guardado correctamente. Ahora puedes ingresar.", "ok");
+      mostrarMensaje("Usuario técnico guardado correctamente. Ahora puede ingresar.", "ok");
       cambiarTab("login");
       document.getElementById("loginUsuario").value = usuario;
     });
@@ -1033,6 +963,8 @@
     });
 
     function iniciarSistema() {
+      obtenerUsuarios();
+
       if (!usuarioActivo) {
         document.getElementById("loginScreen").style.display = "flex";
         document.getElementById("app").style.display = "none";
@@ -1041,20 +973,21 @@
 
       document.getElementById("loginScreen").style.display = "none";
       document.getElementById("app").style.display = "block";
+
       document.getElementById("nombreUsuarioActivo").textContent = usuarioActivo.nombre;
       document.getElementById("rolUsuarioActivo").textContent = usuarioActivo.rol;
 
       if (esSupervisor()) {
         document.getElementById("btnLimpiarTodo").style.display = "inline-flex";
         document.getElementById("panelUsuarios").style.display = "block";
-        document.getElementById("avisoRol").textContent = "Supervisor: puedes crear, editar y borrar reportes. También puedes eliminar usuarios técnicos.";
+        document.getElementById("avisoRol").textContent = "Supervisor: puedes crear, editar, borrar reportes y eliminar usuarios técnicos.";
       } else {
         document.getElementById("btnLimpiarTodo").style.display = "none";
         document.getElementById("panelUsuarios").style.display = "none";
         document.getElementById("avisoRol").textContent = "Técnico: puedes crear y editar reportes. No tienes permiso para borrar registros ni usuarios.";
       }
 
-      cargarRegistrosUsuario();
+      cargarRegistros();
       cargarSugerencias();
       nuevoRegistro(false);
       cargarBorrador();
@@ -1072,31 +1005,239 @@
       mensajeLogin.className = "mensaje";
     }
 
+    function obtenerDatosFormulario() {
+      const data = {};
+
+      campos.forEach(id => {
+        data[id] = document.getElementById(id).value.trim();
+      });
+
+      data.registradoPor = usuarioActivo.nombre;
+      data.rolRegistra = usuarioActivo.rol;
+      data.fechaGuardado = new Date().toLocaleString();
+
+      return data;
+    }
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const registro = obtenerDatosFormulario();
+      const editIndex = document.getElementById("editIndex").value;
+
+      if (editIndex === "") {
+        registros.push(registro);
+      } else {
+        registros[editIndex] = {
+          ...registros[editIndex],
+          ...registro,
+          editadoPor: usuarioActivo.nombre,
+          fechaEditado: new Date().toLocaleString()
+        };
+      }
+
+      guardarRegistros();
+      guardarSugerenciasDesdeRegistro(registro);
+      limpiarBorrador();
+      nuevoRegistro(false);
+      cargarSugerencias();
+      renderTabla();
+
+      alert("Registro guardado correctamente.");
+    });
+
+    campos.forEach(id => {
+      document.getElementById(id).addEventListener("input", guardarBorrador);
+      document.getElementById(id).addEventListener("change", guardarBorrador);
+    });
+
+    function guardarBorrador() {
+      if (!usuarioActivo) return;
+
+      const borrador = {};
+
+      campos.forEach(id => {
+        borrador[id] = document.getElementById(id).value;
+      });
+
+      localStorage.setItem(claveBorradorUsuario(), JSON.stringify(borrador));
+    }
+
+    function cargarBorrador() {
+      if (!usuarioActivo) return;
+
+      const borrador = JSON.parse(localStorage.getItem(claveBorradorUsuario())) || null;
+
+      if (!borrador) return;
+
+      const tieneDatos = Object.values(borrador).some(valor => valor && String(valor).trim() !== "");
+
+      if (!tieneDatos) return;
+
+      campos.forEach(id => {
+        if (borrador[id]) {
+          document.getElementById(id).value = borrador[id];
+        }
+      });
+    }
+
+    function limpiarBorrador() {
+      if (!usuarioActivo) return;
+      localStorage.removeItem(claveBorradorUsuario());
+    }
+
+    function nuevoRegistro(limpiarDraft = true) {
+      form.reset();
+      document.getElementById("editIndex").value = "";
+      fechaInput.valueAsDate = new Date();
+      document.querySelector(".btn-primary").innerHTML = "💾 Guardar";
+
+      if (limpiarDraft) {
+        limpiarBorrador();
+      }
+    }
+
+    function renderTabla() {
+      const tbody = document.getElementById("tablaRegistros");
+      const filtro = document.getElementById("buscar").value.toLowerCase();
+
+      const filtrados = registros.filter(r =>
+        (r.area || "").toLowerCase().includes(filtro) ||
+        (r.responsable || "").toLowerCase().includes(filtro) ||
+        (r.equipo || "").toLowerCase().includes(filtro) ||
+        (r.codigo || "").toLowerCase().includes(filtro) ||
+        (r.serie || "").toLowerCase().includes(filtro) ||
+        (r.tecnico || "").toLowerCase().includes(filtro) ||
+        (r.estado || "").toLowerCase().includes(filtro)
+      );
+
+      if (filtrados.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="9" class="empty">No se encontraron registros</td></tr>`;
+      } else {
+        tbody.innerHTML = filtrados.map((r) => {
+          const indexReal = registros.indexOf(r);
+
+          let botonEliminar = "";
+
+          if (esSupervisor()) {
+            botonEliminar = `<button class="icon-btn btn-danger" onclick="eliminarRegistro(${indexReal})">🗑️</button>`;
+          } else {
+            botonEliminar = `<button class="icon-btn btn-disabled" onclick="sinPermisoBorrar()">🔒</button>`;
+          }
+
+          return `
+            <tr>
+              <td>${indexReal + 1}</td>
+              <td>${formatearFecha(r.fecha)}</td>
+              <td>
+                <strong>${escapeHTML(r.area || "")}</strong><br>
+                <small>${escapeHTML(r.responsable || "")}</small>
+              </td>
+              <td>
+                <strong>${escapeHTML(r.equipo || "")}</strong><br>
+                <small>${escapeHTML((r.marca || "") + " " + (r.modelo || ""))}</small>
+              </td>
+              <td>
+                <strong>${escapeHTML(r.codigo || "Sin código")}</strong><br>
+                <small>${escapeHTML(r.serie || "Sin serie")}</small>
+              </td>
+              <td>${escapeHTML(r.servicio || "")}</td>
+              <td>${badgeEstado(r.estado)}</td>
+              <td>${escapeHTML(r.tecnico || "")}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="icon-btn btn-primary" onclick="editarRegistro(${indexReal})">✏️</button>
+                  <button class="icon-btn btn-warning" onclick="imprimirComprobante(${indexReal})">🧾</button>
+                  ${botonEliminar}
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      actualizarContadores();
+    }
+
+    function editarRegistro(index) {
+      const r = registros[index];
+
+      document.getElementById("editIndex").value = index;
+
+      campos.forEach(id => {
+        document.getElementById(id).value = r[id] || "";
+      });
+
+      document.querySelector(".btn-primary").innerHTML = "✅ Actualizar";
+      guardarBorrador();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function eliminarRegistro(index) {
+      if (!esSupervisor()) {
+        sinPermisoBorrar();
+        return;
+      }
+
+      if (confirm("¿Seguro que deseas eliminar este registro?")) {
+        registros.splice(index, 1);
+        guardarRegistros();
+        renderTabla();
+      }
+    }
+
+    function sinPermisoBorrar() {
+      alert("No tienes permiso para borrar registros. Solo el supervisor puede hacerlo.");
+    }
+
+    function limpiarTodo() {
+      if (!esSupervisor()) {
+        alert("No tienes permiso para limpiar registros.");
+        return;
+      }
+
+      if (confirm("Esto eliminará todos los registros técnicos. ¿Deseas continuar?")) {
+        registros = [];
+        guardarRegistros();
+        renderTabla();
+      }
+    }
+
+    function actualizarContadores() {
+      document.getElementById("totalEquipos").textContent = registros.length;
+      document.getElementById("enRevision").textContent = registros.filter(r => r.estado === "En revisión" || r.estado === "En reparación").length;
+      document.getElementById("listos").textContent = registros.filter(r => r.estado === "Listo").length;
+      document.getElementById("entregados").textContent = registros.filter(r => r.estado === "Entregado").length;
+    }
+
+    function badgeEstado(estado) {
+      let clase = "estado-recibido";
+
+      if (estado === "En revisión") clase = "estado-revision";
+      if (estado === "En reparación") clase = "estado-reparacion";
+      if (estado === "Listo") clase = "estado-listo";
+      if (estado === "Entregado") clase = "estado-entregado";
+      if (estado === "No reparado") clase = "estado-no";
+
+      return `<span class="badge ${clase}">${escapeHTML(estado || "")}</span>`;
+    }
+
     function renderUsuarios() {
       const tbody = document.getElementById("tablaUsuarios");
 
-      if (!tbody) return;
-
-      if (!esSupervisor()) {
-        tbody.innerHTML = "";
-        return;
-      }
+      if (!tbody || !esSupervisor()) return;
 
       const usuarios = obtenerUsuarios();
 
-      if (usuarios.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="empty">No hay usuarios registrados</td></tr>`;
-        return;
-      }
-
       tbody.innerHTML = usuarios.map((u, index) => {
-        let claseRol = u.rol === "supervisor" ? "rol-supervisor" : "rol-tecnico";
+        const claseRol = u.rol === "supervisor" ? "rol-supervisor" : "rol-tecnico";
+
         let boton = "";
 
         if (u.usuario === usuarioActivo.usuario) {
           boton = `<button class="icon-btn btn-disabled" onclick="alert('No puedes eliminar tu propio usuario.')">🔒</button>`;
         } else if (u.rol === "supervisor") {
-          boton = `<button class="icon-btn btn-disabled" onclick="alert('No puedes eliminar otro supervisor desde este panel.')">🔒</button>`;
+          boton = `<button class="icon-btn btn-disabled" onclick="alert('No puedes eliminar otro supervisor.')">🔒</button>`;
         } else {
           boton = `<button class="icon-btn btn-danger" onclick="eliminarTecnico('${escapeJS(u.usuario)}')">🗑️ Eliminar</button>`;
         }
@@ -1128,298 +1269,21 @@
       }
 
       if (usuarioEncontrado.rol === "supervisor") {
-        alert("No se puede eliminar un supervisor desde este panel.");
+        alert("No se puede eliminar un supervisor.");
         return;
       }
 
-      if (usuarioEncontrado.usuario === usuarioActivo.usuario) {
-        alert("No puedes eliminar tu propio usuario.");
-        return;
-      }
-
-      const confirmar = confirm(
-        "¿Seguro que deseas eliminar al técnico '" + usuarioEncontrado.nombre + "'?\n\nTambién se eliminarán sus registros guardados y su borrador."
-      );
+      const confirmar = confirm("¿Seguro que deseas eliminar al técnico '" + usuarioEncontrado.nombre + "'?");
 
       if (!confirmar) return;
 
       usuarios = usuarios.filter(u => u.usuario !== usuario);
       guardarUsuarios(usuarios);
 
-      localStorage.removeItem(claveRegistrosPorUsuario(usuario));
-      localStorage.removeItem(claveBorradorPorUsuario(usuario));
+      localStorage.removeItem("borradorServicioTecnicoCNE_" + usuario);
 
       renderUsuarios();
       alert("Técnico eliminado correctamente.");
-    }
-
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-
-      const registro = {
-        responsable: document.getElementById("responsable").value.trim(),
-        telefono: document.getElementById("telefono").value.trim(),
-        fecha: document.getElementById("fecha").value,
-        equipo: document.getElementById("equipo").value.trim(),
-        marca: document.getElementById("marca").value.trim(),
-        tecnico: document.getElementById("tecnico").value.trim(),
-        area: document.getElementById("area").value.trim(),
-        problema: document.getElementById("problema").value.trim(),
-        trabajo: document.getElementById("trabajo").value.trim(),
-        costo: document.getElementById("costo").value || "0.00",
-        estado: document.getElementById("estado").value,
-        registradoPor: usuarioActivo.nombre,
-        rolRegistra: usuarioActivo.rol,
-        fechaGuardado: new Date().toLocaleString()
-      };
-
-      const editIndex = document.getElementById("editIndex").value;
-
-      if (editIndex === "") {
-        registros.push(registro);
-      } else {
-        registros[editIndex] = {
-          ...registros[editIndex],
-          ...registro,
-          editadoPor: usuarioActivo.nombre,
-          fechaEditado: new Date().toLocaleString()
-        };
-      }
-
-      guardar();
-      guardarSugerenciasDesdeRegistro(registro);
-      limpiarBorrador();
-      nuevoRegistro(false);
-      cargarSugerencias();
-      renderTabla();
-
-      alert("Registro guardado correctamente.");
-    });
-
-    camposBorrador.forEach(id => {
-      document.getElementById(id).addEventListener("input", guardarBorrador);
-      document.getElementById(id).addEventListener("change", guardarBorrador);
-    });
-
-    function guardarBorrador() {
-      if (!usuarioActivo) return;
-
-      const borrador = {};
-
-      camposBorrador.forEach(id => {
-        borrador[id] = document.getElementById(id).value;
-      });
-
-      localStorage.setItem(claveBorradorUsuario(), JSON.stringify(borrador));
-    }
-
-    function cargarBorrador() {
-      if (!usuarioActivo) return;
-
-      const borrador = JSON.parse(localStorage.getItem(claveBorradorUsuario())) || null;
-
-      if (!borrador) return;
-
-      const tieneDatos = Object.values(borrador).some(valor => valor && valor.trim && valor.trim() !== "");
-
-      if (!tieneDatos) return;
-
-      camposBorrador.forEach(id => {
-        if (borrador[id]) {
-          document.getElementById(id).value = borrador[id];
-        }
-      });
-    }
-
-    function limpiarBorrador() {
-      if (!usuarioActivo) return;
-      localStorage.removeItem(claveBorradorUsuario());
-    }
-
-    function nuevoRegistro(limpiarDraft = true) {
-      form.reset();
-      document.getElementById("editIndex").value = "";
-      fechaInput.valueAsDate = new Date();
-      document.querySelector(".btn-primary").innerHTML = "💾 Guardar";
-
-      if (limpiarDraft) {
-        limpiarBorrador();
-      }
-    }
-
-    function claveSugerencias() {
-      return "sugerenciasServicioTecnicoCNE";
-    }
-
-    function obtenerSugerencias() {
-      return JSON.parse(localStorage.getItem(claveSugerencias())) || {
-        responsables: [],
-        telefonos: [],
-        equipos: [],
-        marcas: [],
-        tecnicos: [],
-        areas: []
-      };
-    }
-
-    function guardarSugerencias(sugerencias) {
-      localStorage.setItem(claveSugerencias(), JSON.stringify(sugerencias));
-    }
-
-    function agregarUnico(lista, valor) {
-      valor = (valor || "").trim();
-
-      if (!valor) return lista;
-
-      const existe = lista.some(item => item.toLowerCase() === valor.toLowerCase());
-
-      if (!existe) {
-        lista.unshift(valor);
-      }
-
-      return lista.slice(0, 50);
-    }
-
-    function guardarSugerenciasDesdeRegistro(r) {
-      let sugerencias = obtenerSugerencias();
-
-      sugerencias.responsables = agregarUnico(sugerencias.responsables, r.responsable);
-      sugerencias.telefonos = agregarUnico(sugerencias.telefonos, r.telefono);
-      sugerencias.equipos = agregarUnico(sugerencias.equipos, r.equipo);
-      sugerencias.marcas = agregarUnico(sugerencias.marcas, r.marca);
-      sugerencias.tecnicos = agregarUnico(sugerencias.tecnicos, r.tecnico);
-      sugerencias.areas = agregarUnico(sugerencias.areas, r.area);
-
-      guardarSugerencias(sugerencias);
-    }
-
-    function llenarDatalist(idLista, datos) {
-      const lista = document.getElementById(idLista);
-      lista.innerHTML = datos.map(item => `<option value="${escapeHTML(item)}"></option>`).join("");
-    }
-
-    function cargarSugerencias() {
-      const sugerencias = obtenerSugerencias();
-
-      llenarDatalist("listaResponsables", sugerencias.responsables);
-      llenarDatalist("listaTelefonos", sugerencias.telefonos);
-      llenarDatalist("listaEquipos", sugerencias.equipos);
-      llenarDatalist("listaMarcas", sugerencias.marcas);
-      llenarDatalist("listaTecnicos", sugerencias.tecnicos);
-      llenarDatalist("listaAreas", sugerencias.areas);
-    }
-
-    function renderTabla() {
-      const tbody = document.getElementById("tablaRegistros");
-      const filtro = document.getElementById("buscar").value.toLowerCase();
-
-      const filtrados = registros.filter(r =>
-        (r.responsable || "").toLowerCase().includes(filtro) ||
-        (r.equipo || "").toLowerCase().includes(filtro) ||
-        (r.tecnico || "").toLowerCase().includes(filtro) ||
-        (r.estado || "").toLowerCase().includes(filtro) ||
-        (r.area || "").toLowerCase().includes(filtro)
-      );
-
-      if (filtrados.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="8" class="empty">No se encontraron registros</td></tr>`;
-      } else {
-        tbody.innerHTML = filtrados.map((r) => {
-          const indexReal = registros.indexOf(r);
-
-          let botonEliminar = "";
-
-          if (esSupervisor()) {
-            botonEliminar = `<button class="icon-btn btn-danger" onclick="eliminarRegistro(${indexReal})">🗑️</button>`;
-          } else {
-            botonEliminar = `<button class="icon-btn btn-disabled" onclick="sinPermisoBorrar()">🔒</button>`;
-          }
-
-          return `
-            <tr>
-              <td>${indexReal + 1}</td>
-              <td>${formatearFecha(r.fecha)}</td>
-              <td>
-                <strong>${escapeHTML(r.responsable || "")}</strong><br>
-                <small>${escapeHTML(r.telefono || "Sin teléfono/extensión")}</small>
-              </td>
-              <td>
-                <strong>${escapeHTML(r.equipo || "")}</strong><br>
-                <small>${escapeHTML(r.marca || "Sin modelo")}</small>
-              </td>
-              <td>${badgeEstado(r.estado)}</td>
-              <td>${escapeHTML(r.tecnico || "")}</td>
-              <td>$${Number(r.costo || 0).toFixed(2)}</td>
-              <td>
-                <div class="row-actions">
-                  <button class="icon-btn btn-primary" onclick="editarRegistro(${indexReal})">✏️</button>
-                  <button class="icon-btn btn-warning" onclick="imprimirComprobante(${indexReal})">🧾</button>
-                  ${botonEliminar}
-                </div>
-              </td>
-            </tr>
-          `;
-        }).join("");
-      }
-
-      actualizarContadores();
-    }
-
-    function sinPermisoBorrar() {
-      alert("No tienes permiso para borrar registros. Solo el supervisor puede hacerlo.");
-    }
-
-    function badgeEstado(estado) {
-      let clase = "estado-recibido";
-
-      if (estado === "En revisión") clase = "estado-revision";
-      if (estado === "En reparación") clase = "estado-reparacion";
-      if (estado === "Listo") clase = "estado-listo";
-      if (estado === "Entregado") clase = "estado-entregado";
-      if (estado === "No reparado") clase = "estado-no";
-
-      return `<span class="badge ${clase}">${escapeHTML(estado || "")}</span>`;
-    }
-
-    function editarRegistro(index) {
-      const r = registros[index];
-
-      document.getElementById("editIndex").value = index;
-      document.getElementById("responsable").value = r.responsable || "";
-      document.getElementById("telefono").value = r.telefono || "";
-      document.getElementById("fecha").value = r.fecha || "";
-      document.getElementById("equipo").value = r.equipo || "";
-      document.getElementById("marca").value = r.marca || "";
-      document.getElementById("tecnico").value = r.tecnico || "";
-      document.getElementById("area").value = r.area || "";
-      document.getElementById("problema").value = r.problema || "";
-      document.getElementById("trabajo").value = r.trabajo || "";
-      document.getElementById("costo").value = r.costo || "";
-      document.getElementById("estado").value = r.estado || "Recibido";
-
-      document.querySelector(".btn-primary").innerHTML = "✅ Actualizar";
-      guardarBorrador();
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function eliminarRegistro(index) {
-      if (!esSupervisor()) {
-        sinPermisoBorrar();
-        return;
-      }
-
-      if (confirm("¿Seguro que deseas eliminar este registro? Esta acción solo está permitida para supervisor.")) {
-        registros.splice(index, 1);
-        guardar();
-        renderTabla();
-      }
-    }
-
-    function actualizarContadores() {
-      document.getElementById("totalEquipos").textContent = registros.length;
-      document.getElementById("enRevision").textContent = registros.filter(r => r.estado === "En revisión" || r.estado === "En reparación").length;
-      document.getElementById("listos").textContent = registros.filter(r => r.estado === "Listo").length;
-      document.getElementById("entregados").textContent = registros.filter(r => r.estado === "Entregado").length;
     }
 
     function exportarCSV() {
@@ -1428,16 +1292,16 @@
         return;
       }
 
-      let csv = "N°,Fecha,Responsable,Telefono/Extension,Equipo,Marca,Area,Estado,Tecnico,Problema,Trabajo,Costo,Registrado por,Editado por\n";
+      let csv = "N°,Fecha,Área,Responsable,Equipo,Servicio,Marca,Modelo,Serie,Código,Disco,Memoria,Monitor,Teclado,Mouse,Impresora,Telefono Marca,Antivirus,Estado,Técnico,Problema,Trabajo,Costo,Registrado por,Editado por\n";
 
       registros.forEach((r, i) => {
-        csv += `${i + 1},"${r.fecha}","${r.responsable}","${r.telefono}","${r.equipo}","${r.marca}","${r.area}","${r.estado}","${r.tecnico}","${r.problema}","${r.trabajo}","${r.costo}","${r.registradoPor || ""}","${r.editadoPor || ""}"\n`;
+        csv += `${i + 1},"${r.fecha}","${r.area}","${r.responsable}","${r.equipo}","${r.servicio}","${r.marca}","${r.modelo}","${r.serie}","${r.codigo}","${r.disco}","${r.memoria}","${r.monitor}","${r.teclado}","${r.mouse}","${r.impresora}","${r.telefonoMarca}","${r.antivirus}","${r.estado}","${r.tecnico}","${r.problema}","${r.trabajo}","${r.costo}","${r.registradoPor || ""}","${r.editadoPor || ""}"\n`;
       });
 
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "registros_servicio_tecnico_cne_" + usuarioActivo.usuario + ".csv";
+      link.download = "registros_servicio_tecnico_cne.csv";
       link.click();
     }
 
@@ -1457,7 +1321,7 @@
             }
 
             .comprobante {
-              max-width: 760px;
+              max-width: 850px;
               margin: auto;
               border: 2px solid #111827;
               padding: 25px;
@@ -1482,9 +1346,10 @@
             }
 
             td {
-              padding: 10px;
+              padding: 9px;
               border: 1px solid #ccc;
               vertical-align: top;
+              font-size: 13px;
             }
 
             .firmas {
@@ -1511,17 +1376,26 @@
           <div class="comprobante">
             <h1>CNE - Sistema de Servicio Técnico</h1>
             <p class="sub">Comprobante de recepción / mantenimiento de equipo institucional</p>
-            <p><strong>Usuario que registra:</strong> ${escapeHTML(usuarioActivo.nombre)}</p>
-            <p><strong>Tipo de usuario:</strong> ${escapeHTML(usuarioActivo.rol)}</p>
 
             <table>
               <tr><td><strong>N° Reporte:</strong></td><td>${index + 1}</td></tr>
               <tr><td><strong>Fecha:</strong></td><td>${formatearFecha(r.fecha)}</td></tr>
+              <tr><td><strong>Área:</strong></td><td>${escapeHTML(r.area || "")}</td></tr>
               <tr><td><strong>Responsable:</strong></td><td>${escapeHTML(r.responsable || "")}</td></tr>
-              <tr><td><strong>Teléfono / Extensión:</strong></td><td>${escapeHTML(r.telefono || "")}</td></tr>
               <tr><td><strong>Equipo:</strong></td><td>${escapeHTML(r.equipo || "")}</td></tr>
-              <tr><td><strong>Marca / Modelo:</strong></td><td>${escapeHTML(r.marca || "")}</td></tr>
-              <tr><td><strong>Área / Departamento:</strong></td><td>${escapeHTML(r.area || "")}</td></tr>
+              <tr><td><strong>Servicio:</strong></td><td>${escapeHTML(r.servicio || "")}</td></tr>
+              <tr><td><strong>Marca:</strong></td><td>${escapeHTML(r.marca || "")}</td></tr>
+              <tr><td><strong>Modelo:</strong></td><td>${escapeHTML(r.modelo || "")}</td></tr>
+              <tr><td><strong>Serie:</strong></td><td>${escapeHTML(r.serie || "")}</td></tr>
+              <tr><td><strong>Código:</strong></td><td>${escapeHTML(r.codigo || "")}</td></tr>
+              <tr><td><strong>Disco duro / Capacidad:</strong></td><td>${escapeHTML(r.disco || "")}</td></tr>
+              <tr><td><strong>Memoria:</strong></td><td>${escapeHTML(r.memoria || "")}</td></tr>
+              <tr><td><strong>Monitor:</strong></td><td>${escapeHTML(r.monitor || "")}</td></tr>
+              <tr><td><strong>Teclado:</strong></td><td>${escapeHTML(r.teclado || "")}</td></tr>
+              <tr><td><strong>Mouse:</strong></td><td>${escapeHTML(r.mouse || "")}</td></tr>
+              <tr><td><strong>Impresora:</strong></td><td>${escapeHTML(r.impresora || "")}</td></tr>
+              <tr><td><strong>Teléfono / Marca:</strong></td><td>${escapeHTML(r.telefonoMarca || "")}</td></tr>
+              <tr><td><strong>Antivirus:</strong></td><td>${escapeHTML(r.antivirus || "")}</td></tr>
               <tr><td><strong>Estado:</strong></td><td>${escapeHTML(r.estado || "")}</td></tr>
               <tr><td><strong>Técnico:</strong></td><td>${escapeHTML(r.tecnico || "")}</td></tr>
               <tr><td><strong>Problema reportado:</strong></td><td>${escapeHTML(r.problema || "")}</td></tr>
@@ -1546,17 +1420,66 @@
       ventana.document.close();
     }
 
-    function limpiarTodo() {
-      if (!esSupervisor()) {
-        alert("No tienes permiso para limpiar registros. Solo el supervisor puede hacerlo.");
-        return;
-      }
+    function claveSugerencias() {
+      return "sugerenciasServicioTecnicoCNE";
+    }
 
-      if (confirm("Esto eliminará solo los registros del usuario actual. ¿Deseas continuar?")) {
-        registros = [];
-        guardar();
-        renderTabla();
-      }
+    function obtenerSugerencias() {
+      return JSON.parse(localStorage.getItem(claveSugerencias())) || {};
+    }
+
+    function guardarSugerencias(sugerencias) {
+      localStorage.setItem(claveSugerencias(), JSON.stringify(sugerencias));
+    }
+
+    function agregarUnico(lista, valor) {
+      valor = (valor || "").trim();
+      if (!valor) return lista || [];
+
+      lista = lista || [];
+      const existe = lista.some(item => item.toLowerCase() === valor.toLowerCase());
+
+      if (!existe) lista.unshift(valor);
+
+      return lista.slice(0, 50);
+    }
+
+    function guardarSugerenciasDesdeRegistro(r) {
+      let s = obtenerSugerencias();
+
+      campos.forEach(campo => {
+        if (!["fecha", "problema", "trabajo", "costo", "estado", "servicio"].includes(campo)) {
+          s[campo] = agregarUnico(s[campo], r[campo]);
+        }
+      });
+
+      guardarSugerencias(s);
+    }
+
+    function cargarSugerencias() {
+      const s = obtenerSugerencias();
+
+      llenarDatalist("listaAreas", s.area || []);
+      llenarDatalist("listaResponsables", s.responsable || []);
+      llenarDatalist("listaEquipos", s.equipo || []);
+      llenarDatalist("listaMarcas", s.marca || []);
+      llenarDatalist("listaModelos", s.modelo || []);
+      llenarDatalist("listaSeries", s.serie || []);
+      llenarDatalist("listaCodigos", s.codigo || []);
+      llenarDatalist("listaDiscos", s.disco || []);
+      llenarDatalist("listaMemorias", s.memoria || []);
+      llenarDatalist("listaMonitores", s.monitor || []);
+      llenarDatalist("listaTeclados", s.teclado || []);
+      llenarDatalist("listaMouses", s.mouse || []);
+      llenarDatalist("listaImpresoras", s.impresora || []);
+      llenarDatalist("listaTelefonosMarca", s.telefonoMarca || []);
+      llenarDatalist("listaAntivirus", s.antivirus || []);
+      llenarDatalist("listaTecnicos", s.tecnico || []);
+    }
+
+    function llenarDatalist(idLista, datos) {
+      const lista = document.getElementById(idLista);
+      lista.innerHTML = datos.map(item => `<option value="${escapeHTML(item)}"></option>`).join("");
     }
 
     function formatearFecha(fecha) {
