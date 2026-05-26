@@ -4,798 +4,143 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CNE - Sistema de Servicio Técnico</title>
-
   <style>
-    :root {
-      --azul: #1e40af;
-      --azul2: #2563eb;
-      --oscuro: #0f172a;
-      --verde: #16a34a;
-      --rojo: #dc2626;
-      --amarillo: #f59e0b;
-      --gris: #64748b;
-      --borde: #e2e8f0;
-      --fondo: #f1f5f9;
-      --blanco: #ffffff;
-      --sombra: 0 10px 28px rgba(15, 23, 42, 0.12);
-      --radio: 16px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: "Segoe UI", Arial, sans-serif;
-    }
-
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #dbeafe, #f8fafc 45%, #e0f2fe);
-      color: var(--oscuro);
-      padding: 18px;
-    }
-
-    .login-screen {
-      min-height: calc(100vh - 36px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .login-card {
-      width: 100%;
-      max-width: 430px;
-      background: var(--blanco);
-      padding: 28px;
-      border-radius: 22px;
-      box-shadow: var(--sombra);
-      border: 1px solid var(--borde);
-    }
-
-    .login-logo {
-      width: 74px;
-      height: 74px;
-      background: linear-gradient(135deg, var(--oscuro), var(--azul2));
-      color: white;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 25px;
-      font-weight: 900;
-      margin: 0 auto 14px;
-    }
-
-    .login-card h1 {
-      text-align: center;
-      font-size: 24px;
-      margin-bottom: 6px;
-    }
-
-    .login-card p {
-      text-align: center;
-      color: var(--gris);
-      margin-bottom: 18px;
-      font-size: 14px;
-    }
-
-    .login-tabs {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      background: #f1f5f9;
-      padding: 5px;
-      border-radius: 14px;
-      margin-bottom: 16px;
-    }
-
-    .tab-btn {
-      border: none;
-      background: transparent;
-      padding: 10px;
-      border-radius: 11px;
-      font-weight: 800;
-      color: var(--gris);
-      cursor: pointer;
-    }
-
-    .tab-btn.active {
-      background: white;
-      color: var(--azul2);
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
-    }
-
-    .app {
-      max-width: 1450px;
-      margin: auto;
-      display: none;
-    }
-
-    .topbar {
-      background: linear-gradient(135deg, var(--oscuro), var(--azul));
-      color: white;
-      padding: 22px;
-      border-radius: var(--radio);
-      box-shadow: var(--sombra);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .logo {
-      width: 58px;
-      height: 58px;
-      border-radius: 16px;
-      background: linear-gradient(135deg, #38bdf8, var(--azul2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 22px;
-      font-weight: 900;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.25);
-    }
-
-    .brand h1 {
-      font-size: 25px;
-    }
-
-    .brand p {
-      color: #cbd5e1;
-      font-size: 14px;
-      margin-top: 4px;
-    }
-
-    .top-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .user-box {
-      background: rgba(255,255,255,0.14);
-      border: 1px solid rgba(255,255,255,0.22);
-      padding: 10px 14px;
-      border-radius: 12px;
-      display: flex;
-      gap: 7px;
-      align-items: center;
-      font-size: 14px;
-    }
-
-    .role-badge {
-      background: rgba(255,255,255,0.22);
-      padding: 4px 9px;
-      border-radius: 999px;
-      text-transform: uppercase;
-      font-weight: 800;
-      font-size: 12px;
-    }
-
-    .dashboard {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 20px;
-    }
-
-    .stat-card {
-      background: white;
-      padding: 18px;
-      border-radius: var(--radio);
-      box-shadow: var(--sombra);
-      border: 1px solid var(--borde);
-    }
-
-    .stat-card h2 {
-      color: var(--azul2);
-      font-size: 30px;
-      margin-bottom: 4px;
-    }
-
-    .stat-card p {
-      color: var(--gris);
-      font-weight: 700;
-      font-size: 14px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 430px 1fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .panel {
-      background: white;
-      padding: 20px;
-      border-radius: var(--radio);
-      box-shadow: var(--sombra);
-      border: 1px solid var(--borde);
-      margin-bottom: 18px;
-    }
-
-    .panel-title {
-      font-size: 20px;
-      margin-bottom: 15px;
-    }
-
-    .notice {
-      background: #eff6ff;
-      color: #1e40af;
-      border: 1px solid #bfdbfe;
-      border-radius: 12px;
-      padding: 11px;
-      font-size: 13px;
-      font-weight: 700;
-      margin-bottom: 14px;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 800;
-      margin-bottom: 5px;
-      color: #1e293b;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 11px 12px;
-      border: 1px solid var(--borde);
-      border-radius: 11px;
-      background: #f8fafc;
-      font-size: 14px;
-      outline: none;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      background: white;
-      border-color: var(--azul2);
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
-    }
-
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    .form-group {
-      margin-bottom: 12px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 11px;
-    }
-
-    .actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .btn {
-      border: none;
-      border-radius: 11px;
-      padding: 11px 14px;
-      cursor: pointer;
-      font-weight: 800;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-    }
-
-    .btn:hover {
-      opacity: .92;
-      transform: translateY(-1px);
-    }
-
-    .btn-primary { background: var(--azul2); color: white; }
-    .btn-dark { background: var(--oscuro); color: white; }
-    .btn-success { background: var(--verde); color: white; }
-    .btn-warning { background: var(--amarillo); color: white; }
-    .btn-danger { background: var(--rojo); color: white; }
-    .btn-light { background: white; color: var(--oscuro); }
-    .btn-disabled { background: #94a3b8; color: white; cursor: not-allowed; }
-    .btn-full { width: 100%; margin-top: 8px; }
-
-    .filters {
-      display: grid;
-      grid-template-columns: 1.2fr 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 14px;
-    }
-
-    .toolbar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--borde);
-      border-radius: 14px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 1000px;
-      background: white;
-    }
-
-    th {
-      background: var(--oscuro);
-      color: white;
-      padding: 12px;
-      text-align: left;
-      font-size: 13px;
-    }
-
-    td {
-      padding: 11px 12px;
-      border-bottom: 1px solid var(--borde);
-      font-size: 14px;
-      vertical-align: top;
-    }
-
-    tr:hover td {
-      background: #f8fafc;
-    }
-
-    .badge {
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-      display: inline-block;
-      white-space: nowrap;
-    }
-
-    .estado-recibido { background: #dbeafe; color: #1d4ed8; }
-    .estado-revision { background: #fef3c7; color: #b45309; }
-    .estado-reparacion { background: #ffedd5; color: #c2410c; }
-    .estado-listo { background: #dcfce7; color: #15803d; }
-    .estado-entregado { background: #e0e7ff; color: #4338ca; }
-    .estado-no { background: #fee2e2; color: #b91c1c; }
-    .rol-tecnico { background: #dbeafe; color: #1d4ed8; }
-    .rol-supervisor { background: #dcfce7; color: #15803d; }
-
-    .row-actions {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-    }
-
-    .icon-btn {
-      border: none;
-      border-radius: 9px;
-      padding: 8px 10px;
-      color: white;
-      cursor: pointer;
-      font-weight: 800;
-    }
-
-    .empty {
-      text-align: center;
-      color: var(--gris);
-      padding: 25px;
-      font-weight: 700;
-    }
-
-    .mensaje {
-      margin-top: 12px;
-      padding: 10px;
-      border-radius: 12px;
-      font-size: 14px;
-      display: none;
-    }
-
-    .mensaje.ok { background: #dcfce7; color: #166534; display: block; }
-    .mensaje.error { background: #fee2e2; color: #991b1b; display: block; }
-
-    #panelUsuarios {
-      display: none;
-    }
-
-    .footer-note {
-      text-align: center;
-      color: var(--gris);
-      font-size: 13px;
-      margin-top: 16px;
-    }
-
-    @media (max-width: 1000px) {
-      .dashboard { grid-template-columns: repeat(2, 1fr); }
-      .grid { grid-template-columns: 1fr; }
-      .filters { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 650px) {
-      body { padding: 12px; }
-      .topbar { flex-direction: column; align-items: flex-start; }
-      .top-actions { width: 100%; justify-content: flex-start; }
-      .user-box { width: 100%; }
-      .dashboard { grid-template-columns: 1fr; }
-      .form-row { grid-template-columns: 1fr; }
-      .actions { grid-template-columns: 1fr; }
-      .btn { width: 100%; }
-      .toolbar .btn { width: 100%; }
-      .brand h1 { font-size: 21px; }
-    }
-
-    @media print {
-      body { background: white; padding: 0; }
-      .topbar, .dashboard, .panel:first-child, .toolbar, .filters, .footer-note, .notice, #panelUsuarios {
-        display: none !important;
-      }
-      .grid { display: block; }
-      .panel { box-shadow: none; border: none; }
-      th { background: #111 !important; color: white !important; }
-      .row-actions { display: none; }
-    }
+    :root{--azul:#1e40af;--azul2:#2563eb;--oscuro:#0f172a;--verde:#16a34a;--rojo:#dc2626;--amarillo:#f59e0b;--gris:#64748b;--borde:#e2e8f0;--sombra:0 10px 28px rgba(15,23,42,.12);--radio:16px}
+    *{box-sizing:border-box;margin:0;padding:0;font-family:"Segoe UI",Arial,sans-serif}
+    body{min-height:100vh;background:linear-gradient(135deg,#dbeafe,#f8fafc 45%,#e0f2fe);color:var(--oscuro);padding:18px}
+    .login-screen{min-height:calc(100vh - 36px);display:flex;align-items:center;justify-content:center}
+    .login-card{width:100%;max-width:430px;background:#fff;padding:28px;border-radius:22px;box-shadow:var(--sombra);border:1px solid var(--borde)}
+    .login-logo{width:74px;height:74px;background:linear-gradient(135deg,var(--oscuro),var(--azul2));color:#fff;border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:25px;font-weight:900;margin:0 auto 14px}
+    .login-card h1{text-align:center;font-size:24px;margin-bottom:6px}.login-card p{text-align:center;color:var(--gris);margin-bottom:18px;font-size:14px}
+    .login-tabs{display:grid;grid-template-columns:1fr 1fr;background:#f1f5f9;padding:5px;border-radius:14px;margin-bottom:16px}
+    .tab-btn{border:none;background:transparent;padding:10px;border-radius:11px;font-weight:800;color:var(--gris);cursor:pointer}.tab-btn.active{background:#fff;color:var(--azul2);box-shadow:0 4px 12px rgba(15,23,42,.12)}
+    .app{max-width:1450px;margin:auto;display:none}.topbar{background:linear-gradient(135deg,var(--oscuro),var(--azul));color:white;padding:22px;border-radius:var(--radio);box-shadow:var(--sombra);display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:20px}
+    .brand{display:flex;align-items:center;gap:14px}.logo{width:58px;height:58px;border-radius:16px;background:linear-gradient(135deg,#38bdf8,var(--azul2));display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;box-shadow:0 8px 18px rgba(0,0,0,.25)}
+    .brand h1{font-size:25px}.brand p{color:#cbd5e1;font-size:14px;margin-top:4px}.top-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+    .user-box,.estado-conexion{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);padding:10px 14px;border-radius:12px;display:flex;gap:7px;align-items:center;font-size:14px}.estado-conexion{font-weight:800}
+    .role-badge{background:rgba(255,255,255,.22);padding:4px 9px;border-radius:999px;text-transform:uppercase;font-weight:800;font-size:12px}
+    .dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.stat-card{background:white;padding:18px;border-radius:var(--radio);box-shadow:var(--sombra);border:1px solid var(--borde)}
+    .stat-card h2{color:var(--azul2);font-size:30px;margin-bottom:4px}.stat-card p{color:var(--gris);font-weight:700;font-size:14px}
+    .grid{display:grid;grid-template-columns:430px 1fr;gap:18px;align-items:start}.panel{background:white;padding:20px;border-radius:var(--radio);box-shadow:var(--sombra);border:1px solid var(--borde);margin-bottom:18px}.panel-title{font-size:20px;margin-bottom:15px}
+    .notice{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe;border-radius:12px;padding:11px;font-size:13px;font-weight:700;margin-bottom:14px}
+    label{display:block;font-size:13px;font-weight:800;margin-bottom:5px;color:#1e293b}input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--borde);border-radius:11px;background:#f8fafc;font-size:14px;outline:none}
+    input:focus,select:focus,textarea:focus{background:white;border-color:var(--azul2);box-shadow:0 0 0 4px rgba(37,99,235,.12)}textarea{min-height:80px;resize:vertical}.form-group{margin-bottom:12px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:11px}.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+    .btn{border:none;border-radius:11px;padding:11px 14px;cursor:pointer;font-weight:800;display:inline-flex;align-items:center;justify-content:center;gap:7px}.btn:hover{opacity:.92;transform:translateY(-1px)}
+    .btn-primary{background:var(--azul2);color:white}.btn-dark{background:var(--oscuro);color:white}.btn-success{background:var(--verde);color:white}.btn-warning{background:var(--amarillo);color:white}.btn-danger{background:var(--rojo);color:white}.btn-light{background:white;color:var(--oscuro)}.btn-disabled{background:#94a3b8;color:white;cursor:not-allowed}.btn-full{width:100%;margin-top:8px}
+    .filters{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px;margin-bottom:14px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.table-wrap{overflow-x:auto;border:1px solid var(--borde);border-radius:14px}
+    table{width:100%;border-collapse:collapse;min-width:1000px;background:white}th{background:var(--oscuro);color:white;padding:12px;text-align:left;font-size:13px}td{padding:11px 12px;border-bottom:1px solid var(--borde);font-size:14px;vertical-align:top}tr:hover td{background:#f8fafc}
+    .badge{padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;display:inline-block;white-space:nowrap}.estado-recibido{background:#dbeafe;color:#1d4ed8}.estado-revision{background:#fef3c7;color:#b45309}.estado-reparacion{background:#ffedd5;color:#c2410c}.estado-listo{background:#dcfce7;color:#15803d}.estado-entregado{background:#e0e7ff;color:#4338ca}.estado-no{background:#fee2e2;color:#b91c1c}.rol-tecnico{background:#dbeafe;color:#1d4ed8}.rol-supervisor{background:#dcfce7;color:#15803d}
+    .row-actions{display:flex;gap:6px;flex-wrap:wrap}.icon-btn{border:none;border-radius:9px;padding:8px 10px;color:white;cursor:pointer;font-weight:800}.empty{text-align:center;color:var(--gris);padding:25px;font-weight:700}.mensaje{margin-top:12px;padding:10px;border-radius:12px;font-size:14px;display:none}.mensaje.ok{background:#dcfce7;color:#166534;display:block}.mensaje.error{background:#fee2e2;color:#991b1b;display:block}#panelUsuarios{display:none}.footer-note{text-align:center;color:var(--gris);font-size:13px;margin-top:16px}
+    @media(max-width:1000px){.dashboard{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}.filters{grid-template-columns:1fr}}@media(max-width:650px){body{padding:12px}.topbar{flex-direction:column;align-items:flex-start}.top-actions{width:100%;justify-content:flex-start}.user-box{width:100%}.dashboard{grid-template-columns:1fr}.form-row,.actions{grid-template-columns:1fr}.btn{width:100%}.toolbar .btn{width:100%}.brand h1{font-size:21px}}
+    @media print{body{background:white;padding:0}.topbar,.dashboard,.panel:first-child,.toolbar,.filters,.footer-note,.notice,#panelUsuarios{display:none!important}.grid{display:block}.panel{box-shadow:none;border:none}th{background:#111!important;color:white!important}.row-actions{display:none}}
   </style>
 </head>
-
 <body>
-
   <section class="login-screen" id="loginScreen">
     <div class="login-card">
       <div class="login-logo">CNE</div>
       <h1>CNE - Sistema de Servicio Técnico</h1>
       <p>Ingresa con tu usuario o registra uno nuevo</p>
-
       <div class="login-tabs">
         <button class="tab-btn active" id="btnTabLogin" onclick="cambiarTab('login')">Ingresar</button>
         <button class="tab-btn" id="btnTabRegistro" onclick="cambiarTab('registro')">Nuevo usuario</button>
       </div>
-
       <form id="formLogin">
-        <div class="form-group">
-          <label>Usuario</label>
-          <input type="text" id="loginUsuario" placeholder="Ej: tecnico_cne" required>
-        </div>
-
-        <div class="form-group">
-          <label>Contraseña</label>
-          <input type="password" id="loginPassword" placeholder="Ingresa tu contraseña" required>
-        </div>
-
+        <div class="form-group"><label>Usuario</label><input type="text" id="loginUsuario" placeholder="Ej: tecnico_cne" required></div>
+        <div class="form-group"><label>Contraseña</label><input type="password" id="loginPassword" placeholder="Ingresa tu contraseña" required></div>
         <button type="submit" class="btn btn-primary btn-full">🔐 Ingresar</button>
+        <button type="button" class="btn btn-dark btn-full" onclick="recuperarContrasena()">🔑 Olvidé mi contraseña</button>
       </form>
-
       <form id="formRegistroUsuario" style="display:none;">
-        <div class="form-group">
-          <label>Nombre completo</label>
-          <input type="text" id="nuevoNombre" placeholder="Nombre del funcionario" required>
-        </div>
-
-        <div class="form-group">
-          <label>Usuario</label>
-          <input type="text" id="nuevoUsuario" placeholder="Ej: tecnico_cne" required>
-        </div>
-
-        <div class="form-group">
-          <label>Contraseña</label>
-          <input type="password" id="nuevoPassword" placeholder="Crea una contraseña" required>
-        </div>
-
+        <div class="form-group"><label>Nombre completo</label><input type="text" id="nuevoNombre" placeholder="Nombre del funcionario" required></div>
+        <div class="form-group"><label>Usuario</label><input type="text" id="nuevoUsuario" placeholder="Ej: tecnico_cne" required></div>
+        <div class="form-group"><label>Contraseña</label><input type="password" id="nuevoPassword" placeholder="Crea una contraseña" required></div>
         <button type="submit" class="btn btn-success btn-full">✅ Guardar usuario técnico</button>
       </form>
-
       <div class="mensaje" id="mensajeLogin"></div>
     </div>
   </section>
 
   <div class="app" id="app">
-
     <header class="topbar">
-      <div class="brand">
-        <div class="logo">CNE</div>
-        <div>
-          <h1>CNE - Sistema de Servicio Técnico</h1>
-          <p>Registro, control y seguimiento de equipos institucionales</p>
-        </div>
-      </div>
-
+      <div class="brand"><div class="logo">CNE</div><div><h1>CNE - Sistema de Servicio Técnico</h1><p>Registro, control y seguimiento de equipos institucionales</p></div></div>
       <div class="top-actions">
-        <div class="user-box">
-          <span>👤 Usuario:</span>
-          <strong id="nombreUsuarioActivo">Usuario</strong>
-          <span class="role-badge" id="rolUsuarioActivo">Rol</span>
-        </div>
-
+        <span class="estado-conexion" id="estadoConexion">☁️ Conectando...</span>
+        <div class="user-box"><span>👤 Usuario:</span><strong id="nombreUsuarioActivo">Usuario</strong><span class="role-badge" id="rolUsuarioActivo">Rol</span></div>
         <button class="btn btn-light" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
         <button class="btn btn-danger" id="btnLimpiarTodo" onclick="limpiarTodo()">🧹 Limpiar registros</button>
       </div>
     </header>
 
     <section class="dashboard">
-      <div class="stat-card">
-        <h2 id="totalEquipos">0</h2>
-        <p>Equipos registrados</p>
-      </div>
-
-      <div class="stat-card">
-        <h2 id="enRevision">0</h2>
-        <p>En revisión</p>
-      </div>
-
-      <div class="stat-card">
-        <h2 id="listos">0</h2>
-        <p>Listos</p>
-      </div>
-
-      <div class="stat-card">
-        <h2 id="entregados">0</h2>
-        <p>Entregados</p>
-      </div>
+      <div class="stat-card"><h2 id="totalEquipos">0</h2><p>Equipos registrados</p></div>
+      <div class="stat-card"><h2 id="enRevision">0</h2><p>En revisión</p></div>
+      <div class="stat-card"><h2 id="listos">0</h2><p>Listos</p></div>
+      <div class="stat-card"><h2 id="entregados">0</h2><p>Entregados</p></div>
     </section>
 
     <section class="panel" id="panelUsuarios">
       <h2 class="panel-title">👥 Administración de usuarios</h2>
-
-      <div class="notice">
-        Solo el supervisor puede eliminar usuarios técnicos. No puede eliminarse a sí mismo ni eliminar otros supervisores.
-      </div>
-
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>N°</th>
-              <th>Nombre</th>
-              <th>Usuario</th>
-              <th>Rol</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody id="tablaUsuarios"></tbody>
-        </table>
-      </div>
+      <div class="notice">Solo el supervisor puede eliminar usuarios técnicos. No puede eliminarse a sí mismo ni eliminar otros supervisores.</div>
+      <div class="table-wrap"><table><thead><tr><th>N°</th><th>Nombre</th><th>Usuario</th><th>Rol</th><th>Acciones</th></tr></thead><tbody id="tablaUsuarios"></tbody></table></div>
     </section>
 
     <main class="grid">
-
       <section class="panel">
         <h2 class="panel-title">📝 Registro Técnico Institucional</h2>
-
-        <div class="notice" id="avisoRol">
-          El técnico puede crear y editar reportes. Solo el supervisor puede borrar registros.
-        </div>
-
+        <div class="notice" id="avisoRol">El técnico puede crear y editar reportes. Solo el supervisor puede borrar registros.</div>
         <form id="formRegistro">
           <input type="hidden" id="editIndex">
-
-          <div class="form-group">
-            <label>Área</label>
-            <input type="text" id="area" list="listaAreas" placeholder="Ej: Dirección, Secretaría, Sistemas" required>
-            <datalist id="listaAreas"></datalist>
-          </div>
-
-          <div class="form-group">
-            <label>Responsable</label>
-            <input type="text" id="responsable" list="listaResponsables" placeholder="Nombre del responsable" required>
-            <datalist id="listaResponsables"></datalist>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Equipo</label>
-              <input type="text" id="equipo" list="listaEquipos" placeholder="Ej: Laptop, CPU, impresora" required>
-              <datalist id="listaEquipos"></datalist>
-            </div>
-
-            <div class="form-group">
-              <label>Servicio</label>
-              <select id="servicio" required>
-                <option value="Mantenimiento preventivo">Mantenimiento preventivo</option>
-                <option value="Mantenimiento correctivo">Mantenimiento correctivo</option>
-                <option value="Instalación de software">Instalación de software</option>
-                <option value="Revisión de hardware">Revisión de hardware</option>
-                <option value="Soporte técnico">Soporte técnico</option>
-                <option value="Configuración">Configuración</option>
-                <option value="Otro">Otro</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Marca</label>
-              <input type="text" id="marca" list="listaMarcas" placeholder="Ej: HP, Dell, Lenovo">
-              <datalist id="listaMarcas"></datalist>
-            </div>
-
-            <div class="form-group">
-              <label>Modelo</label>
-              <input type="text" id="modelo" list="listaModelos" placeholder="Ej: 240 G8, Optiplex">
-              <datalist id="listaModelos"></datalist>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Serie</label>
-              <input type="text" id="serie" list="listaSeries" placeholder="Número de serie">
-              <datalist id="listaSeries"></datalist>
-            </div>
-
-            <div class="form-group">
-              <label>Código institucional</label>
-              <input type="text" id="codigo" list="listaCodigos" placeholder="Código del bien">
-              <datalist id="listaCodigos"></datalist>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Disco duro / Capacidad</label>
-              <input type="text" id="disco" list="listaDiscos" placeholder="Ej: SSD 256GB, HDD 1TB">
-              <datalist id="listaDiscos"></datalist>
-            </div>
-
-            <div class="form-group">
-              <label>Memoria RAM</label>
-              <input type="text" id="memoria" list="listaMemorias" placeholder="Ej: 4GB, 8GB, 16GB">
-              <datalist id="listaMemorias"></datalist>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Monitor</label>
-              <input type="text" id="monitor" list="listaMonitores" placeholder="Marca/modelo o N/A">
-              <datalist id="listaMonitores"></datalist>
-            </div>
-
-            <div class="form-group">
-              <label>Teclado</label>
-              <input type="text" id="teclado" list="listaTeclados" placeholder="Marca/modelo o N/A">
-              <datalist id="listaTeclados"></datalist>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Mouse</label>
-              <input type="text" id="mouse" list="listaMouses" placeholder="Marca/modelo o N/A">
-              <datalist id="listaMouses"></datalist>
-            </div>
-
-            <div class="form-group">
-              <label>Impresora</label>
-              <input type="text" id="impresora" list="listaImpresoras" placeholder="Marca/modelo o N/A">
-              <datalist id="listaImpresoras"></datalist>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Teléfono / Marca</label>
-              <input type="text" id="telefonoMarca" list="listaTelefonosMarca" placeholder="Ej: Cisco, Panasonic, N/A">
-              <datalist id="listaTelefonosMarca"></datalist>
-            </div>
-
-            <div class="form-group">
-              <label>Antivirus</label>
-              <input type="text" id="antivirus" list="listaAntivirus" placeholder="Ej: Windows Defender, ESET">
-              <datalist id="listaAntivirus"></datalist>
-            </div>
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label>Técnico</label>
-              <input type="text" id="tecnico" list="listaTecnicos" placeholder="Nombre del técnico" required>
-              <datalist id="listaTecnicos"></datalist>
-            </div>
-
-            <div class="form-group">
-              <label>Fecha</label>
-              <input type="date" id="fecha" required>
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label>Problema reportado</label>
-            <textarea id="problema" placeholder="Describe el problema encontrado o reportado"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label>Trabajo realizado / Diagnóstico</label>
-            <textarea id="trabajo" placeholder="Describe el mantenimiento, diagnóstico o solución realizada"></textarea>
-          </div>
-
-          <div class="form-group">
-            <label>Estado</label>
-            <select id="estado">
-              <option value="Recibido">Recibido</option>
-              <option value="En revisión">En revisión</option>
-              <option value="En reparación">En reparación</option>
-              <option value="Listo">Listo</option>
-              <option value="Entregado">Entregado</option>
-              <option value="No reparado">No reparado</option>
-            </select>
-          </div>
-
-          <div class="actions">
-            <button type="submit" class="btn btn-primary">💾 Guardar</button>
-            <button type="button" class="btn btn-dark" onclick="nuevoRegistro()">➕ Nuevo</button>
-          </div>
+          <div class="form-group"><label>Área</label><input type="text" id="area" list="listaAreas" placeholder="Ej: Dirección, Secretaría, Sistemas" required><datalist id="listaAreas"></datalist></div>
+          <div class="form-group"><label>Responsable</label><input type="text" id="responsable" list="listaResponsables" placeholder="Nombre del responsable" required><datalist id="listaResponsables"></datalist></div>
+          <div class="form-row"><div class="form-group"><label>Equipo</label><input type="text" id="equipo" list="listaEquipos" placeholder="Ej: Laptop, CPU, impresora" required><datalist id="listaEquipos"></datalist></div><div class="form-group"><label>Servicio</label><select id="servicio" required><option value="Mantenimiento preventivo">Mantenimiento preventivo</option><option value="Mantenimiento correctivo">Mantenimiento correctivo</option><option value="Instalación de software">Instalación de software</option><option value="Revisión de hardware">Revisión de hardware</option><option value="Soporte técnico">Soporte técnico</option><option value="Configuración">Configuración</option><option value="Otro">Otro</option></select></div></div>
+          <div class="form-row"><div class="form-group"><label>Marca</label><input type="text" id="marca" list="listaMarcas" placeholder="Ej: HP, Dell, Lenovo"><datalist id="listaMarcas"></datalist></div><div class="form-group"><label>Modelo</label><input type="text" id="modelo" list="listaModelos" placeholder="Ej: 240 G8, Optiplex"><datalist id="listaModelos"></datalist></div></div>
+          <div class="form-row"><div class="form-group"><label>Serie</label><input type="text" id="serie" list="listaSeries" placeholder="Número de serie"><datalist id="listaSeries"></datalist></div><div class="form-group"><label>Código institucional</label><input type="text" id="codigo" list="listaCodigos" placeholder="Código del bien"><datalist id="listaCodigos"></datalist></div></div>
+          <div class="form-row"><div class="form-group"><label>Disco duro / Capacidad</label><input type="text" id="disco" list="listaDiscos" placeholder="Ej: SSD 256GB, HDD 1TB"><datalist id="listaDiscos"></datalist></div><div class="form-group"><label>Memoria RAM</label><input type="text" id="memoria" list="listaMemorias" placeholder="Ej: 4GB, 8GB, 16GB"><datalist id="listaMemorias"></datalist></div></div>
+          <div class="form-row"><div class="form-group"><label>Monitor</label><input type="text" id="monitor" list="listaMonitores" placeholder="Marca/modelo o N/A"><datalist id="listaMonitores"></datalist></div><div class="form-group"><label>Teclado</label><input type="text" id="teclado" list="listaTeclados" placeholder="Marca/modelo o N/A"><datalist id="listaTeclados"></datalist></div></div>
+          <div class="form-row"><div class="form-group"><label>Mouse</label><input type="text" id="mouse" list="listaMouses" placeholder="Marca/modelo o N/A"><datalist id="listaMouses"></datalist></div><div class="form-group"><label>Impresora</label><input type="text" id="impresora" list="listaImpresoras" placeholder="Marca/modelo o N/A"><datalist id="listaImpresoras"></datalist></div></div>
+          <div class="form-row"><div class="form-group"><label>Teléfono / Marca</label><input type="text" id="telefonoMarca" list="listaTelefonosMarca" placeholder="Ej: Cisco, Panasonic, N/A"><datalist id="listaTelefonosMarca"></datalist></div><div class="form-group"><label>Antivirus</label><input type="text" id="antivirus" list="listaAntivirus" placeholder="Ej: Windows Defender, ESET"><datalist id="listaAntivirus"></datalist></div></div>
+          <div class="form-row"><div class="form-group"><label>Técnico</label><input type="text" id="tecnico" list="listaTecnicos" placeholder="Nombre del técnico" required><datalist id="listaTecnicos"></datalist></div><div class="form-group"><label>Fecha</label><input type="date" id="fecha" required></div></div>
+          <div class="form-group"><label>Problema reportado</label><textarea id="problema" placeholder="Describe el problema encontrado o reportado"></textarea></div>
+          <div class="form-group"><label>Trabajo realizado / Diagnóstico</label><textarea id="trabajo" placeholder="Describe el mantenimiento, diagnóstico o solución realizada"></textarea></div>
+          <div class="form-group"><label>Estado</label><select id="estado"><option value="Recibido">Recibido</option><option value="En revisión">En revisión</option><option value="En reparación">En reparación</option><option value="Listo">Listo</option><option value="Entregado">Entregado</option><option value="No reparado">No reparado</option></select></div>
+          <div class="actions"><button type="submit" class="btn btn-primary">💾 Guardar</button><button type="button" class="btn btn-dark" onclick="nuevoRegistro()">➕ Nuevo</button></div>
         </form>
       </section>
 
       <section class="panel">
         <h2 class="panel-title">📋 Reportes registrados</h2>
-
-        <div class="filters">
-          <input type="text" id="buscar" placeholder="🔎 Buscar área, responsable, equipo, código..." oninput="renderTabla()">
-
-          <select id="filtroArea" onchange="renderTabla()">
-            <option value="">Todas las áreas</option>
-          </select>
-
-          <select id="filtroTecnico" onchange="renderTabla()">
-            <option value="">Todos los técnicos</option>
-          </select>
-        </div>
-
-        <div class="toolbar">
-          <button class="btn btn-dark" onclick="limpiarFiltros()">🔄 Limpiar filtros</button>
-          <button class="btn btn-success" onclick="exportarCSV()">📊 Excel filtrado</button>
-          <button class="btn btn-warning" onclick="imprimirReporteFiltrado()">🖨️ Imprimir reporte por área/técnico</button>
-        </div>
-
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>N°</th>
-                <th>Fecha</th>
-                <th>Área / Responsable</th>
-                <th>Equipo</th>
-                <th>Código / Serie</th>
-                <th>Servicio</th>
-                <th>Estado</th>
-                <th>Técnico</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-
-            <tbody id="tablaRegistros">
-              <tr>
-                <td colspan="9" class="empty">No hay registros todavía</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        <div class="filters"><input type="text" id="buscar" placeholder="🔎 Buscar área, responsable, equipo, código..." oninput="renderTabla()"><select id="filtroArea" onchange="renderTabla()"><option value="">Todas las áreas</option></select><select id="filtroTecnico" onchange="renderTabla()"><option value="">Todos los técnicos</option></select></div>
+        <div class="toolbar"><button class="btn btn-dark" onclick="limpiarFiltros()">🔄 Limpiar filtros</button><button class="btn btn-success" onclick="exportarCSV()">📊 Excel filtrado</button><button class="btn btn-warning" onclick="imprimirReporteFiltrado()">🖨️ Imprimir reporte por área/técnico</button></div>
+        <div class="table-wrap"><table><thead><tr><th>N°</th><th>Fecha</th><th>Área / Responsable</th><th>Equipo</th><th>Código / Serie</th><th>Servicio</th><th>Estado</th><th>Técnico</th><th>Acciones</th></tr></thead><tbody id="tablaRegistros"><tr><td colspan="9" class="empty">No hay registros todavía</td></tr></tbody></table></div>
       </section>
-
     </main>
 
-    <p class="footer-note">
-      CNE - Sistema de control técnico | Datos guardados en este navegador
-    </p>
+    <p class="footer-note">CNE - Sistema de control técnico | Reportes guardados en Firebase Realtime Database</p>
   </div>
 
-  <script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
+    import { getDatabase, ref, set, push, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDILlEvHJ05IUg146N17zVwGG5RD7X50Y4",
+      authDomain: "servicio-tecnico-8a5ef.firebaseapp.com",
+      databaseURL: "https://servicio-tecnico-8a5ef-default-rtdb.firebaseio.com",
+      projectId: "servicio-tecnico-8a5ef",
+      storageBucket: "servicio-tecnico-8a5ef.firebasestorage.app",
+      messagingSenderId: "895895342548",
+      appId: "1:895895342548:web:c400eb7e17ff78f57c1a41",
+      measurementId: "G-HTXDTJ735G"
+    };
+
+    const appFirebase = initializeApp(firebaseConfig);
+    const db = getDatabase(appFirebase);
+
     let usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivoServicioTecnicoCNE")) || null;
     let registros = [];
+    let usuarios = [];
+    let escuchandoReportes = false;
 
     const formLogin = document.getElementById("formLogin");
     const formRegistroUsuario = document.getElementById("formRegistroUsuario");
@@ -803,882 +148,415 @@
     const form = document.getElementById("formRegistro");
     const fechaInput = document.getElementById("fecha");
 
-    const campos = [
-      "area", "responsable", "equipo", "servicio", "marca", "modelo", "serie", "codigo",
-      "disco", "memoria", "monitor", "teclado", "mouse", "impresora", "telefonoMarca",
-      "antivirus", "tecnico", "fecha", "problema", "trabajo", "estado"
-    ];
-
+    const campos = ["area","responsable","equipo","servicio","marca","modelo","serie","codigo","disco","memoria","monitor","teclado","mouse","impresora","telefonoMarca","antivirus","tecnico","fecha","problema","trabajo","estado"];
     fechaInput.valueAsDate = new Date();
 
-    function obtenerUsuarios() {
-      let usuarios = JSON.parse(localStorage.getItem("usuariosServicioTecnicoCNE")) || [];
-      const existeSupervisor = usuarios.some(u => u.usuario === "supervisor");
-
-      if (!existeSupervisor) {
-        usuarios.push({
-          nombre: "Supervisor CNE",
-          usuario: "supervisor",
-          password: "admin123",
-          rol: "supervisor"
-        });
-
-        localStorage.setItem("usuariosServicioTecnicoCNE", JSON.stringify(usuarios));
+    async function asegurarSupervisor(){
+      const supervisorRef = ref(db, "usuarios/supervisor");
+      const snap = await get(supervisorRef);
+      if(!snap.exists()){
+        await set(supervisorRef,{nombre:"Supervisor CNE",usuario:"supervisor",password:"admin123",rol:"supervisor"});
       }
-
-      return usuarios;
     }
 
-    function guardarUsuarios(usuarios) {
-      localStorage.setItem("usuariosServicioTecnicoCNE", JSON.stringify(usuarios));
+    function escucharUsuarios(){
+      onValue(ref(db,"usuarios"),snapshot=>{
+        const data = snapshot.val() || {};
+        usuarios = Object.values(data);
+        renderUsuarios();
+      },error=>{
+        console.error(error);
+        document.getElementById("estadoConexion").textContent = "⚠️ Error Firebase";
+      });
     }
 
-    function cargarRegistros() {
-      registros = JSON.parse(localStorage.getItem("registrosServicioTecnicoCNE")) || [];
+    function escucharReportes(){
+      if(escuchandoReportes) return;
+      escuchandoReportes = true;
+      onValue(ref(db,"reportes"),snapshot=>{
+        const data = snapshot.val() || {};
+        registros = Object.entries(data).map(([id,valor])=>({id,...valor}));
+        registros.sort((a,b)=>(b.fechaGuardadoTimestamp||0)-(a.fechaGuardadoTimestamp||0));
+        document.getElementById("estadoConexion").textContent = "☁️ Datos en la nube";
+        cargarSugerenciasDesdeReportes();
+        actualizarFiltros();
+        renderTabla();
+      },error=>{
+        console.error(error);
+        document.getElementById("estadoConexion").textContent = "⚠️ Error Firebase";
+        alert("No se pudo leer Firebase. Revisa las reglas de Realtime Database.");
+      });
     }
 
-    function guardarRegistros() {
-      localStorage.setItem("registrosServicioTecnicoCNE", JSON.stringify(registros));
-    }
-
-    function claveBorradorUsuario() {
-      return "borradorServicioTecnicoCNE_" + usuarioActivo.usuario;
-    }
-
-    function cambiarTab(tab) {
+    function cambiarTab(tab){
       mensajeLogin.className = "mensaje";
-
-      if (tab === "login") {
-        document.getElementById("formLogin").style.display = "block";
-        document.getElementById("formRegistroUsuario").style.display = "none";
+      if(tab==="login"){
+        document.getElementById("formLogin").style.display="block";
+        document.getElementById("formRegistroUsuario").style.display="none";
         document.getElementById("btnTabLogin").classList.add("active");
         document.getElementById("btnTabRegistro").classList.remove("active");
-      } else {
-        document.getElementById("formLogin").style.display = "none";
-        document.getElementById("formRegistroUsuario").style.display = "block";
+      }else{
+        document.getElementById("formLogin").style.display="none";
+        document.getElementById("formRegistroUsuario").style.display="block";
         document.getElementById("btnTabLogin").classList.remove("active");
         document.getElementById("btnTabRegistro").classList.add("active");
       }
     }
 
-    function mostrarMensaje(texto, tipo) {
-      mensajeLogin.textContent = texto;
-      mensajeLogin.className = "mensaje " + tipo;
+    function mostrarMensaje(texto,tipo){
+      mensajeLogin.textContent=texto;
+      mensajeLogin.className="mensaje "+tipo;
     }
 
-    function esSupervisor() {
-      return usuarioActivo && usuarioActivo.rol === "supervisor";
-    }
+    function esSupervisor(){return usuarioActivo && usuarioActivo.rol==="supervisor";}
 
-    formRegistroUsuario.addEventListener("submit", function(e) {
+    formRegistroUsuario.addEventListener("submit",async e=>{
       e.preventDefault();
-
-      const nombre = document.getElementById("nuevoNombre").value.trim();
-      const usuario = document.getElementById("nuevoUsuario").value.trim().toLowerCase();
-      const password = document.getElementById("nuevoPassword").value.trim();
-
-      if (!nombre || !usuario || !password) {
-        mostrarMensaje("Completa todos los campos.", "error");
-        return;
-      }
-
-      let usuarios = obtenerUsuarios();
-      const existe = usuarios.some(u => u.usuario === usuario);
-
-      if (existe) {
-        mostrarMensaje("Ese usuario ya existe. Usa otro nombre de usuario.", "error");
-        return;
-      }
-
-      usuarios.push({
-        nombre: nombre,
-        usuario: usuario,
-        password: password,
-        rol: "tecnico"
-      });
-
-      guardarUsuarios(usuarios);
-
-      document.getElementById("nuevoNombre").value = "";
-      document.getElementById("nuevoUsuario").value = "";
-      document.getElementById("nuevoPassword").value = "";
-
-      mostrarMensaje("Usuario técnico guardado correctamente. Ahora puede ingresar.", "ok");
+      const nombre=document.getElementById("nuevoNombre").value.trim();
+      const usuario=document.getElementById("nuevoUsuario").value.trim().toLowerCase();
+      const password=document.getElementById("nuevoPassword").value.trim();
+      if(!nombre||!usuario||!password){mostrarMensaje("Completa todos los campos.","error");return;}
+      if(usuarios.some(u=>u.usuario===usuario)){mostrarMensaje("Ese usuario ya existe. Usa otro nombre de usuario.","error");return;}
+      await set(ref(db,"usuarios/"+limpiarClave(usuario)),{nombre,usuario,password,rol:"tecnico"});
+      document.getElementById("nuevoNombre").value="";
+      document.getElementById("nuevoUsuario").value="";
+      document.getElementById("nuevoPassword").value="";
+      mostrarMensaje("Usuario técnico guardado correctamente en la nube.","ok");
       cambiarTab("login");
-      document.getElementById("loginUsuario").value = usuario;
+      document.getElementById("loginUsuario").value=usuario;
     });
 
-    formLogin.addEventListener("submit", function(e) {
+    formLogin.addEventListener("submit",e=>{
       e.preventDefault();
-
-      const usuario = document.getElementById("loginUsuario").value.trim().toLowerCase();
-      const password = document.getElementById("loginPassword").value.trim();
-
-      const usuarios = obtenerUsuarios();
-      const encontrado = usuarios.find(u => u.usuario === usuario && u.password === password);
-
-      if (!encontrado) {
-        mostrarMensaje("Usuario o contraseña incorrectos.", "error");
-        return;
-      }
-
-      usuarioActivo = {
-        nombre: encontrado.nombre,
-        usuario: encontrado.usuario,
-        rol: encontrado.rol || "tecnico"
-      };
-
-      localStorage.setItem("usuarioActivoServicioTecnicoCNE", JSON.stringify(usuarioActivo));
-
-      document.getElementById("loginUsuario").value = "";
-      document.getElementById("loginPassword").value = "";
-
+      const usuario=document.getElementById("loginUsuario").value.trim().toLowerCase();
+      const password=document.getElementById("loginPassword").value.trim();
+      const encontrado=usuarios.find(u=>u.usuario===usuario && u.password===password);
+      if(!encontrado){mostrarMensaje("Usuario o contraseña incorrectos.","error");return;}
+      usuarioActivo={nombre:encontrado.nombre,usuario:encontrado.usuario,rol:encontrado.rol||"tecnico"};
+      localStorage.setItem("usuarioActivoServicioTecnicoCNE",JSON.stringify(usuarioActivo));
+      document.getElementById("loginUsuario").value="";
+      document.getElementById("loginPassword").value="";
       iniciarSistema();
     });
 
-    function iniciarSistema() {
-      obtenerUsuarios();
-
-      if (!usuarioActivo) {
-        document.getElementById("loginScreen").style.display = "flex";
-        document.getElementById("app").style.display = "none";
+    function iniciarSistema(){
+      if(!usuarioActivo){
+        document.getElementById("loginScreen").style.display="flex";
+        document.getElementById("app").style.display="none";
         return;
       }
-
-      document.getElementById("loginScreen").style.display = "none";
-      document.getElementById("app").style.display = "block";
-
-      document.getElementById("nombreUsuarioActivo").textContent = usuarioActivo.nombre;
-      document.getElementById("rolUsuarioActivo").textContent = usuarioActivo.rol;
-
-      if (esSupervisor()) {
-        document.getElementById("btnLimpiarTodo").style.display = "inline-flex";
-        document.getElementById("panelUsuarios").style.display = "block";
-        document.getElementById("avisoRol").textContent = "Supervisor: puedes crear, editar, borrar reportes y eliminar usuarios técnicos.";
-      } else {
-        document.getElementById("btnLimpiarTodo").style.display = "none";
-        document.getElementById("panelUsuarios").style.display = "none";
-        document.getElementById("avisoRol").textContent = "Técnico: puedes crear y editar reportes. No tienes permiso para borrar registros ni usuarios.";
+      document.getElementById("loginScreen").style.display="none";
+      document.getElementById("app").style.display="block";
+      document.getElementById("nombreUsuarioActivo").textContent=usuarioActivo.nombre;
+      document.getElementById("rolUsuarioActivo").textContent=usuarioActivo.rol;
+      if(esSupervisor()){
+        document.getElementById("btnLimpiarTodo").style.display="inline-flex";
+        document.getElementById("panelUsuarios").style.display="block";
+        document.getElementById("avisoRol").textContent="Supervisor: puedes crear, editar, borrar reportes y eliminar usuarios técnicos.";
+      }else{
+        document.getElementById("btnLimpiarTodo").style.display="none";
+        document.getElementById("panelUsuarios").style.display="none";
+        document.getElementById("avisoRol").textContent="Técnico: puedes crear y editar reportes. No tienes permiso para borrar registros ni usuarios.";
       }
-
-      cargarRegistros();
-      cargarSugerencias();
       nuevoRegistro(false);
       cargarBorrador();
-      actualizarFiltros();
-      renderTabla();
+      escucharReportes();
       renderUsuarios();
     }
 
-    function cerrarSesion() {
+    function cerrarSesion(){
       guardarBorrador();
       localStorage.removeItem("usuarioActivoServicioTecnicoCNE");
-      usuarioActivo = null;
-      registros = [];
-      document.getElementById("app").style.display = "none";
-      document.getElementById("loginScreen").style.display = "flex";
-      mensajeLogin.className = "mensaje";
+      usuarioActivo=null;
+      document.getElementById("app").style.display="none";
+      document.getElementById("loginScreen").style.display="flex";
+      mensajeLogin.className="mensaje";
     }
 
-    function obtenerDatosFormulario() {
-      const data = {};
-
-      campos.forEach(id => {
-        data[id] = document.getElementById(id).value.trim();
-      });
-
-      data.registradoPor = usuarioActivo.nombre;
-      data.rolRegistra = usuarioActivo.rol;
-      data.fechaGuardado = new Date().toLocaleString();
-
+    function obtenerDatosFormulario(){
+      const data={};
+      campos.forEach(id=>data[id]=document.getElementById(id).value.trim());
+      data.registradoPor=usuarioActivo.nombre;
+      data.usuarioRegistra=usuarioActivo.usuario;
+      data.rolRegistra=usuarioActivo.rol;
+      data.fechaGuardado=new Date().toLocaleString();
+      data.fechaGuardadoTimestamp=Date.now();
       return data;
     }
 
-    form.addEventListener("submit", function(e) {
+    form.addEventListener("submit",async e=>{
       e.preventDefault();
-
-      const registro = obtenerDatosFormulario();
-      const editIndex = document.getElementById("editIndex").value;
-
-      if (editIndex === "") {
-        registros.push(registro);
-      } else {
-        registros[editIndex] = {
-          ...registros[editIndex],
-          ...registro,
-          editadoPor: usuarioActivo.nombre,
-          fechaEditado: new Date().toLocaleString()
-        };
+      const registro=obtenerDatosFormulario();
+      const editId=document.getElementById("editIndex").value;
+      if(editId===""){
+        const nuevoRef=push(ref(db,"reportes"));
+        await set(nuevoRef,registro);
+      }else{
+        await update(ref(db,"reportes/"+editId),{...registro,editadoPor:usuarioActivo.nombre,fechaEditado:new Date().toLocaleString(),fechaEditadoTimestamp:Date.now()});
       }
-
-      guardarRegistros();
-      guardarSugerenciasDesdeRegistro(registro);
       limpiarBorrador();
       nuevoRegistro(false);
-      cargarSugerencias();
-      actualizarFiltros();
-      renderTabla();
-
-      alert("Registro guardado correctamente.");
+      alert("Registro guardado correctamente en la nube.");
     });
 
-    campos.forEach(id => {
-      document.getElementById(id).addEventListener("input", guardarBorrador);
-      document.getElementById(id).addEventListener("change", guardarBorrador);
+    campos.forEach(id=>{
+      document.getElementById(id).addEventListener("input",guardarBorrador);
+      document.getElementById(id).addEventListener("change",guardarBorrador);
     });
 
-    function guardarBorrador() {
-      if (!usuarioActivo) return;
-
-      const borrador = {};
-
-      campos.forEach(id => {
-        borrador[id] = document.getElementById(id).value;
-      });
-
-      localStorage.setItem(claveBorradorUsuario(), JSON.stringify(borrador));
+    function claveBorradorUsuario(){return "borradorServicioTecnicoCNE_"+usuarioActivo.usuario;}
+    function guardarBorrador(){
+      if(!usuarioActivo)return;
+      const borrador={};
+      campos.forEach(id=>borrador[id]=document.getElementById(id).value);
+      localStorage.setItem(claveBorradorUsuario(),JSON.stringify(borrador));
     }
-
-    function cargarBorrador() {
-      if (!usuarioActivo) return;
-
-      const borrador = JSON.parse(localStorage.getItem(claveBorradorUsuario())) || null;
-      if (!borrador) return;
-
-      const tieneDatos = Object.values(borrador).some(valor => valor && String(valor).trim() !== "");
-      if (!tieneDatos) return;
-
-      campos.forEach(id => {
-        if (borrador[id]) {
-          document.getElementById(id).value = borrador[id];
-        }
-      });
+    function cargarBorrador(){
+      if(!usuarioActivo)return;
+      const borrador=JSON.parse(localStorage.getItem(claveBorradorUsuario()))||null;
+      if(!borrador)return;
+      const tieneDatos=Object.values(borrador).some(valor=>valor && String(valor).trim()!=="");
+      if(!tieneDatos)return;
+      campos.forEach(id=>{if(borrador[id])document.getElementById(id).value=borrador[id];});
     }
-
-    function limpiarBorrador() {
-      if (!usuarioActivo) return;
-      localStorage.removeItem(claveBorradorUsuario());
-    }
-
-    function nuevoRegistro(limpiarDraft = true) {
+    function limpiarBorrador(){if(usuarioActivo)localStorage.removeItem(claveBorradorUsuario());}
+    function nuevoRegistro(limpiarDraft=true){
       form.reset();
-      document.getElementById("editIndex").value = "";
-      fechaInput.valueAsDate = new Date();
-      document.querySelector(".btn-primary").innerHTML = "💾 Guardar";
-
-      if (limpiarDraft) {
-        limpiarBorrador();
-      }
+      document.getElementById("editIndex").value="";
+      fechaInput.valueAsDate=new Date();
+      document.querySelector(".btn-primary").innerHTML="💾 Guardar";
+      if(limpiarDraft)limpiarBorrador();
     }
 
-    function obtenerRegistrosFiltrados() {
-      const texto = document.getElementById("buscar").value.toLowerCase();
-      const area = document.getElementById("filtroArea").value.toLowerCase();
-      const tecnico = document.getElementById("filtroTecnico").value.toLowerCase();
-
-      return registros.filter(r => {
-        const coincideTexto =
-          (r.area || "").toLowerCase().includes(texto) ||
-          (r.responsable || "").toLowerCase().includes(texto) ||
-          (r.equipo || "").toLowerCase().includes(texto) ||
-          (r.codigo || "").toLowerCase().includes(texto) ||
-          (r.serie || "").toLowerCase().includes(texto) ||
-          (r.tecnico || "").toLowerCase().includes(texto) ||
-          (r.estado || "").toLowerCase().includes(texto);
-
-        const coincideArea = !area || (r.area || "").toLowerCase() === area;
-        const coincideTecnico = !tecnico || (r.tecnico || "").toLowerCase() === tecnico;
-
+    function obtenerRegistrosFiltrados(){
+      const texto=document.getElementById("buscar").value.toLowerCase();
+      const area=document.getElementById("filtroArea").value.toLowerCase();
+      const tecnico=document.getElementById("filtroTecnico").value.toLowerCase();
+      return registros.filter(r=>{
+        const coincideTexto=(r.area||"").toLowerCase().includes(texto)||(r.responsable||"").toLowerCase().includes(texto)||(r.equipo||"").toLowerCase().includes(texto)||(r.codigo||"").toLowerCase().includes(texto)||(r.serie||"").toLowerCase().includes(texto)||(r.tecnico||"").toLowerCase().includes(texto)||(r.estado||"").toLowerCase().includes(texto);
+        const coincideArea=!area || (r.area||"").toLowerCase()===area;
+        const coincideTecnico=!tecnico || (r.tecnico||"").toLowerCase()===tecnico;
         return coincideTexto && coincideArea && coincideTecnico;
       });
     }
 
-    function renderTabla() {
-      const tbody = document.getElementById("tablaRegistros");
-      const filtrados = obtenerRegistrosFiltrados();
-
-      if (filtrados.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="9" class="empty">No se encontraron registros</td></tr>`;
-      } else {
-        tbody.innerHTML = filtrados.map((r) => {
-          const indexReal = registros.indexOf(r);
-
-          let botonEliminar = "";
-
-          if (esSupervisor()) {
-            botonEliminar = `<button class="icon-btn btn-danger" onclick="eliminarRegistro(${indexReal})">🗑️</button>`;
-          } else {
-            botonEliminar = `<button class="icon-btn btn-disabled" onclick="sinPermisoBorrar()">🔒</button>`;
-          }
-
-          return `
-            <tr>
-              <td>${indexReal + 1}</td>
-              <td>${formatearFecha(r.fecha)}</td>
-              <td>
-                <strong>${escapeHTML(r.area || "")}</strong><br>
-                <small>${escapeHTML(r.responsable || "")}</small>
-              </td>
-              <td>
-                <strong>${escapeHTML(r.equipo || "")}</strong><br>
-                <small>${escapeHTML((r.marca || "") + " " + (r.modelo || ""))}</small>
-              </td>
-              <td>
-                <strong>${escapeHTML(r.codigo || "Sin código")}</strong><br>
-                <small>${escapeHTML(r.serie || "Sin serie")}</small>
-              </td>
-              <td>${escapeHTML(r.servicio || "")}</td>
-              <td>${badgeEstado(r.estado)}</td>
-              <td>${escapeHTML(r.tecnico || "")}</td>
-              <td>
-                <div class="row-actions">
-                  <button class="icon-btn btn-primary" onclick="editarRegistro(${indexReal})">✏️</button>
-                  <button class="icon-btn btn-warning" onclick="imprimirComprobante(${indexReal})">🧾</button>
-                  ${botonEliminar}
-                </div>
-              </td>
-            </tr>
-          `;
+    function renderTabla(){
+      const tbody=document.getElementById("tablaRegistros");
+      const filtrados=obtenerRegistrosFiltrados();
+      if(filtrados.length===0){tbody.innerHTML='<tr><td colspan="9" class="empty">No se encontraron registros</td></tr>';}
+      else{
+        tbody.innerHTML=filtrados.map((r,i)=>{
+          const botonEliminar=esSupervisor()?`<button class="icon-btn btn-danger" onclick="eliminarRegistro('${r.id}')">🗑️</button>`:`<button class="icon-btn btn-disabled" onclick="sinPermisoBorrar()">🔒</button>`;
+          return `<tr>
+            <td>${i+1}</td><td>${formatearFecha(r.fecha)}</td>
+            <td><strong>${escapeHTML(r.area||"")}</strong><br><small>${escapeHTML(r.responsable||"")}</small></td>
+            <td><strong>${escapeHTML(r.equipo||"")}</strong><br><small>${escapeHTML((r.marca||"")+" "+(r.modelo||""))}</small></td>
+            <td><strong>${escapeHTML(r.codigo||"Sin código")}</strong><br><small>${escapeHTML(r.serie||"Sin serie")}</small></td>
+            <td>${escapeHTML(r.servicio||"")}</td><td>${badgeEstado(r.estado)}</td><td>${escapeHTML(r.tecnico||"")}</td>
+            <td><div class="row-actions"><button class="icon-btn btn-primary" onclick="editarRegistro('${r.id}')">✏️</button><button class="icon-btn btn-warning" onclick="imprimirComprobante('${r.id}')">🧾</button>${botonEliminar}</div></td>
+          </tr>`;
         }).join("");
       }
-
       actualizarContadores();
     }
 
-    function editarRegistro(index) {
-      const r = registros[index];
-
-      document.getElementById("editIndex").value = index;
-
-      campos.forEach(id => {
-        document.getElementById(id).value = r[id] || "";
-      });
-
-      document.querySelector(".btn-primary").innerHTML = "✅ Actualizar";
+    function editarRegistro(id){
+      const r=registros.find(item=>item.id===id);
+      if(!r)return;
+      document.getElementById("editIndex").value=id;
+      campos.forEach(campo=>document.getElementById(campo).value=r[campo]||"");
+      document.querySelector(".btn-primary").innerHTML="✅ Actualizar";
       guardarBorrador();
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({top:0,behavior:"smooth"});
     }
 
-    function eliminarRegistro(index) {
-      if (!esSupervisor()) {
-        sinPermisoBorrar();
-        return;
-      }
-
-      if (confirm("¿Seguro que deseas eliminar este registro?")) {
-        registros.splice(index, 1);
-        guardarRegistros();
-        actualizarFiltros();
-        renderTabla();
-      }
+    async function eliminarRegistro(id){
+      if(!esSupervisor()){sinPermisoBorrar();return;}
+      if(confirm("¿Seguro que deseas eliminar este registro de la nube?")) await remove(ref(db,"reportes/"+id));
+    }
+    function sinPermisoBorrar(){alert("No tienes permiso para borrar registros. Solo el supervisor puede hacerlo.");}
+    async function limpiarTodo(){
+      if(!esSupervisor()){alert("No tienes permiso para limpiar registros.");return;}
+      if(confirm("Esto eliminará TODOS los registros técnicos de la nube. ¿Deseas continuar?")) await remove(ref(db,"reportes"));
     }
 
-    function sinPermisoBorrar() {
-      alert("No tienes permiso para borrar registros. Solo el supervisor puede hacerlo.");
+    function actualizarContadores(){
+      document.getElementById("totalEquipos").textContent=registros.length;
+      document.getElementById("enRevision").textContent=registros.filter(r=>r.estado==="En revisión"||r.estado==="En reparación").length;
+      document.getElementById("listos").textContent=registros.filter(r=>r.estado==="Listo").length;
+      document.getElementById("entregados").textContent=registros.filter(r=>r.estado==="Entregado").length;
+    }
+    function badgeEstado(estado){
+      let clase="estado-recibido";
+      if(estado==="En revisión")clase="estado-revision";
+      if(estado==="En reparación")clase="estado-reparacion";
+      if(estado==="Listo")clase="estado-listo";
+      if(estado==="Entregado")clase="estado-entregado";
+      if(estado==="No reparado")clase="estado-no";
+      return `<span class="badge ${clase}">${escapeHTML(estado||"")}</span>`;
     }
 
-    function limpiarTodo() {
-      if (!esSupervisor()) {
-        alert("No tienes permiso para limpiar registros.");
-        return;
-      }
-
-      if (confirm("Esto eliminará todos los registros técnicos. ¿Deseas continuar?")) {
-        registros = [];
-        guardarRegistros();
-        actualizarFiltros();
-        renderTabla();
-      }
+    function actualizarFiltros(){
+      const filtroArea=document.getElementById("filtroArea");
+      const filtroTecnico=document.getElementById("filtroTecnico");
+      const areaActual=filtroArea.value;
+      const tecnicoActual=filtroTecnico.value;
+      const areas=[...new Set(registros.map(r=>r.area).filter(Boolean))].sort();
+      const tecnicos=[...new Set(registros.map(r=>r.tecnico).filter(Boolean))].sort();
+      filtroArea.innerHTML='<option value="">Todas las áreas</option>'+areas.map(a=>`<option value="${escapeHTML(a)}">${escapeHTML(a)}</option>`).join("");
+      filtroTecnico.innerHTML='<option value="">Todos los técnicos</option>'+tecnicos.map(t=>`<option value="${escapeHTML(t)}">${escapeHTML(t)}</option>`).join("");
+      filtroArea.value=areaActual;
+      filtroTecnico.value=tecnicoActual;
     }
-
-    function actualizarContadores() {
-      document.getElementById("totalEquipos").textContent = registros.length;
-      document.getElementById("enRevision").textContent = registros.filter(r => r.estado === "En revisión" || r.estado === "En reparación").length;
-      document.getElementById("listos").textContent = registros.filter(r => r.estado === "Listo").length;
-      document.getElementById("entregados").textContent = registros.filter(r => r.estado === "Entregado").length;
-    }
-
-    function badgeEstado(estado) {
-      let clase = "estado-recibido";
-
-      if (estado === "En revisión") clase = "estado-revision";
-      if (estado === "En reparación") clase = "estado-reparacion";
-      if (estado === "Listo") clase = "estado-listo";
-      if (estado === "Entregado") clase = "estado-entregado";
-      if (estado === "No reparado") clase = "estado-no";
-
-      return `<span class="badge ${clase}">${escapeHTML(estado || "")}</span>`;
-    }
-
-    function actualizarFiltros() {
-      const filtroArea = document.getElementById("filtroArea");
-      const filtroTecnico = document.getElementById("filtroTecnico");
-
-      const areaActual = filtroArea.value;
-      const tecnicoActual = filtroTecnico.value;
-
-      const areas = [...new Set(registros.map(r => r.area).filter(Boolean))].sort();
-      const tecnicos = [...new Set(registros.map(r => r.tecnico).filter(Boolean))].sort();
-
-      filtroArea.innerHTML = `<option value="">Todas las áreas</option>` +
-        areas.map(a => `<option value="${escapeHTML(a)}">${escapeHTML(a)}</option>`).join("");
-
-      filtroTecnico.innerHTML = `<option value="">Todos los técnicos</option>` +
-        tecnicos.map(t => `<option value="${escapeHTML(t)}">${escapeHTML(t)}</option>`).join("");
-
-      filtroArea.value = areaActual;
-      filtroTecnico.value = tecnicoActual;
-    }
-
-    function limpiarFiltros() {
-      document.getElementById("buscar").value = "";
-      document.getElementById("filtroArea").value = "";
-      document.getElementById("filtroTecnico").value = "";
+    function limpiarFiltros(){
+      document.getElementById("buscar").value="";
+      document.getElementById("filtroArea").value="";
+      document.getElementById("filtroTecnico").value="";
       renderTabla();
     }
 
-    function renderUsuarios() {
-      const tbody = document.getElementById("tablaUsuarios");
-      if (!tbody || !esSupervisor()) return;
-
-      const usuarios = obtenerUsuarios();
-
-      tbody.innerHTML = usuarios.map((u, index) => {
-        const claseRol = u.rol === "supervisor" ? "rol-supervisor" : "rol-tecnico";
-
-        let boton = "";
-
-        if (u.usuario === usuarioActivo.usuario) {
-          boton = `<button class="icon-btn btn-disabled" onclick="alert('No puedes eliminar tu propio usuario.')">🔒</button>`;
-        } else if (u.rol === "supervisor") {
-          boton = `<button class="icon-btn btn-disabled" onclick="alert('No puedes eliminar otro supervisor.')">🔒</button>`;
-        } else {
-          boton = `<button class="icon-btn btn-danger" onclick="eliminarTecnico('${escapeJS(u.usuario)}')">🗑️ Eliminar</button>`;
+    function renderUsuarios(){
+      const tbody=document.getElementById("tablaUsuarios");
+      if(!tbody||!esSupervisor())return;
+      tbody.innerHTML=usuarios.map((u,index)=>{
+        const claseRol=u.rol==="supervisor"?"rol-supervisor":"rol-tecnico";
+        let botones="";
+        if(u.usuario===usuarioActivo.usuario){
+          botones=`<button class="icon-btn btn-disabled" onclick="alert('No puedes modificar tu propio usuario desde este panel.')">🔒</button>`;
+        }else if(u.rol==="supervisor"){
+          botones=`<button class="icon-btn btn-disabled" onclick="alert('No puedes modificar otro supervisor desde este panel.')">🔒</button>`;
+        }else{
+          botones=`<button class="icon-btn btn-warning" onclick="restablecerClaveTecnico('${escapeJS(u.usuario)}')">🔑 Clave</button><button class="icon-btn btn-danger" onclick="eliminarTecnico('${escapeJS(u.usuario)}')">🗑️ Eliminar</button>`;
         }
-
-        return `
-          <tr>
-            <td>${index + 1}</td>
-            <td>${escapeHTML(u.nombre)}</td>
-            <td>${escapeHTML(u.usuario)}</td>
-            <td><span class="badge ${claseRol}">${escapeHTML(u.rol)}</span></td>
-            <td>${boton}</td>
-          </tr>
-        `;
+        return `<tr><td>${index+1}</td><td>${escapeHTML(u.nombre)}</td><td>${escapeHTML(u.usuario)}</td><td><span class="badge ${claseRol}">${escapeHTML(u.rol)}</span></td><td><div class="row-actions">${botones}</div></td></tr>`;
       }).join("");
     }
 
-    function eliminarTecnico(usuario) {
-      if (!esSupervisor()) {
-        alert("No tienes permiso para eliminar usuarios.");
+    function recuperarContrasena(){
+      alert("Si olvidaste tu contraseña, solicita al supervisor que la cambie desde Administración de usuarios con el botón 🔑 Clave.");
+    }
+
+    async function restablecerClaveTecnico(usuario){
+      if(!esSupervisor()){
+        alert("No tienes permiso para cambiar contraseñas.");
         return;
       }
-
-      let usuarios = obtenerUsuarios();
-      const usuarioEncontrado = usuarios.find(u => u.usuario === usuario);
-
-      if (!usuarioEncontrado) {
+      const usuarioEncontrado=usuarios.find(u=>u.usuario===usuario);
+      if(!usuarioEncontrado){
         alert("Usuario no encontrado.");
         return;
       }
-
-      if (usuarioEncontrado.rol === "supervisor") {
-        alert("No se puede eliminar un supervisor.");
+      if(usuarioEncontrado.rol==="supervisor"){
+        alert("No puedes cambiar la contraseña de otro supervisor desde este panel.");
         return;
       }
-
-      const confirmar = confirm("¿Seguro que deseas eliminar al técnico '" + usuarioEncontrado.nombre + "'?");
-
-      if (!confirmar) return;
-
-      usuarios = usuarios.filter(u => u.usuario !== usuario);
-      guardarUsuarios(usuarios);
-      localStorage.removeItem("borradorServicioTecnicoCNE_" + usuario);
-
-      renderUsuarios();
-      alert("Técnico eliminado correctamente.");
+      const nuevaClave=prompt("Nueva contraseña para " + usuarioEncontrado.nombre + ":");
+      if(!nuevaClave || nuevaClave.trim().length < 4){
+        alert("La contraseña debe tener al menos 4 caracteres.");
+        return;
+      }
+      await update(ref(db,"usuarios/"+limpiarClave(usuario)),{password:nuevaClave.trim()});
+      alert("Contraseña actualizada correctamente. El técnico ya puede ingresar con la nueva clave.");
     }
 
-    function exportarCSV() {
-      const filtrados = obtenerRegistrosFiltrados();
-
-      if (filtrados.length === 0) {
-        alert("No hay registros para exportar.");
-        return;
+    async function eliminarTecnico(usuario){
+      if(!esSupervisor()){alert("No tienes permiso para eliminar usuarios.");return;}
+      const usuarioEncontrado=usuarios.find(u=>u.usuario===usuario);
+      if(!usuarioEncontrado){alert("Usuario no encontrado.");return;}
+      if(usuarioEncontrado.rol==="supervisor"){alert("No se puede eliminar un supervisor.");return;}
+      if(confirm("¿Seguro que deseas eliminar al técnico '"+usuarioEncontrado.nombre+"'?")){
+        await remove(ref(db,"usuarios/"+limpiarClave(usuario)));
+        localStorage.removeItem("borradorServicioTecnicoCNE_"+usuario);
+        alert("Técnico eliminado correctamente de la nube.");
       }
+    }
 
-      let csv = "N°,Fecha,Área,Responsable,Equipo,Servicio,Marca,Modelo,Serie,Código,Disco,Memoria,Monitor,Teclado,Mouse,Impresora,Telefono Marca,Antivirus,Estado,Técnico,Problema,Trabajo,Registrado por,Editado por\n";
-
-      filtrados.forEach((r, i) => {
-        csv += `${i + 1},"${r.fecha}","${r.area}","${r.responsable}","${r.equipo}","${r.servicio}","${r.marca}","${r.modelo}","${r.serie}","${r.codigo}","${r.disco}","${r.memoria}","${r.monitor}","${r.teclado}","${r.mouse}","${r.impresora}","${r.telefonoMarca}","${r.antivirus}","${r.estado}","${r.tecnico}","${r.problema}","${r.trabajo}","${r.registradoPor || ""}","${r.editadoPor || ""}"\n`;
-      });
-
-      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "reporte_servicio_tecnico_cne.csv";
+    function exportarCSV(){
+      const filtrados=obtenerRegistrosFiltrados();
+      if(filtrados.length===0){alert("No hay registros para exportar.");return;}
+      let csv="N°,Fecha,Área,Responsable,Equipo,Servicio,Marca,Modelo,Serie,Código,Disco,Memoria,Monitor,Teclado,Mouse,Impresora,Telefono Marca,Antivirus,Estado,Técnico,Problema,Trabajo,Registrado por,Editado por\n";
+      filtrados.forEach((r,i)=>{csv+=`${i+1},"${r.fecha||""}","${r.area||""}","${r.responsable||""}","${r.equipo||""}","${r.servicio||""}","${r.marca||""}","${r.modelo||""}","${r.serie||""}","${r.codigo||""}","${r.disco||""}","${r.memoria||""}","${r.monitor||""}","${r.teclado||""}","${r.mouse||""}","${r.impresora||""}","${r.telefonoMarca||""}","${r.antivirus||""}","${r.estado||""}","${r.tecnico||""}","${r.problema||""}","${r.trabajo||""}","${r.registradoPor||""}","${r.editadoPor||""}"\n`;});
+      const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
+      const link=document.createElement("a");
+      link.href=URL.createObjectURL(blob);
+      link.download="reporte_servicio_tecnico_cne.csv";
       link.click();
     }
 
-    function imprimirReporteFiltrado() {
-      const filtrados = obtenerRegistrosFiltrados();
-
-      if (filtrados.length === 0) {
-        alert("No hay registros para imprimir.");
-        return;
-      }
-
-      const area = document.getElementById("filtroArea").value || "Todas las áreas";
-      const tecnico = document.getElementById("filtroTecnico").value || "Todos los técnicos";
-      const fechaImpresion = new Date().toLocaleString();
-
-      const filas = filtrados.map((r, i) => `
-        <tr>
-          <td>${i + 1}</td>
-          <td>${formatearFecha(r.fecha)}</td>
-          <td>${escapeHTML(r.area || "")}</td>
-          <td>${escapeHTML(r.responsable || "")}</td>
-          <td>${escapeHTML(r.equipo || "")}</td>
-          <td>${escapeHTML(r.marca || "")}</td>
-          <td>${escapeHTML(r.modelo || "")}</td>
-          <td>${escapeHTML(r.codigo || "")}</td>
-          <td>${escapeHTML(r.serie || "")}</td>
-          <td>${escapeHTML(r.servicio || "")}</td>
-          <td>${escapeHTML(r.estado || "")}</td>
-          <td>${escapeHTML(r.tecnico || "")}</td>
-        </tr>
-      `).join("");
-
-      const ventana = window.open("", "_blank");
-
-      ventana.document.write(`
-        <html>
-        <head>
-          <title>Reporte CNE - Servicio Técnico</title>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              padding: 25px;
-              color: #111827;
-            }
-
-            h1 {
-              text-align: center;
-              margin-bottom: 4px;
-              font-size: 22px;
-            }
-
-            .sub {
-              text-align: center;
-              color: #555;
-              margin-bottom: 20px;
-              font-size: 14px;
-            }
-
-            .info {
-              display: grid;
-              grid-template-columns: repeat(3, 1fr);
-              gap: 10px;
-              margin-bottom: 18px;
-              font-size: 13px;
-            }
-
-            .box {
-              border: 1px solid #ccc;
-              padding: 8px;
-              border-radius: 8px;
-            }
-
-            table {
-              width: 100%;
-              border-collapse: collapse;
-              font-size: 11px;
-            }
-
-            th {
-              background: #111827;
-              color: white;
-              padding: 7px;
-              border: 1px solid #111827;
-              text-align: left;
-            }
-
-            td {
-              padding: 6px;
-              border: 1px solid #ccc;
-              vertical-align: top;
-            }
-
-            .firmas {
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              gap: 60px;
-              margin-top: 55px;
-              text-align: center;
-              font-size: 13px;
-            }
-
-            .linea {
-              border-top: 1px solid #111;
-              padding-top: 8px;
-            }
-
-            button {
-              margin-top: 20px;
-              padding: 10px 14px;
-              border: none;
-              background: #2563eb;
-              color: white;
-              border-radius: 8px;
-              cursor: pointer;
-            }
-
-            @media print {
-              button { display: none; }
-              body { padding: 10px; }
-            }
-          </style>
-        </head>
-
-        <body>
-          <h1>CNE - REPORTE DE SERVICIO TÉCNICO</h1>
-          <p class="sub">Reporte generado por área y técnico</p>
-
-          <div class="info">
-            <div class="box"><strong>Área:</strong><br>${escapeHTML(area)}</div>
-            <div class="box"><strong>Técnico:</strong><br>${escapeHTML(tecnico)}</div>
-            <div class="box"><strong>Fecha de impresión:</strong><br>${escapeHTML(fechaImpresion)}</div>
-          </div>
-
-          <table>
-            <thead>
-              <tr>
-                <th>N°</th>
-                <th>Fecha</th>
-                <th>Área</th>
-                <th>Responsable</th>
-                <th>Equipo</th>
-                <th>Marca</th>
-                <th>Modelo</th>
-                <th>Código</th>
-                <th>Serie</th>
-                <th>Servicio</th>
-                <th>Estado</th>
-                <th>Técnico</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${filas}
-            </tbody>
-          </table>
-
-          <div class="firmas">
-            <div class="linea">Firma del responsable del área</div>
-            <div class="linea">Firma del técnico / supervisor</div>
-          </div>
-
-          <button onclick="window.print()">Imprimir reporte</button>
-        </body>
-        </html>
-      `);
-
+    function imprimirReporteFiltrado(){
+      const filtrados=obtenerRegistrosFiltrados();
+      if(filtrados.length===0){alert("No hay registros para imprimir.");return;}
+      const area=document.getElementById("filtroArea").value||"Todas las áreas";
+      const tecnico=document.getElementById("filtroTecnico").value||"Todos los técnicos";
+      const fechaImpresion=new Date().toLocaleString();
+      const filas=filtrados.map((r,i)=>`<tr><td>${i+1}</td><td>${formatearFecha(r.fecha)}</td><td>${escapeHTML(r.area||"")}</td><td>${escapeHTML(r.responsable||"")}</td><td>${escapeHTML(r.equipo||"")}</td><td>${escapeHTML(r.marca||"")}</td><td>${escapeHTML(r.modelo||"")}</td><td>${escapeHTML(r.codigo||"")}</td><td>${escapeHTML(r.serie||"")}</td><td>${escapeHTML(r.servicio||"")}</td><td>${escapeHTML(r.estado||"")}</td><td>${escapeHTML(r.tecnico||"")}</td></tr>`).join("");
+      const ventana=window.open("","_blank");
+      ventana.document.write(`<!DOCTYPE html><html><head><title>Reporte CNE - Servicio Técnico</title><style>body{font-family:Arial,sans-serif;padding:25px;color:#111827}h1{text-align:center;margin-bottom:4px;font-size:22px}.sub{text-align:center;color:#555;margin-bottom:20px;font-size:14px}.info{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;font-size:13px}.box{border:1px solid #ccc;padding:8px;border-radius:8px}table{width:100%;border-collapse:collapse;font-size:11px}th{background:#111827;color:white;padding:7px;border:1px solid #111827;text-align:left}td{padding:6px;border:1px solid #ccc;vertical-align:top}.firmas{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-top:55px;text-align:center;font-size:13px}.linea{border-top:1px solid #111;padding-top:8px}button{margin-top:20px;padding:10px 14px;border:none;background:#2563eb;color:white;border-radius:8px;cursor:pointer}@media print{button{display:none}body{padding:10px}}</style></head><body><h1>CNE - REPORTE DE SERVICIO TÉCNICO</h1><p class="sub">Reporte generado por área y técnico</p><div class="info"><div class="box"><strong>Área:</strong><br>${escapeHTML(area)}</div><div class="box"><strong>Técnico:</strong><br>${escapeHTML(tecnico)}</div><div class="box"><strong>Fecha de impresión:</strong><br>${escapeHTML(fechaImpresion)}</div></div><table><thead><tr><th>N°</th><th>Fecha</th><th>Área</th><th>Responsable</th><th>Equipo</th><th>Marca</th><th>Modelo</th><th>Código</th><th>Serie</th><th>Servicio</th><th>Estado</th><th>Técnico</th></tr></thead><tbody>${filas}</tbody></table><div class="firmas"><div class="linea">Firma del responsable del área</div><div class="linea">Firma del técnico / supervisor</div></div><button onclick="window.print()">Imprimir reporte</button></body></html>`);
       ventana.document.close();
     }
 
-    function imprimirComprobante(index) {
-      const r = registros[index];
-
-      const ventana = window.open("", "_blank");
-      ventana.document.write(`
-        <html>
-        <head>
-          <title>Comprobante de Servicio Técnico CNE</title>
-          <style>
-            body {
-              font-family: Arial, sans-serif;
-              padding: 30px;
-              color: #111827;
-            }
-
-            .comprobante {
-              max-width: 850px;
-              margin: auto;
-              border: 2px solid #111827;
-              padding: 25px;
-              border-radius: 14px;
-            }
-
-            h1 {
-              text-align: center;
-              margin-bottom: 5px;
-            }
-
-            .sub {
-              text-align: center;
-              color: #555;
-              margin-bottom: 25px;
-            }
-
-            table {
-              width: 100%;
-              border-collapse: collapse;
-              margin-top: 15px;
-            }
-
-            td {
-              padding: 9px;
-              border: 1px solid #ccc;
-              vertical-align: top;
-              font-size: 13px;
-            }
-
-            .firmas {
-              display: grid;
-              grid-template-columns: 1fr 1fr;
-              gap: 40px;
-              margin-top: 55px;
-              text-align: center;
-            }
-
-            .linea {
-              border-top: 1px solid #111;
-              padding-top: 8px;
-            }
-
-            @media print {
-              button { display: none; }
-            }
-          </style>
-        </head>
-        <body>
-          <div class="comprobante">
-            <h1>CNE - Sistema de Servicio Técnico</h1>
-            <p class="sub">Comprobante de recepción / mantenimiento de equipo institucional</p>
-
-            <table>
-              <tr><td><strong>N° Reporte:</strong></td><td>${index + 1}</td></tr>
-              <tr><td><strong>Fecha:</strong></td><td>${formatearFecha(r.fecha)}</td></tr>
-              <tr><td><strong>Área:</strong></td><td>${escapeHTML(r.area || "")}</td></tr>
-              <tr><td><strong>Responsable:</strong></td><td>${escapeHTML(r.responsable || "")}</td></tr>
-              <tr><td><strong>Equipo:</strong></td><td>${escapeHTML(r.equipo || "")}</td></tr>
-              <tr><td><strong>Servicio:</strong></td><td>${escapeHTML(r.servicio || "")}</td></tr>
-              <tr><td><strong>Marca:</strong></td><td>${escapeHTML(r.marca || "")}</td></tr>
-              <tr><td><strong>Modelo:</strong></td><td>${escapeHTML(r.modelo || "")}</td></tr>
-              <tr><td><strong>Serie:</strong></td><td>${escapeHTML(r.serie || "")}</td></tr>
-              <tr><td><strong>Código:</strong></td><td>${escapeHTML(r.codigo || "")}</td></tr>
-              <tr><td><strong>Disco duro / Capacidad:</strong></td><td>${escapeHTML(r.disco || "")}</td></tr>
-              <tr><td><strong>Memoria:</strong></td><td>${escapeHTML(r.memoria || "")}</td></tr>
-              <tr><td><strong>Monitor:</strong></td><td>${escapeHTML(r.monitor || "")}</td></tr>
-              <tr><td><strong>Teclado:</strong></td><td>${escapeHTML(r.teclado || "")}</td></tr>
-              <tr><td><strong>Mouse:</strong></td><td>${escapeHTML(r.mouse || "")}</td></tr>
-              <tr><td><strong>Impresora:</strong></td><td>${escapeHTML(r.impresora || "")}</td></tr>
-              <tr><td><strong>Teléfono / Marca:</strong></td><td>${escapeHTML(r.telefonoMarca || "")}</td></tr>
-              <tr><td><strong>Antivirus:</strong></td><td>${escapeHTML(r.antivirus || "")}</td></tr>
-              <tr><td><strong>Estado:</strong></td><td>${escapeHTML(r.estado || "")}</td></tr>
-              <tr><td><strong>Técnico:</strong></td><td>${escapeHTML(r.tecnico || "")}</td></tr>
-              <tr><td><strong>Problema reportado:</strong></td><td>${escapeHTML(r.problema || "")}</td></tr>
-              <tr><td><strong>Trabajo realizado:</strong></td><td>${escapeHTML(r.trabajo || "")}</td></tr>
-              <tr><td><strong>Registrado por:</strong></td><td>${escapeHTML(r.registradoPor || "")}</td></tr>
-              <tr><td><strong>Editado por:</strong></td><td>${escapeHTML(r.editadoPor || "Sin edición")}</td></tr>
-            </table>
-
-            <div class="firmas">
-              <div class="linea">Firma del responsable</div>
-              <div class="linea">Firma del técnico</div>
-            </div>
-
-            <br><br>
-            <button onclick="window.print()">Imprimir comprobante</button>
-          </div>
-        </body>
-        </html>
-      `);
-
+    function imprimirComprobante(id){
+      const r=registros.find(item=>item.id===id);
+      if(!r)return;
+      const numeroReporte=registros.indexOf(r)+1;
+      const camposComprobante=[
+        ["N° Reporte",numeroReporte],["Fecha",formatearFecha(r.fecha)],["Área",r.area],["Responsable",r.responsable],["Equipo",r.equipo],["Servicio",r.servicio],["Marca",r.marca],["Modelo",r.modelo],["Serie",r.serie],["Código",r.codigo],["Disco duro / Capacidad",r.disco],["Memoria",r.memoria],["Monitor",r.monitor],["Teclado",r.teclado],["Mouse",r.mouse],["Impresora",r.impresora],["Teléfono / Marca",r.telefonoMarca],["Antivirus",r.antivirus],["Estado",r.estado],["Técnico",r.tecnico],["Problema reportado",r.problema],["Trabajo realizado",r.trabajo],["Registrado por",r.registradoPor],["Editado por",r.editadoPor||"Sin edición"]
+      ];
+      const filas=camposComprobante.map(c=>`<tr><td><strong>${escapeHTML(c[0])}:</strong></td><td>${escapeHTML(c[1]||"")}</td></tr>`).join("");
+      const ventana=window.open("","_blank");
+      ventana.document.write(`<!DOCTYPE html><html><head><title>Comprobante de Servicio Técnico CNE</title><style>body{font-family:Arial,sans-serif;padding:30px;color:#111827}.comprobante{max-width:850px;margin:auto;border:2px solid #111827;padding:25px;border-radius:14px}h1{text-align:center;margin-bottom:5px}.sub{text-align:center;color:#555;margin-bottom:25px}table{width:100%;border-collapse:collapse;margin-top:15px}td{padding:9px;border:1px solid #ccc;vertical-align:top;font-size:13px}.firmas{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:55px;text-align:center}.linea{border-top:1px solid #111;padding-top:8px}@media print{button{display:none}}</style></head><body><div class="comprobante"><h1>CNE - Sistema de Servicio Técnico</h1><p class="sub">Comprobante de recepción / mantenimiento de equipo institucional</p><table>${filas}</table><div class="firmas"><div class="linea">Firma del responsable</div><div class="linea">Firma del técnico</div></div><br><br><button onclick="window.print()">Imprimir comprobante</button></div></body></html>`);
       ventana.document.close();
     }
 
-    function claveSugerencias() {
-      return "sugerenciasServicioTecnicoCNE";
+    function cargarSugerenciasDesdeReportes(){
+      const sugerencias={};
+      registros.forEach(r=>campos.forEach(campo=>{if(!["fecha","problema","trabajo","estado","servicio"].includes(campo))sugerencias[campo]=agregarUnico(sugerencias[campo],r[campo]);}));
+      cargarSugerencias(sugerencias);
     }
-
-    function obtenerSugerencias() {
-      return JSON.parse(localStorage.getItem(claveSugerencias())) || {};
+    function agregarUnico(lista,valor){
+      valor=(valor||"").trim();
+      if(!valor)return lista||[];
+      lista=lista||[];
+      if(!lista.some(item=>item.toLowerCase()===valor.toLowerCase()))lista.unshift(valor);
+      return lista.slice(0,50);
     }
-
-    function guardarSugerencias(sugerencias) {
-      localStorage.setItem(claveSugerencias(), JSON.stringify(sugerencias));
+    function cargarSugerencias(s={}){
+      llenarDatalist("listaAreas",s.area||[]);
+      llenarDatalist("listaResponsables",s.responsable||[]);
+      llenarDatalist("listaEquipos",s.equipo||[]);
+      llenarDatalist("listaMarcas",s.marca||[]);
+      llenarDatalist("listaModelos",s.modelo||[]);
+      llenarDatalist("listaSeries",s.serie||[]);
+      llenarDatalist("listaCodigos",s.codigo||[]);
+      llenarDatalist("listaDiscos",s.disco||[]);
+      llenarDatalist("listaMemorias",s.memoria||[]);
+      llenarDatalist("listaMonitores",s.monitor||[]);
+      llenarDatalist("listaTeclados",s.teclado||[]);
+      llenarDatalist("listaMouses",s.mouse||[]);
+      llenarDatalist("listaImpresoras",s.impresora||[]);
+      llenarDatalist("listaTelefonosMarca",s.telefonoMarca||[]);
+      llenarDatalist("listaAntivirus",s.antivirus||[]);
+      llenarDatalist("listaTecnicos",s.tecnico||[]);
     }
-
-    function agregarUnico(lista, valor) {
-      valor = (valor || "").trim();
-      if (!valor) return lista || [];
-
-      lista = lista || [];
-      const existe = lista.some(item => item.toLowerCase() === valor.toLowerCase());
-
-      if (!existe) lista.unshift(valor);
-
-      return lista.slice(0, 50);
+    function llenarDatalist(idLista,datos){
+      const lista=document.getElementById(idLista);
+      lista.innerHTML=datos.map(item=>`<option value="${escapeHTML(item)}"></option>`).join("");
     }
-
-    function guardarSugerenciasDesdeRegistro(r) {
-      let s = obtenerSugerencias();
-
-      campos.forEach(campo => {
-        if (!["fecha", "problema", "trabajo", "estado", "servicio"].includes(campo)) {
-          s[campo] = agregarUnico(s[campo], r[campo]);
-        }
-      });
-
-      guardarSugerencias(s);
-    }
-
-    function cargarSugerencias() {
-      const s = obtenerSugerencias();
-
-      llenarDatalist("listaAreas", s.area || []);
-      llenarDatalist("listaResponsables", s.responsable || []);
-      llenarDatalist("listaEquipos", s.equipo || []);
-      llenarDatalist("listaMarcas", s.marca || []);
-      llenarDatalist("listaModelos", s.modelo || []);
-      llenarDatalist("listaSeries", s.serie || []);
-      llenarDatalist("listaCodigos", s.codigo || []);
-      llenarDatalist("listaDiscos", s.disco || []);
-      llenarDatalist("listaMemorias", s.memoria || []);
-      llenarDatalist("listaMonitores", s.monitor || []);
-      llenarDatalist("listaTeclados", s.teclado || []);
-      llenarDatalist("listaMouses", s.mouse || []);
-      llenarDatalist("listaImpresoras", s.impresora || []);
-      llenarDatalist("listaTelefonosMarca", s.telefonoMarca || []);
-      llenarDatalist("listaAntivirus", s.antivirus || []);
-      llenarDatalist("listaTecnicos", s.tecnico || []);
-    }
-
-    function llenarDatalist(idLista, datos) {
-      const lista = document.getElementById(idLista);
-      lista.innerHTML = datos.map(item => `<option value="${escapeHTML(item)}"></option>`).join("");
-    }
-
-    function formatearFecha(fecha) {
-      if (!fecha) return "";
-      const partes = fecha.split("-");
+    function formatearFecha(fecha){
+      if(!fecha)return "";
+      const partes=fecha.split("-");
+      if(partes.length!==3)return fecha;
       return `${partes[2]}/${partes[1]}/${partes[0]}`;
     }
-
-    function escapeHTML(texto) {
-      return String(texto)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+    function escapeHTML(texto){
+      return String(texto).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
     }
+    function escapeJS(texto){return String(texto).replaceAll("\\","\\\\").replaceAll("'","\\'");}
+    function limpiarClave(texto){return String(texto).toLowerCase().trim().replace(/[.#$\[\]\/]/g,"_");}
 
-    function escapeJS(texto) {
-      return String(texto).replaceAll("\\", "\\\\").replaceAll("'", "\\'");
-    }
+    window.cambiarTab=cambiarTab;window.cerrarSesion=cerrarSesion;window.nuevoRegistro=nuevoRegistro;window.renderTabla=renderTabla;window.limpiarFiltros=limpiarFiltros;window.exportarCSV=exportarCSV;window.imprimirReporteFiltrado=imprimirReporteFiltrado;window.editarRegistro=editarRegistro;window.eliminarRegistro=eliminarRegistro;window.sinPermisoBorrar=sinPermisoBorrar;window.imprimirComprobante=imprimirComprobante;window.eliminarTecnico=eliminarTecnico;window.restablecerClaveTecnico=restablecerClaveTecnico;window.recuperarContrasena=recuperarContrasena;window.limpiarTodo=limpiarTodo;
 
-    iniciarSistema();
+    asegurarSupervisor().then(()=>{escucharUsuarios();iniciarSistema();}).catch(error=>{console.error(error);document.getElementById("estadoConexion").textContent="⚠️ Error Firebase";alert("No se pudo conectar con Firebase. Revisa que Realtime Database esté creado y que las reglas permitan lectura/escritura.");});
   </script>
 </body>
 </html>
