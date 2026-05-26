@@ -1,299 +1,893 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sistema de Servicio Técnico</title>
 
-<meta charset="UTF-8">
+  <style>
+    :root {
+      --primary: #0f172a;
+      --secondary: #1e293b;
+      --accent: #2563eb;
+      --accent-2: #38bdf8;
+      --success: #16a34a;
+      --warning: #f59e0b;
+      --danger: #dc2626;
+      --light: #f8fafc;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --card: #ffffff;
+      --shadow: 0 12px 35px rgba(15, 23, 42, 0.12);
+      --radius: 18px;
+    }
 
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0">
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
 
-<title>CNE - Sistema Técnico</title>
+    body {
+      background: linear-gradient(135deg, #e0f2fe, #f8fafc 45%, #dbeafe);
+      color: var(--primary);
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-<link rel="stylesheet"
-href="estilos.css">
+    .app {
+      max-width: 1250px;
+      margin: auto;
+    }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    .topbar {
+      background: linear-gradient(135deg, #0f172a, #1e40af);
+      color: white;
+      padding: 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 22px;
+    }
 
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo {
+      width: 58px;
+      height: 58px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #38bdf8, #2563eb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: 900;
+      color: white;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .brand h1 {
+      font-size: 26px;
+      letter-spacing: .4px;
+    }
+
+    .brand p {
+      color: #cbd5e1;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .btn {
+      border: none;
+      padding: 11px 16px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: .2s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      opacity: .92;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-dark {
+      background: #020617;
+      color: white;
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-warning {
+      background: var(--warning);
+      color: white;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-light {
+      background: white;
+      color: var(--primary);
+      border: 1px solid rgba(255,255,255,.25);
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::after {
+      content: "";
+      position: absolute;
+      right: -25px;
+      top: -25px;
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      background: rgba(37, 99, 235, 0.10);
+    }
+
+    .stat-card h2 {
+      font-size: 32px;
+      color: var(--accent);
+      margin-bottom: 5px;
+    }
+
+    .stat-card p {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 390px 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+
+    .panel-title {
+      font-size: 20px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      font-size: 14px;
+      background: #f8fafc;
+      transition: .2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, .10);
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .form-group {
+      margin-bottom: 13px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .table-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+    }
+
+    .search-box {
+      max-width: 330px;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 15px;
+      border: 1px solid var(--border);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 850px;
+      background: white;
+    }
+
+    th {
+      background: #0f172a;
+      color: white;
+      text-align: left;
+      padding: 13px;
+      font-size: 13px;
+    }
+
+    td {
+      padding: 12px 13px;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+      vertical-align: top;
+    }
+
+    tr:hover td {
+      background: #f8fafc;
+    }
+
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      display: inline-block;
+      white-space: nowrap;
+    }
+
+    .estado-recibido {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+
+    .estado-revision {
+      background: #fef3c7;
+      color: #b45309;
+    }
+
+    .estado-reparacion {
+      background: #ffedd5;
+      color: #c2410c;
+    }
+
+    .estado-listo {
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    .estado-entregado {
+      background: #e0e7ff;
+      color: #4338ca;
+    }
+
+    .estado-no {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .row-actions {
+      display: flex;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .icon-btn {
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      color: white;
+      font-weight: 800;
+    }
+
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 28px;
+      font-weight: 600;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    @media (max-width: 1000px) {
+      .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 650px) {
+      body {
+        padding: 12px;
+      }
+
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .brand h1 {
+        font-size: 21px;
+      }
+
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .actions {
+        grid-template-columns: 1fr;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .toolbar {
+        width: 100%;
+      }
+
+      .toolbar .btn {
+        width: auto;
+        flex: 1;
+      }
+
+      .search-box {
+        max-width: 100%;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+
+      .topbar, .dashboard, .panel:first-child, .toolbar, .search-box, .footer-note {
+        display: none !important;
+      }
+
+      .grid {
+        display: block;
+      }
+
+      .panel {
+        box-shadow: none;
+        border: none;
+      }
+
+      th {
+        background: #111 !important;
+        color: white !important;
+      }
+
+      .row-actions {
+        display: none;
+      }
+    }
+  </style>
 </head>
 
 <body>
-
-<header>
-
-<h1>
-🖥️ CNE - SISTEMA TÉCNICO
-</h1>
-
-<button onclick="cerrarSesion()">
-🚪 Cerrar Sesión
-</button>
-
-</header>
-
-<div class="dashboard">
-
-<div class="card-dashboard">
-
-<h2 id="totalEquipos">
-0
-</h2>
-
-<p>Equipos Registrados</p>
-
-</div>
-
-<div class="card-dashboard">
-
-<h2 id="totalMantenimientos">
-0
-</h2>
-
-<p>Mantenimientos</p>
-
-</div>
-
-</div>
-
-<div class="contenedor">
-
-<div class="titulo-reporte">
-
-<h2>
-📋 Registro Técnico
-</h2>
-
-<div class="info-superior">
-  <div id="nombreTecnico"
-style="
-font-weight:bold;
-color:#1565c0;
-">
-👨‍🔧 Técnico
-</div>
-  
-  <select id="filtroArea">
-
-<option value="">
-📋 Todas las Áreas
-</option>
-
-</select>
-
-<div id="nombreTecnico">
-👨‍🔧 Técnico
-</div>
-
-<div id="fechaActual">
-📅 Fecha
-</div>
-
-<div>
-
-N° <span id="numeroReporte">
-#1
-</span>
-
-</div>
-
-</div>
-
-</div>
-
-<div class="formulario">
-
-<input
-type="text"
-id="area"
-placeholder="🏢 Área"
-list="listaAreas">
-
-<datalist id="listaAreas"></datalist>
-
-<input
-type="text"
-id="equipo"
-placeholder="💻 Equipo"
-list="listaEquipos">
-
-<datalist id="listaEquipos"></datalist>
-
-<input
-type="text"
-id="servicio"
-placeholder="🛠️ Servicio">
-
-<input
-type="text"
-id="modelo"
-placeholder="🖥️ Modelo">
-
-<input
-type="text"
-id="marca"
-placeholder="🏷️ Marca"
-list="listaMarcas">
-
-<datalist id="listaMarcas"></datalist>
-
-<input
-type="text"
-id="serie"
-placeholder="🔢 Serie">
-
-<input
-type="text"
-id="codigo"
-placeholder="📌 Código">
-
-<input
-type="text"
-id="disco"
-placeholder="💾 Disco Duro">
-
-<input
-type="text"
-id="memoria"
-placeholder="🧠 Memoria RAM">
-
-<input
-type="text"
-id="monitor"
-placeholder="🖥️ Monitor">
-
-<input
-type="text"
-id="teclado"
-placeholder="⌨️ Teclado">
-
-<input
-type="text"
-id="mouse"
-placeholder="🖱️ Mouse">
-
-<input
-type="text"
-id="impresora"
-placeholder="🖨️ Impresora">
-
-<input
-type="text"
-id="telefono"
-placeholder="📞 Teléfono">
-
-<input
-type="text"
-id="antivirus"
-placeholder="🛡️ Antivirus">
-
-<input
-type="text"
-id="mantenimiento"
-placeholder="🔧 Mantenimiento">
-
-<select id="estado">
-
-<option value="Pendiente">
-🟡 Pendiente
-</option>
-
-<option value="Reparación">
-🔵 Reparación
-</option>
-
-<option value="Entregado">
-🟢 Entregado
-</option>
-
-</select>
-
-<textarea
-id="observaciones"
-placeholder="📝 Observaciones Técnicas">
-</textarea>
-
-<input
-type="text"
-id="tecnico"
-readonly>
-
-<input
-type="file"
-id="foto"
-accept="image/*">
-
-<button onclick="nuevoReporte()">
-➕ Nuevo Reporte
-</button>
-
-
-
-</div>
-
-
-<div class="acciones">
-
-<button onclick="guardar()">
-💾 Guardar Registro
-</button>
-
-<button onclick="nuevoReporte()">
-➕ Nuevo Reporte
-</button>
-
-
-
-<button onclick="exportarExcel()">
-📊 Excel
-</button>
-
-<button onclick="window.print()">
-📄 PDF
-</button>
-
-</div>
-
-
-
-
-
-<input type="text"
-id="buscar"
-placeholder="🔍 Buscar equipo, técnico o área..."
-onkeyup="buscarEquipo()">
-
-<div class="tabla-contenedor">
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>#</th>
-<th>Fecha</th>
-<th>Equipo</th>
-<th>Área</th>
-<th>Estado</th>
-<th>Técnico</th>
-<th>Acciones</th>
-
-</tr>
-
-</thead>
-
-<tbody id="lista">
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-<script type="module"
-src="script.js"></script>
-
+  <div class="app">
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">ST</div>
+        <div>
+          <h1>Sistema de Servicio Técnico</h1>
+          <p>Registro, control y seguimiento de equipos en mantenimiento</p>
+        </div>
+      </div>
+
+      <button class="btn btn-light" onclick="limpiarTodo()">🧹 Limpiar sistema</button>
+    </header>
+
+    <section class="dashboard">
+      <div class="stat-card">
+        <h2 id="totalEquipos">0</h2>
+        <p>Equipos registrados</p>
+      </div>
+
+      <div class="stat-card">
+        <h2 id="enRevision">0</h2>
+        <p>En revisión</p>
+      </div>
+
+      <div class="stat-card">
+        <h2 id="listos">0</h2>
+        <p>Listos</p>
+      </div>
+
+      <div class="stat-card">
+        <h2 id="entregados">0</h2>
+        <p>Entregados</p>
+      </div>
+    </section>
+
+    <main class="grid">
+
+      <section class="panel">
+        <h2 class="panel-title">📝 Registro Técnico</h2>
+
+        <form id="formRegistro">
+          <input type="hidden" id="editIndex">
+
+          <div class="form-group">
+            <label>Cliente</label>
+            <input type="text" id="cliente" placeholder="Nombre del cliente" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Teléfono</label>
+              <input type="text" id="telefono" placeholder="0999999999">
+            </div>
+
+            <div class="form-group">
+              <label>Fecha</label>
+              <input type="date" id="fecha" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Equipo</label>
+            <input type="text" id="equipo" placeholder="Ej: Laptop, impresora, CPU, cámara" required>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Marca / Modelo</label>
+              <input type="text" id="marca" placeholder="Ej: HP 240 G8">
+            </div>
+
+            <div class="form-group">
+              <label>Técnico</label>
+              <input type="text" id="tecnico" placeholder="Nombre del técnico" required>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Área / Departamento</label>
+            <input type="text" id="area" placeholder="Ej: Sistemas, Oficina, Cliente externo">
+          </div>
+
+          <div class="form-group">
+            <label>Problema reportado</label>
+            <textarea id="problema" placeholder="Describe el daño o problema del equipo"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Trabajo realizado / Diagnóstico</label>
+            <textarea id="trabajo" placeholder="Describe el mantenimiento o reparación realizada"></textarea>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Costo</label>
+              <input type="number" id="costo" placeholder="0.00" step="0.01">
+            </div>
+
+            <div class="form-group">
+              <label>Estado</label>
+              <select id="estado">
+                <option value="Recibido">Recibido</option>
+                <option value="En revisión">En revisión</option>
+                <option value="En reparación">En reparación</option>
+                <option value="Listo">Listo</option>
+                <option value="Entregado">Entregado</option>
+                <option value="No reparado">No reparado</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button type="submit" class="btn btn-primary">💾 Guardar</button>
+            <button type="button" class="btn btn-dark" onclick="nuevoRegistro()">➕ Nuevo</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="table-header">
+          <h2 class="panel-title">📋 Reportes registrados</h2>
+
+          <input class="search-box" type="text" id="buscar" placeholder="🔎 Buscar cliente, equipo, técnico..." oninput="renderTabla()">
+
+          <div class="toolbar">
+            <button class="btn btn-success" onclick="exportarCSV()">📊 Excel</button>
+            <button class="btn btn-warning" onclick="window.print()">🖨️ PDF</button>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>N°</th>
+                <th>Fecha</th>
+                <th>Cliente</th>
+                <th>Equipo</th>
+                <th>Estado</th>
+                <th>Técnico</th>
+                <th>Costo</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+
+            <tbody id="tablaRegistros">
+              <tr>
+                <td colspan="8" class="empty">No hay registros todavía</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+
+    <p class="footer-note">
+      Sistema de control técnico | Datos guardados en este navegador
+    </p>
+  </div>
+
+  <script>
+    let registros = JSON.parse(localStorage.getItem("registrosServicioTecnico")) || [];
+
+    const form = document.getElementById("formRegistro");
+    const fechaInput = document.getElementById("fecha");
+
+    fechaInput.valueAsDate = new Date();
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const registro = {
+        cliente: document.getElementById("cliente").value.trim(),
+        telefono: document.getElementById("telefono").value.trim(),
+        fecha: document.getElementById("fecha").value,
+        equipo: document.getElementById("equipo").value.trim(),
+        marca: document.getElementById("marca").value.trim(),
+        tecnico: document.getElementById("tecnico").value.trim(),
+        area: document.getElementById("area").value.trim(),
+        problema: document.getElementById("problema").value.trim(),
+        trabajo: document.getElementById("trabajo").value.trim(),
+        costo: document.getElementById("costo").value || "0.00",
+        estado: document.getElementById("estado").value
+      };
+
+      const editIndex = document.getElementById("editIndex").value;
+
+      if (editIndex === "") {
+        registros.push(registro);
+      } else {
+        registros[editIndex] = registro;
+      }
+
+      guardar();
+      nuevoRegistro();
+      renderTabla();
+    });
+
+    function guardar() {
+      localStorage.setItem("registrosServicioTecnico", JSON.stringify(registros));
+    }
+
+    function nuevoRegistro() {
+      form.reset();
+      document.getElementById("editIndex").value = "";
+      fechaInput.valueAsDate = new Date();
+      document.querySelector(".btn-primary").innerHTML = "💾 Guardar";
+    }
+
+    function renderTabla() {
+      const tbody = document.getElementById("tablaRegistros");
+      const filtro = document.getElementById("buscar").value.toLowerCase();
+
+      const filtrados = registros.filter(r =>
+        r.cliente.toLowerCase().includes(filtro) ||
+        r.equipo.toLowerCase().includes(filtro) ||
+        r.tecnico.toLowerCase().includes(filtro) ||
+        r.estado.toLowerCase().includes(filtro) ||
+        r.area.toLowerCase().includes(filtro)
+      );
+
+      if (filtrados.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" class="empty">No se encontraron registros</td></tr>`;
+      } else {
+        tbody.innerHTML = filtrados.map((r, i) => {
+          const indexReal = registros.indexOf(r);
+          return `
+            <tr>
+              <td>${indexReal + 1}</td>
+              <td>${formatearFecha(r.fecha)}</td>
+              <td>
+                <strong>${r.cliente}</strong><br>
+                <small>${r.telefono || "Sin teléfono"}</small>
+              </td>
+              <td>
+                <strong>${r.equipo}</strong><br>
+                <small>${r.marca || "Sin modelo"}</small>
+              </td>
+              <td>${badgeEstado(r.estado)}</td>
+              <td>${r.tecnico}</td>
+              <td>$${Number(r.costo || 0).toFixed(2)}</td>
+              <td>
+                <div class="row-actions">
+                  <button class="icon-btn btn-primary" onclick="editarRegistro(${indexReal})">✏️</button>
+                  <button class="icon-btn btn-warning" onclick="imprimirComprobante(${indexReal})">🧾</button>
+                  <button class="icon-btn btn-danger" onclick="eliminarRegistro(${indexReal})">🗑️</button>
+                </div>
+              </td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      actualizarContadores();
+    }
+
+    function badgeEstado(estado) {
+      let clase = "estado-recibido";
+
+      if (estado === "En revisión") clase = "estado-revision";
+      if (estado === "En reparación") clase = "estado-reparacion";
+      if (estado === "Listo") clase = "estado-listo";
+      if (estado === "Entregado") clase = "estado-entregado";
+      if (estado === "No reparado") clase = "estado-no";
+
+      return `<span class="badge ${clase}">${estado}</span>`;
+    }
+
+    function editarRegistro(index) {
+      const r = registros[index];
+
+      document.getElementById("editIndex").value = index;
+      document.getElementById("cliente").value = r.cliente;
+      document.getElementById("telefono").value = r.telefono;
+      document.getElementById("fecha").value = r.fecha;
+      document.getElementById("equipo").value = r.equipo;
+      document.getElementById("marca").value = r.marca;
+      document.getElementById("tecnico").value = r.tecnico;
+      document.getElementById("area").value = r.area;
+      document.getElementById("problema").value = r.problema;
+      document.getElementById("trabajo").value = r.trabajo;
+      document.getElementById("costo").value = r.costo;
+      document.getElementById("estado").value = r.estado;
+
+      document.querySelector(".btn-primary").innerHTML = "✅ Actualizar";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function eliminarRegistro(index) {
+      if (confirm("¿Seguro que deseas eliminar este registro?")) {
+        registros.splice(index, 1);
+        guardar();
+        renderTabla();
+      }
+    }
+
+    function actualizarContadores() {
+      document.getElementById("totalEquipos").textContent = registros.length;
+      document.getElementById("enRevision").textContent = registros.filter(r => r.estado === "En revisión" || r.estado === "En reparación").length;
+      document.getElementById("listos").textContent = registros.filter(r => r.estado === "Listo").length;
+      document.getElementById("entregados").textContent = registros.filter(r => r.estado === "Entregado").length;
+    }
+
+    function exportarCSV() {
+      if (registros.length === 0) {
+        alert("No hay registros para exportar.");
+        return;
+      }
+
+      let csv = "N°,Fecha,Cliente,Telefono,Equipo,Marca,Area,Estado,Tecnico,Problema,Trabajo,Costo\n";
+
+      registros.forEach((r, i) => {
+        csv += `${i + 1},"${r.fecha}","${r.cliente}","${r.telefono}","${r.equipo}","${r.marca}","${r.area}","${r.estado}","${r.tecnico}","${r.problema}","${r.trabajo}","${r.costo}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "registros_servicio_tecnico.csv";
+      link.click();
+    }
+
+    function imprimirComprobante(index) {
+      const r = registros[index];
+
+      const ventana = window.open("", "_blank");
+      ventana.document.write(`
+        <html>
+        <head>
+          <title>Comprobante de Servicio Técnico</title>
+          <style>
+            body {
+              font-family: Arial, sans-serif;
+              padding: 30px;
+              color: #111827;
+            }
+
+            .comprobante {
+              max-width: 760px;
+              margin: auto;
+              border: 2px solid #111827;
+              padding: 25px;
+              border-radius: 14px;
+            }
+
+            h1 {
+              text-align: center;
+              margin-bottom: 5px;
+            }
+
+            .sub {
+              text-align: center;
+              color: #555;
+              margin-bottom: 25px;
+            }
+
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-top: 15px;
+            }
+
+            td {
+              padding: 10px;
+              border: 1px solid #ccc;
+              vertical-align: top;
+            }
+
+            .firmas {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 40px;
+              margin-top: 55px;
+              text-align: center;
+            }
+
+            .linea {
+              border-top: 1px solid #111;
+              padding-top: 8px;
+            }
+
+            @media print {
+              button {
+                display: none;
+              }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="comprobante">
+            <h1>Sistema de Servicio Técnico</h1>
+            <p class="sub">Comprobante de recepción / mantenimiento</p>
+
+            <table>
+              <tr><td><strong>N° Reporte:</strong></td><td>${index + 1}</td></tr>
+              <tr><td><strong>Fecha:</strong></td><td>${formatearFecha(r.fecha)}</td></tr>
+              <tr><td><strong>Cliente:</strong></td><td>${r.cliente}</td></tr>
+              <tr><td><strong>Teléfono:</strong></td><td>${r.telefono || ""}</td></tr>
+              <tr><td><strong>Equipo:</strong></td><td>${r.equipo}</td></tr>
+              <tr><td><strong>Marca / Modelo:</strong></td><td>${r.marca || ""}</td></tr>
+              <tr><td><strong>Área:</strong></td><td>${r.area || ""}</td></tr>
+              <tr><td><strong>Estado:</strong></td><td>${r.estado}</td></tr>
+              <tr><td><strong>Técnico:</strong></td><td>${r.tecnico}</td></tr>
+              <tr><td><strong>Problema reportado:</strong></td><td>${r.problema || ""}</td></tr>
+              <tr><td><strong>Trabajo realizado:</strong></td><td>${r.trabajo || ""}</td></tr>
+              <tr><td><strong>Costo:</strong></td><td>$${Number(r.costo || 0).toFixed(2)}</td></tr>
+            </table>
+
+            <div class="firmas">
+              <div class="linea">Firma del cliente</div>
+              <div class="linea">Firma del técnico</div>
+            </div>
+
+            <br><br>
+            <button onclick="window.print()">Imprimir comprobante</button>
+          </div>
+        </body>
+        </html>
+      `);
+
+      ventana.document.close();
+    }
+
+    function limpiarTodo() {
+      if (confirm("Esto eliminará todos los registros guardados. ¿Deseas continuar?")) {
+        registros = [];
+        guardar();
+        renderTabla();
+      }
+    }
+
+    function formatearFecha(fecha) {
+      if (!fecha) return "";
+      const partes = fecha.split("-");
+      return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+
+    renderTabla();
+  </script>
 </body>
 </html>
