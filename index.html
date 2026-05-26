@@ -3,18 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sistema de Servicio Técnico</title>
+  <title>CNE - Sistema de Servicio Técnico</title>
 
   <style>
     :root {
       --primary: #0f172a;
       --secondary: #1e293b;
       --accent: #2563eb;
-      --accent-2: #38bdf8;
       --success: #16a34a;
       --warning: #f59e0b;
       --danger: #dc2626;
-      --light: #f8fafc;
       --muted: #64748b;
       --border: #e2e8f0;
       --card: #ffffff;
@@ -54,22 +52,22 @@
     }
 
     .login-logo {
-      width: 70px;
-      height: 70px;
+      width: 74px;
+      height: 74px;
       border-radius: 20px;
-      background: linear-gradient(135deg, #38bdf8, #2563eb);
+      background: linear-gradient(135deg, #0f172a, #2563eb);
       display: flex;
       align-items: center;
       justify-content: center;
       color: white;
       font-weight: 900;
-      font-size: 30px;
+      font-size: 25px;
       margin: 0 auto 15px auto;
     }
 
     .login-card h1 {
       text-align: center;
-      font-size: 25px;
+      font-size: 24px;
       margin-bottom: 6px;
     }
 
@@ -138,7 +136,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 28px;
+      font-size: 22px;
       font-weight: 900;
       color: white;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
@@ -173,6 +171,15 @@
       display: flex;
       align-items: center;
       gap: 6px;
+    }
+
+    .role-badge {
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.20);
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
     }
 
     .btn {
@@ -222,6 +229,13 @@
       background: white;
       color: var(--primary);
       border: 1px solid rgba(255,255,255,.25);
+    }
+
+    .btn-disabled {
+      background: #94a3b8;
+      color: white;
+      cursor: not-allowed;
+      opacity: 0.8;
     }
 
     .btn-full {
@@ -477,6 +491,17 @@
       display: block;
     }
 
+    .notice {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      padding: 12px;
+      border-radius: 12px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
     @media (max-width: 1000px) {
       .dashboard {
         grid-template-columns: repeat(2, 1fr);
@@ -546,7 +571,7 @@
         padding: 0;
       }
 
-      .topbar, .dashboard, .panel:first-child, .toolbar, .search-box, .footer-note {
+      .topbar, .dashboard, .panel:first-child, .toolbar, .search-box, .footer-note, .notice {
         display: none !important;
       }
 
@@ -575,8 +600,8 @@
 
   <section class="login-screen" id="loginScreen">
     <div class="login-card">
-      <div class="login-logo">ST</div>
-      <h1>Sistema de Servicio Técnico</h1>
+      <div class="login-logo">CNE</div>
+      <h1>CNE - Sistema de Servicio Técnico</h1>
       <p>Ingresa con tu usuario o registra uno nuevo</p>
 
       <div class="login-tabs">
@@ -587,7 +612,7 @@
       <form id="formLogin">
         <div class="form-group">
           <label>Usuario</label>
-          <input type="text" id="loginUsuario" placeholder="Ej: cristian" required>
+          <input type="text" id="loginUsuario" placeholder="Ej: responsable1" required>
         </div>
 
         <div class="form-group">
@@ -601,17 +626,25 @@
       <form id="formRegistroUsuario" style="display:none;">
         <div class="form-group">
           <label>Nombre completo</label>
-          <input type="text" id="nuevoNombre" placeholder="Ej: Cristian Tinizaray" required>
+          <input type="text" id="nuevoNombre" placeholder="Nombre del funcionario" required>
         </div>
 
         <div class="form-group">
           <label>Usuario</label>
-          <input type="text" id="nuevoUsuario" placeholder="Ej: cristian" required>
+          <input type="text" id="nuevoUsuario" placeholder="Ej: tecnico_cne" required>
         </div>
 
         <div class="form-group">
           <label>Contraseña</label>
           <input type="password" id="nuevoPassword" placeholder="Crea una contraseña" required>
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de usuario</label>
+          <select id="nuevoRol" required>
+            <option value="tecnico">Técnico</option>
+            <option value="supervisor">Supervisor</option>
+          </select>
         </div>
 
         <button type="submit" class="btn btn-success btn-full">✅ Guardar usuario</button>
@@ -625,10 +658,10 @@
 
     <header class="topbar">
       <div class="brand">
-        <div class="logo">ST</div>
+        <div class="logo">CNE</div>
         <div>
-          <h1>Sistema de Servicio Técnico</h1>
-          <p>Registro, control y seguimiento de equipos en mantenimiento</p>
+          <h1>CNE - Sistema de Servicio Técnico</h1>
+          <p>Registro, control y seguimiento de equipos institucionales</p>
         </div>
       </div>
 
@@ -636,10 +669,11 @@
         <div class="user-box">
           <span>👤 Usuario:</span>
           <strong id="nombreUsuarioActivo">Usuario</strong>
+          <span class="role-badge" id="rolUsuarioActivo">Rol</span>
         </div>
 
         <button class="btn btn-light" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
-        <button class="btn btn-danger" onclick="limpiarTodo()">🧹 Limpiar registros</button>
+        <button class="btn btn-danger" id="btnLimpiarTodo" onclick="limpiarTodo()">🧹 Limpiar registros</button>
       </div>
     </header>
 
@@ -670,17 +704,24 @@
       <section class="panel">
         <h2 class="panel-title">📝 Registro Técnico</h2>
 
+        <div class="notice" id="avisoRol">
+          El técnico puede crear y editar reportes. Solo el supervisor puede borrar registros.
+        </div>
+
         <form id="formRegistro">
           <input type="hidden" id="editIndex">
 
           <div class="form-group">
-           <label>Responsable</label>
-<input type="text" id="responsable" placeholder="Nombre del responsable" required>
+            <label>Responsable</label>
+            <input type="text" id="responsable" list="listaResponsables" placeholder="Nombre del responsable" required>
+            <datalist id="listaResponsables"></datalist>
+          </div>
 
           <div class="form-row">
             <div class="form-group">
-              <label>Teléfono</label>
-              <input type="text" id="telefono" placeholder="0999999999">
+              <label>Teléfono / Extensión</label>
+              <input type="text" id="telefono" list="listaTelefonos" placeholder="Teléfono o extensión">
+              <datalist id="listaTelefonos"></datalist>
             </div>
 
             <div class="form-group">
@@ -691,24 +732,28 @@
 
           <div class="form-group">
             <label>Equipo</label>
-            <input type="text" id="equipo" placeholder="Ej: Laptop, impresora, CPU, cámara" required>
+            <input type="text" id="equipo" list="listaEquipos" placeholder="Ej: Laptop, impresora, CPU, cámara" required>
+            <datalist id="listaEquipos"></datalist>
           </div>
 
           <div class="form-row">
             <div class="form-group">
               <label>Marca / Modelo</label>
-              <input type="text" id="marca" placeholder="Ej: HP 240 G8">
+              <input type="text" id="marca" list="listaMarcas" placeholder="Ej: HP 240 G8">
+              <datalist id="listaMarcas"></datalist>
             </div>
 
             <div class="form-group">
               <label>Técnico</label>
-              <input type="text" id="tecnico" placeholder="Nombre del técnico" required>
+              <input type="text" id="tecnico" list="listaTecnicos" placeholder="Nombre del técnico" required>
+              <datalist id="listaTecnicos"></datalist>
             </div>
           </div>
 
           <div class="form-group">
             <label>Área / Departamento</label>
-            <input type="text" id="area" placeholder="Ej: Sistemas, Oficina, Cliente externo">
+            <input type="text" id="area" list="listaAreas" placeholder="Ej: Sistemas, Secretaría, Dirección">
+            <datalist id="listaAreas"></datalist>
           </div>
 
           <div class="form-group">
@@ -723,7 +768,7 @@
 
           <div class="form-row">
             <div class="form-group">
-              <label>Costo</label>
+              <label>Costo referencial</label>
               <input type="number" id="costo" placeholder="0.00" step="0.01">
             </div>
 
@@ -751,7 +796,7 @@
         <div class="table-header">
           <h2 class="panel-title">📋 Reportes registrados</h2>
 
-          <input class="search-box" type="text" id="buscar" placeholder="🔎 Buscar cliente, equipo, técnico..." oninput="renderTabla()">
+          <input class="search-box" type="text" id="buscar" placeholder="🔎 Buscar responsable, equipo, técnico..." oninput="renderTabla()">
 
           <div class="toolbar">
             <button class="btn btn-success" onclick="exportarCSV()">📊 Excel</button>
@@ -765,7 +810,7 @@
               <tr>
                 <th>N°</th>
                 <th>Fecha</th>
-               <th>Responsable</th>
+                <th>Responsable</th>
                 <th>Equipo</th>
                 <th>Estado</th>
                 <th>Técnico</th>
@@ -786,12 +831,12 @@
     </main>
 
     <p class="footer-note">
-      Sistema de control técnico | Datos guardados por usuario en este navegador
+      CNE - Sistema de control técnico | Datos guardados por usuario en este navegador
     </p>
   </div>
 
   <script>
-    let usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivoServicioTecnico")) || null;
+    let usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivoServicioTecnicoCNE")) || null;
     let registros = [];
 
     const formLogin = document.getElementById("formLogin");
@@ -801,18 +846,36 @@
     const form = document.getElementById("formRegistro");
     const fechaInput = document.getElementById("fecha");
 
+    const camposBorrador = [
+      "responsable",
+      "telefono",
+      "fecha",
+      "equipo",
+      "marca",
+      "tecnico",
+      "area",
+      "problema",
+      "trabajo",
+      "costo",
+      "estado"
+    ];
+
     fechaInput.valueAsDate = new Date();
 
     function obtenerUsuarios() {
-      return JSON.parse(localStorage.getItem("usuariosServicioTecnico")) || [];
+      return JSON.parse(localStorage.getItem("usuariosServicioTecnicoCNE")) || [];
     }
 
     function guardarUsuarios(usuarios) {
-      localStorage.setItem("usuariosServicioTecnico", JSON.stringify(usuarios));
+      localStorage.setItem("usuariosServicioTecnicoCNE", JSON.stringify(usuarios));
     }
 
     function claveRegistrosUsuario() {
-      return "registrosServicioTecnico_" + usuarioActivo.usuario;
+      return "registrosServicioTecnicoCNE_" + usuarioActivo.usuario;
+    }
+
+    function claveBorradorUsuario() {
+      return "borradorServicioTecnicoCNE_" + usuarioActivo.usuario;
     }
 
     function cargarRegistrosUsuario() {
@@ -831,6 +894,10 @@
     function mostrarMensaje(texto, tipo) {
       mensajeLogin.textContent = texto;
       mensajeLogin.className = "mensaje " + tipo;
+    }
+
+    function esSupervisor() {
+      return usuarioActivo && usuarioActivo.rol === "supervisor";
     }
 
     function cambiarTab(tab) {
@@ -855,14 +922,14 @@
       const nombre = document.getElementById("nuevoNombre").value.trim();
       const usuario = document.getElementById("nuevoUsuario").value.trim().toLowerCase();
       const password = document.getElementById("nuevoPassword").value.trim();
+      const rol = document.getElementById("nuevoRol").value;
 
-      if (!nombre || !usuario || !password) {
+      if (!nombre || !usuario || !password || !rol) {
         mostrarMensaje("Completa todos los campos.", "error");
         return;
       }
 
       let usuarios = obtenerUsuarios();
-
       const existe = usuarios.some(u => u.usuario === usuario);
 
       if (existe) {
@@ -873,7 +940,8 @@
       usuarios.push({
         nombre: nombre,
         usuario: usuario,
-        password: password
+        password: password,
+        rol: rol
       });
 
       guardarUsuarios(usuarios);
@@ -881,6 +949,7 @@
       document.getElementById("nuevoNombre").value = "";
       document.getElementById("nuevoUsuario").value = "";
       document.getElementById("nuevoPassword").value = "";
+      document.getElementById("nuevoRol").value = "tecnico";
 
       mostrarMensaje("Usuario guardado correctamente. Ahora puedes ingresar.", "ok");
       cambiarTab("login");
@@ -894,7 +963,6 @@
       const password = document.getElementById("loginPassword").value.trim();
 
       const usuarios = obtenerUsuarios();
-
       const encontrado = usuarios.find(u => u.usuario === usuario && u.password === password);
 
       if (!encontrado) {
@@ -904,10 +972,11 @@
 
       usuarioActivo = {
         nombre: encontrado.nombre,
-        usuario: encontrado.usuario
+        usuario: encontrado.usuario,
+        rol: encontrado.rol || "tecnico"
       };
 
-      localStorage.setItem("usuarioActivoServicioTecnico", JSON.stringify(usuarioActivo));
+      localStorage.setItem("usuarioActivoServicioTecnicoCNE", JSON.stringify(usuarioActivo));
 
       document.getElementById("loginUsuario").value = "";
       document.getElementById("loginPassword").value = "";
@@ -925,14 +994,26 @@
       document.getElementById("loginScreen").style.display = "none";
       document.getElementById("app").style.display = "block";
       document.getElementById("nombreUsuarioActivo").textContent = usuarioActivo.nombre;
+      document.getElementById("rolUsuarioActivo").textContent = usuarioActivo.rol;
+
+      if (esSupervisor()) {
+        document.getElementById("btnLimpiarTodo").style.display = "inline-flex";
+        document.getElementById("avisoRol").textContent = "Supervisor: puedes crear, editar y borrar reportes.";
+      } else {
+        document.getElementById("btnLimpiarTodo").style.display = "none";
+        document.getElementById("avisoRol").textContent = "Técnico: puedes crear y editar reportes. No tienes permiso para borrar registros.";
+      }
 
       cargarRegistrosUsuario();
-      nuevoRegistro();
+      cargarSugerencias();
+      nuevoRegistro(false);
+      cargarBorrador();
       renderTabla();
     }
 
     function cerrarSesion() {
-      localStorage.removeItem("usuarioActivoServicioTecnico");
+      guardarBorrador();
+      localStorage.removeItem("usuarioActivoServicioTecnicoCNE");
       usuarioActivo = null;
       registros = [];
       document.getElementById("app").style.display = "none";
@@ -954,7 +1035,10 @@
         problema: document.getElementById("problema").value.trim(),
         trabajo: document.getElementById("trabajo").value.trim(),
         costo: document.getElementById("costo").value || "0.00",
-        estado: document.getElementById("estado").value
+        estado: document.getElementById("estado").value,
+        registradoPor: usuarioActivo.nombre,
+        rolRegistra: usuarioActivo.rol,
+        fechaGuardado: new Date().toLocaleString()
       };
 
       const editIndex = document.getElementById("editIndex").value;
@@ -962,19 +1046,135 @@
       if (editIndex === "") {
         registros.push(registro);
       } else {
-        registros[editIndex] = registro;
+        registros[editIndex] = {
+          ...registros[editIndex],
+          ...registro,
+          editadoPor: usuarioActivo.nombre,
+          fechaEditado: new Date().toLocaleString()
+        };
       }
 
       guardar();
-      nuevoRegistro();
+      guardarSugerenciasDesdeRegistro(registro);
+      limpiarBorrador();
+      nuevoRegistro(false);
+      cargarSugerencias();
       renderTabla();
+
+      alert("Registro guardado correctamente.");
     });
 
-    function nuevoRegistro() {
+    camposBorrador.forEach(id => {
+      document.getElementById(id).addEventListener("input", guardarBorrador);
+      document.getElementById(id).addEventListener("change", guardarBorrador);
+    });
+
+    function guardarBorrador() {
+      if (!usuarioActivo) return;
+
+      const borrador = {};
+
+      camposBorrador.forEach(id => {
+        borrador[id] = document.getElementById(id).value;
+      });
+
+      localStorage.setItem(claveBorradorUsuario(), JSON.stringify(borrador));
+    }
+
+    function cargarBorrador() {
+      if (!usuarioActivo) return;
+
+      const borrador = JSON.parse(localStorage.getItem(claveBorradorUsuario())) || null;
+
+      if (!borrador) return;
+
+      const tieneDatos = Object.values(borrador).some(valor => valor && valor.trim && valor.trim() !== "");
+
+      if (!tieneDatos) return;
+
+      camposBorrador.forEach(id => {
+        if (borrador[id]) {
+          document.getElementById(id).value = borrador[id];
+        }
+      });
+    }
+
+    function limpiarBorrador() {
+      if (!usuarioActivo) return;
+      localStorage.removeItem(claveBorradorUsuario());
+    }
+
+    function nuevoRegistro(limpiarDraft = true) {
       form.reset();
       document.getElementById("editIndex").value = "";
       fechaInput.valueAsDate = new Date();
       document.querySelector(".btn-primary").innerHTML = "💾 Guardar";
+
+      if (limpiarDraft) {
+        limpiarBorrador();
+      }
+    }
+
+    function claveSugerencias() {
+      return "sugerenciasServicioTecnicoCNE";
+    }
+
+    function obtenerSugerencias() {
+      return JSON.parse(localStorage.getItem(claveSugerencias())) || {
+        responsables: [],
+        telefonos: [],
+        equipos: [],
+        marcas: [],
+        tecnicos: [],
+        areas: []
+      };
+    }
+
+    function guardarSugerencias(sugerencias) {
+      localStorage.setItem(claveSugerencias(), JSON.stringify(sugerencias));
+    }
+
+    function agregarUnico(lista, valor) {
+      valor = (valor || "").trim();
+
+      if (!valor) return lista;
+
+      const existe = lista.some(item => item.toLowerCase() === valor.toLowerCase());
+
+      if (!existe) {
+        lista.unshift(valor);
+      }
+
+      return lista.slice(0, 50);
+    }
+
+    function guardarSugerenciasDesdeRegistro(r) {
+      let sugerencias = obtenerSugerencias();
+
+      sugerencias.responsables = agregarUnico(sugerencias.responsables, r.responsable);
+      sugerencias.telefonos = agregarUnico(sugerencias.telefonos, r.telefono);
+      sugerencias.equipos = agregarUnico(sugerencias.equipos, r.equipo);
+      sugerencias.marcas = agregarUnico(sugerencias.marcas, r.marca);
+      sugerencias.tecnicos = agregarUnico(sugerencias.tecnicos, r.tecnico);
+      sugerencias.areas = agregarUnico(sugerencias.areas, r.area);
+
+      guardarSugerencias(sugerencias);
+    }
+
+    function llenarDatalist(idLista, datos) {
+      const lista = document.getElementById(idLista);
+      lista.innerHTML = datos.map(item => `<option value="${escapeHTML(item)}"></option>`).join("");
+    }
+
+    function cargarSugerencias() {
+      const sugerencias = obtenerSugerencias();
+
+      llenarDatalist("listaResponsables", sugerencias.responsables);
+      llenarDatalist("listaTelefonos", sugerencias.telefonos);
+      llenarDatalist("listaEquipos", sugerencias.equipos);
+      llenarDatalist("listaMarcas", sugerencias.marcas);
+      llenarDatalist("listaTecnicos", sugerencias.tecnicos);
+      llenarDatalist("listaAreas", sugerencias.areas);
     }
 
     function renderTabla() {
@@ -982,11 +1182,11 @@
       const filtro = document.getElementById("buscar").value.toLowerCase();
 
       const filtrados = registros.filter(r =>
-        r.responsable.toLowerCase().includes(filtro) ||
-        r.equipo.toLowerCase().includes(filtro) ||
-        r.tecnico.toLowerCase().includes(filtro) ||
-        r.estado.toLowerCase().includes(filtro) ||
-        r.area.toLowerCase().includes(filtro)
+        (r.responsable || "").toLowerCase().includes(filtro) ||
+        (r.equipo || "").toLowerCase().includes(filtro) ||
+        (r.tecnico || "").toLowerCase().includes(filtro) ||
+        (r.estado || "").toLowerCase().includes(filtro) ||
+        (r.area || "").toLowerCase().includes(filtro)
       );
 
       if (filtrados.length === 0) {
@@ -994,26 +1194,35 @@
       } else {
         tbody.innerHTML = filtrados.map((r) => {
           const indexReal = registros.indexOf(r);
+
+          let botonEliminar = "";
+
+          if (esSupervisor()) {
+            botonEliminar = `<button class="icon-btn btn-danger" onclick="eliminarRegistro(${indexReal})">🗑️</button>`;
+          } else {
+            botonEliminar = `<button class="icon-btn btn-disabled" onclick="sinPermisoBorrar()">🔒</button>`;
+          }
+
           return `
             <tr>
               <td>${indexReal + 1}</td>
               <td>${formatearFecha(r.fecha)}</td>
               <td>
-              <strong>${r.responsable}</strong><br>
-                <small>${r.telefono || "Sin teléfono"}</small>
+                <strong>${escapeHTML(r.responsable || "")}</strong><br>
+                <small>${escapeHTML(r.telefono || "Sin teléfono/extensión")}</small>
               </td>
               <td>
-                <strong>${r.equipo}</strong><br>
-                <small>${r.marca || "Sin modelo"}</small>
+                <strong>${escapeHTML(r.equipo || "")}</strong><br>
+                <small>${escapeHTML(r.marca || "Sin modelo")}</small>
               </td>
               <td>${badgeEstado(r.estado)}</td>
-              <td>${r.tecnico}</td>
+              <td>${escapeHTML(r.tecnico || "")}</td>
               <td>$${Number(r.costo || 0).toFixed(2)}</td>
               <td>
                 <div class="row-actions">
                   <button class="icon-btn btn-primary" onclick="editarRegistro(${indexReal})">✏️</button>
                   <button class="icon-btn btn-warning" onclick="imprimirComprobante(${indexReal})">🧾</button>
-                  <button class="icon-btn btn-danger" onclick="eliminarRegistro(${indexReal})">🗑️</button>
+                  ${botonEliminar}
                 </div>
               </td>
             </tr>
@@ -1022,6 +1231,10 @@
       }
 
       actualizarContadores();
+    }
+
+    function sinPermisoBorrar() {
+      alert("No tienes permiso para borrar registros. Solo el supervisor puede hacerlo.");
     }
 
     function badgeEstado(estado) {
@@ -1033,31 +1246,37 @@
       if (estado === "Entregado") clase = "estado-entregado";
       if (estado === "No reparado") clase = "estado-no";
 
-      return `<span class="badge ${clase}">${estado}</span>`;
+      return `<span class="badge ${clase}">${escapeHTML(estado || "")}</span>`;
     }
 
     function editarRegistro(index) {
       const r = registros[index];
 
       document.getElementById("editIndex").value = index;
-      document.getElementById("responsable").value = r.responsable;
-      document.getElementById("telefono").value = r.telefono;
-      document.getElementById("fecha").value = r.fecha;
-      document.getElementById("equipo").value = r.equipo;
-      document.getElementById("marca").value = r.marca;
-      document.getElementById("tecnico").value = r.tecnico;
-      document.getElementById("area").value = r.area;
-      document.getElementById("problema").value = r.problema;
-      document.getElementById("trabajo").value = r.trabajo;
-      document.getElementById("costo").value = r.costo;
-      document.getElementById("estado").value = r.estado;
+      document.getElementById("responsable").value = r.responsable || "";
+      document.getElementById("telefono").value = r.telefono || "";
+      document.getElementById("fecha").value = r.fecha || "";
+      document.getElementById("equipo").value = r.equipo || "";
+      document.getElementById("marca").value = r.marca || "";
+      document.getElementById("tecnico").value = r.tecnico || "";
+      document.getElementById("area").value = r.area || "";
+      document.getElementById("problema").value = r.problema || "";
+      document.getElementById("trabajo").value = r.trabajo || "";
+      document.getElementById("costo").value = r.costo || "";
+      document.getElementById("estado").value = r.estado || "Recibido";
 
       document.querySelector(".btn-primary").innerHTML = "✅ Actualizar";
+      guardarBorrador();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
     function eliminarRegistro(index) {
-      if (confirm("¿Seguro que deseas eliminar este registro?")) {
+      if (!esSupervisor()) {
+        sinPermisoBorrar();
+        return;
+      }
+
+      if (confirm("¿Seguro que deseas eliminar este registro? Esta acción solo está permitida para supervisor.")) {
         registros.splice(index, 1);
         guardar();
         renderTabla();
@@ -1077,15 +1296,16 @@
         return;
       }
 
-      let csv = "N°,Fecha,Responsable,Telefono,Equipo,Marca,Area,Estado,Tecnico,Problema,Trabajo,Costo\n";
+      let csv = "N°,Fecha,Responsable,Telefono/Extension,Equipo,Marca,Area,Estado,Tecnico,Problema,Trabajo,Costo,Registrado por,Editado por\n";
+
       registros.forEach((r, i) => {
-        csv += `${i + 1},"${r.fecha}","${r.responsable}""${r.telefono}","${r.equipo}","${r.marca}","${r.area}","${r.estado}","${r.tecnico}","${r.problema}","${r.trabajo}","${r.costo}"\n`;
+        csv += `${i + 1},"${r.fecha}","${r.responsable}","${r.telefono}","${r.equipo}","${r.marca}","${r.area}","${r.estado}","${r.tecnico}","${r.problema}","${r.trabajo}","${r.costo}","${r.registradoPor || ""}","${r.editadoPor || ""}"\n`;
       });
 
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "registros_servicio_tecnico_" + usuarioActivo.usuario + ".csv";
+      link.download = "registros_servicio_tecnico_cne_" + usuarioActivo.usuario + ".csv";
       link.click();
     }
 
@@ -1096,7 +1316,7 @@
       ventana.document.write(`
         <html>
         <head>
-          <title>Comprobante de Servicio Técnico</title>
+          <title>Comprobante de Servicio Técnico CNE</title>
           <style>
             body {
               font-family: Arial, sans-serif;
@@ -1157,27 +1377,30 @@
         </head>
         <body>
           <div class="comprobante">
-            <h1>Sistema de Servicio Técnico</h1>
-            <p class="sub">Comprobante de recepción / mantenimiento</p>
-            <p><strong>Usuario responsable:</strong> ${usuarioActivo.nombre}</p>
+            <h1>CNE - Sistema de Servicio Técnico</h1>
+            <p class="sub">Comprobante de recepción / mantenimiento de equipo institucional</p>
+            <p><strong>Usuario que registra:</strong> ${escapeHTML(usuarioActivo.nombre)}</p>
+            <p><strong>Tipo de usuario:</strong> ${escapeHTML(usuarioActivo.rol)}</p>
 
             <table>
               <tr><td><strong>N° Reporte:</strong></td><td>${index + 1}</td></tr>
               <tr><td><strong>Fecha:</strong></td><td>${formatearFecha(r.fecha)}</td></tr>
-              <tr><td><strong>Responsable:</strong></td><td>${r.responsable}</td></tr>
-              <tr><td><strong>Teléfono:</strong></td><td>${r.telefono || ""}</td></tr>
-              <tr><td><strong>Equipo:</strong></td><td>${r.equipo}</td></tr>
-              <tr><td><strong>Marca / Modelo:</strong></td><td>${r.marca || ""}</td></tr>
-              <tr><td><strong>Área:</strong></td><td>${r.area || ""}</td></tr>
-              <tr><td><strong>Estado:</strong></td><td>${r.estado}</td></tr>
-              <tr><td><strong>Técnico:</strong></td><td>${r.tecnico}</td></tr>
-              <tr><td><strong>Problema reportado:</strong></td><td>${r.problema || ""}</td></tr>
-              <tr><td><strong>Trabajo realizado:</strong></td><td>${r.trabajo || ""}</td></tr>
-              <tr><td><strong>Costo:</strong></td><td>$${Number(r.costo || 0).toFixed(2)}</td></tr>
+              <tr><td><strong>Responsable:</strong></td><td>${escapeHTML(r.responsable || "")}</td></tr>
+              <tr><td><strong>Teléfono / Extensión:</strong></td><td>${escapeHTML(r.telefono || "")}</td></tr>
+              <tr><td><strong>Equipo:</strong></td><td>${escapeHTML(r.equipo || "")}</td></tr>
+              <tr><td><strong>Marca / Modelo:</strong></td><td>${escapeHTML(r.marca || "")}</td></tr>
+              <tr><td><strong>Área / Departamento:</strong></td><td>${escapeHTML(r.area || "")}</td></tr>
+              <tr><td><strong>Estado:</strong></td><td>${escapeHTML(r.estado || "")}</td></tr>
+              <tr><td><strong>Técnico:</strong></td><td>${escapeHTML(r.tecnico || "")}</td></tr>
+              <tr><td><strong>Problema reportado:</strong></td><td>${escapeHTML(r.problema || "")}</td></tr>
+              <tr><td><strong>Trabajo realizado:</strong></td><td>${escapeHTML(r.trabajo || "")}</td></tr>
+              <tr><td><strong>Costo referencial:</strong></td><td>$${Number(r.costo || 0).toFixed(2)}</td></tr>
+              <tr><td><strong>Registrado por:</strong></td><td>${escapeHTML(r.registradoPor || "")}</td></tr>
+              <tr><td><strong>Editado por:</strong></td><td>${escapeHTML(r.editadoPor || "Sin edición")}</td></tr>
             </table>
 
             <div class="firmas">
-              <div class="linea">Firma del cliente</div>
+              <div class="linea">Firma del responsable</div>
               <div class="linea">Firma del técnico</div>
             </div>
 
@@ -1192,6 +1415,11 @@
     }
 
     function limpiarTodo() {
+      if (!esSupervisor()) {
+        alert("No tienes permiso para limpiar registros. Solo el supervisor puede hacerlo.");
+        return;
+      }
+
       if (confirm("Esto eliminará solo los registros del usuario actual. ¿Deseas continuar?")) {
         registros = [];
         guardar();
@@ -1203,6 +1431,15 @@
       if (!fecha) return "";
       const partes = fecha.split("-");
       return `${partes[2]}/${partes[1]}/${partes[0]}`;
+    }
+
+    function escapeHTML(texto) {
+      return String(texto)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
 
     iniciarSistema();
