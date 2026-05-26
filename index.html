@@ -47,14 +47,14 @@
       </div>
       <form id="formLogin">
         <div class="form-group"><label>Usuario</label><input type="text" id="loginUsuario" placeholder="Ej: tecnico_cne" required></div>
-        <div class="form-group"><label>Contraseña</label><input type="password" id="loginPassword" placeholder="Ingresa tu contraseña" required></div>
+        <div class="form-group"><label>Contraseña</label><div class="password-wrap"><input type="password" id="loginPassword" placeholder="Ingresa tu contraseña" required><button type="button" class="eye-btn" onclick="togglePassword('loginPassword', this)">👁️</button></div></div>
         <button type="submit" class="btn btn-primary btn-full">🔐 Ingresar</button>
         <button type="button" class="btn btn-dark btn-full" onclick="recuperarContrasena()">🔑 Olvidé mi contraseña</button>
       </form>
       <form id="formRegistroUsuario" style="display:none;">
         <div class="form-group"><label>Nombre completo</label><input type="text" id="nuevoNombre" placeholder="Nombre del funcionario" required></div>
         <div class="form-group"><label>Usuario</label><input type="text" id="nuevoUsuario" placeholder="Ej: tecnico_cne" required></div>
-        <div class="form-group"><label>Contraseña</label><input type="password" id="nuevoPassword" placeholder="Crea una contraseña" required></div>
+        <div class="form-group"><label>Contraseña</label><div class="password-wrap"><input type="password" id="nuevoPassword" placeholder="Crea una contraseña" required><button type="button" class="eye-btn" onclick="togglePassword('nuevoPassword', this)">👁️</button></div></div>
         <button type="submit" class="btn btn-success btn-full">✅ Guardar usuario técnico</button>
       </form>
       <div class="mensaje" id="mensajeLogin"></div>
@@ -119,6 +119,27 @@
     <p class="footer-note">CNE - Sistema de control técnico | Reportes guardados en Firebase Realtime Database</p>
   </div>
 
+
+  <div class="modal-overlay" id="modalClave">
+    <div class="modal-card">
+      <h2>🔑 Cambiar contraseña</h2>
+      <p id="textoModalClave">Escribe la nueva contraseña del técnico.</p>
+
+      <div class="form-group">
+        <label>Nueva contraseña</label>
+        <div class="password-wrap">
+          <input type="password" id="nuevaClaveTecnico" placeholder="Nueva contraseña">
+          <button type="button" class="eye-btn" onclick="togglePassword('nuevaClaveTecnico', this)">👁️</button>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-dark" onclick="cerrarModalClave()">Cancelar</button>
+        <button type="button" class="btn btn-success" onclick="guardarNuevaClave()">Guardar clave</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import { getDatabase, ref, set, push, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
@@ -141,6 +162,7 @@
     let registros = [];
     let usuarios = [];
     let escuchandoReportes = false;
+    let usuarioClavePendiente = null;
 
     const formLogin = document.getElementById("formLogin");
     const formRegistroUsuario = document.getElementById("formRegistroUsuario");
@@ -426,7 +448,7 @@
         }else if(u.rol==="supervisor"){
           botones=`<button class="icon-btn btn-disabled" onclick="alert('No puedes modificar otro supervisor desde este panel.')">🔒</button>`;
         }else{
-          botones=`<button class="icon-btn btn-warning" onclick="restablecerClaveTecnico('${escapeJS(u.usuario)}')">🔑 Clave</button><button class="icon-btn btn-danger" onclick="eliminarTecnico('${escapeJS(u.usuario)}')">🗑️ Eliminar</button>`;
+          botones=`<button class="icon-btn btn-warning" onclick="abrirModalClave('${escapeJS(u.usuario)}')">🔑 Clave</button><button class="icon-btn btn-danger" onclick="eliminarTecnico('${escapeJS(u.usuario)}')">🗑️ Eliminar</button>`;
         }
         return `<tr><td>${index+1}</td><td>${escapeHTML(u.nombre)}</td><td>${escapeHTML(u.usuario)}</td><td><span class="badge ${claseRol}">${escapeHTML(u.rol)}</span></td><td><div class="row-actions">${botones}</div></td></tr>`;
       }).join("");
@@ -436,27 +458,68 @@
       alert("Si olvidaste tu contraseña, solicita al supervisor que la cambie desde Administración de usuarios con el botón 🔑 Clave.");
     }
 
-    async function restablecerClaveTecnico(usuario){
+    function abrirModalClave(usuario){
       if(!esSupervisor()){
         alert("No tienes permiso para cambiar contraseñas.");
         return;
       }
+
       const usuarioEncontrado=usuarios.find(u=>u.usuario===usuario);
+
       if(!usuarioEncontrado){
         alert("Usuario no encontrado.");
         return;
       }
+
       if(usuarioEncontrado.rol==="supervisor"){
         alert("No puedes cambiar la contraseña de otro supervisor desde este panel.");
         return;
       }
-      const nuevaClave=prompt("Nueva contraseña para " + usuarioEncontrado.nombre + ":");
-      if(!nuevaClave || nuevaClave.trim().length < 4){
+
+      usuarioClavePendiente = usuario;
+      document.getElementById("textoModalClave").textContent = "Nueva contraseña para: " + usuarioEncontrado.nombre;
+      document.getElementById("nuevaClaveTecnico").value = "";
+      document.getElementById("nuevaClaveTecnico").type = "password";
+      document.getElementById("modalClave").style.display = "flex";
+      setTimeout(() => document.getElementById("nuevaClaveTecnico").focus(), 100);
+    }
+
+    function cerrarModalClave(){
+      usuarioClavePendiente = null;
+      document.getElementById("modalClave").style.display = "none";
+      document.getElementById("nuevaClaveTecnico").value = "";
+    }
+
+    async function guardarNuevaClave(){
+      if(!usuarioClavePendiente){
+        alert("No hay usuario seleccionado.");
+        return;
+      }
+
+      const nuevaClave = document.getElementById("nuevaClaveTecnico").value.trim();
+
+      if(!nuevaClave || nuevaClave.length < 4){
         alert("La contraseña debe tener al menos 4 caracteres.");
         return;
       }
-      await update(ref(db,"usuarios/"+limpiarClave(usuario)),{password:nuevaClave.trim()});
+
+      await update(ref(db,"usuarios/"+limpiarClave(usuarioClavePendiente)),{password:nuevaClave});
+      cerrarModalClave();
       alert("Contraseña actualizada correctamente. El técnico ya puede ingresar con la nueva clave.");
+    }
+
+    function togglePassword(id, boton){
+      const input = document.getElementById(id);
+
+      if(!input) return;
+
+      if(input.type === "password"){
+        input.type = "text";
+        boton.textContent = "🙈";
+      }else{
+        input.type = "password";
+        boton.textContent = "👁️";
+      }
     }
 
     async function eliminarTecnico(usuario){
@@ -554,7 +617,14 @@
     function escapeJS(texto){return String(texto).replaceAll("\\","\\\\").replaceAll("'","\\'");}
     function limpiarClave(texto){return String(texto).toLowerCase().trim().replace(/[.#$\[\]\/]/g,"_");}
 
-    window.cambiarTab=cambiarTab;window.cerrarSesion=cerrarSesion;window.nuevoRegistro=nuevoRegistro;window.renderTabla=renderTabla;window.limpiarFiltros=limpiarFiltros;window.exportarCSV=exportarCSV;window.imprimirReporteFiltrado=imprimirReporteFiltrado;window.editarRegistro=editarRegistro;window.eliminarRegistro=eliminarRegistro;window.sinPermisoBorrar=sinPermisoBorrar;window.imprimirComprobante=imprimirComprobante;window.eliminarTecnico=eliminarTecnico;window.restablecerClaveTecnico=restablecerClaveTecnico;window.recuperarContrasena=recuperarContrasena;window.limpiarTodo=limpiarTodo;
+    window.cambiarTab=cambiarTab;window.cerrarSesion=cerrarSesion;window.nuevoRegistro=nuevoRegistro;window.renderTabla=renderTabla;window.limpiarFiltros=limpiarFiltros;window.exportarCSV=exportarCSV;window.imprimirReporteFiltrado=imprimirReporteFiltrado;window.editarRegistro=editarRegistro;window.eliminarRegistro=eliminarRegistro;window.sinPermisoBorrar=sinPermisoBorrar;window.imprimirComprobante=imprimirComprobante;window.eliminarTecnico=eliminarTecnico;window.abrirModalClave=abrirModalClave;window.cerrarModalClave=cerrarModalClave;window.guardarNuevaClave=guardarNuevaClave;window.togglePassword=togglePassword;window.recuperarContrasena=recuperarContrasena;window.limpiarTodo=limpiarTodo;
+
+
+    document.getElementById("nuevaClaveTecnico").addEventListener("keydown", function(e){
+      if(e.key === "Enter"){
+        guardarNuevaClave();
+      }
+    });
 
     asegurarSupervisor().then(()=>{escucharUsuarios();iniciarSistema();}).catch(error=>{console.error(error);document.getElementById("estadoConexion").textContent="⚠️ Error Firebase";alert("No se pudo conectar con Firebase. Revisa que Realtime Database esté creado y que las reglas permitan lectura/escritura.");});
   </script>
