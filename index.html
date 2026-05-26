@@ -630,13 +630,6 @@
 
 
     ["recuperarUsuario","recuperarNombre"].forEach(id => { document.getElementById(id).addEventListener("keydown", function(e){ if(e.key === "Enter"){ recuperarContrasena(); } }); });
-
-    ["claveActualUsuario","claveNuevaUsuario","claveConfirmarUsuario"].forEach(id => {
-      document.getElementById(id).addEventListener("keydown", function(e){
-        if(e.key === "Enter"){
-          guardarMiClave();
-        }
-      });
     });
 
     asegurarSupervisor().then(()=>{escucharUsuarios();iniciarSistema();}).catch(error=>{console.error(error);document.getElementById("estadoConexion").textContent="⚠️ Error Firebase";alert("No se pudo conectar con Firebase. Revisa que Realtime Database esté creado y que las reglas permitan lectura/escritura.");});
