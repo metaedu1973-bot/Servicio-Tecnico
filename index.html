@@ -140,6 +140,43 @@
     </div>
   </div>
 
+
+  <div class="modal-overlay" id="modalMiClave">
+    <div class="modal-card">
+      <h2>🔑 Cambiar mi contraseña</h2>
+      <p>Escribe tu contraseña actual y luego tu nueva contraseña.</p>
+
+      <div class="form-group">
+        <label>Contraseña actual</label>
+        <div class="password-wrap">
+          <input type="password" id="claveActualUsuario" placeholder="Contraseña actual">
+          <button type="button" class="eye-btn" onclick="togglePassword('claveActualUsuario', this)">👁️</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Nueva contraseña</label>
+        <div class="password-wrap">
+          <input type="password" id="claveNuevaUsuario" placeholder="Nueva contraseña">
+          <button type="button" class="eye-btn" onclick="togglePassword('claveNuevaUsuario', this)">👁️</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Confirmar nueva contraseña</label>
+        <div class="password-wrap">
+          <input type="password" id="claveConfirmarUsuario" placeholder="Confirmar contraseña">
+          <button type="button" class="eye-btn" onclick="togglePassword('claveConfirmarUsuario', this)">👁️</button>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-dark" onclick="cerrarModalMiClave()">Cancelar</button>
+        <button type="button" class="btn btn-success" onclick="guardarMiClave()">Guardar mi clave</button>
+      </div>
+    </div>
+  </div>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-app.js";
     import { getDatabase, ref, set, push, update, remove, onValue, get } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-database.js";
@@ -508,6 +545,74 @@
       alert("Contraseña actualizada correctamente. El técnico ya puede ingresar con la nueva clave.");
     }
 
+    function abrirModalMiClave(){
+      if(!usuarioActivo){
+        alert("Debes iniciar sesión.");
+        return;
+      }
+
+      document.getElementById("claveActualUsuario").value = "";
+      document.getElementById("claveNuevaUsuario").value = "";
+      document.getElementById("claveConfirmarUsuario").value = "";
+
+      document.getElementById("claveActualUsuario").type = "password";
+      document.getElementById("claveNuevaUsuario").type = "password";
+      document.getElementById("claveConfirmarUsuario").type = "password";
+
+      document.getElementById("modalMiClave").style.display = "flex";
+      setTimeout(() => document.getElementById("claveActualUsuario").focus(), 100);
+    }
+
+    function cerrarModalMiClave(){
+      document.getElementById("modalMiClave").style.display = "none";
+      document.getElementById("claveActualUsuario").value = "";
+      document.getElementById("claveNuevaUsuario").value = "";
+      document.getElementById("claveConfirmarUsuario").value = "";
+    }
+
+    async function guardarMiClave(){
+      if(!usuarioActivo){
+        alert("Debes iniciar sesión.");
+        return;
+      }
+
+      const actual = document.getElementById("claveActualUsuario").value.trim();
+      const nueva = document.getElementById("claveNuevaUsuario").value.trim();
+      const confirmar = document.getElementById("claveConfirmarUsuario").value.trim();
+
+      if(!actual || !nueva || !confirmar){
+        alert("Completa todos los campos.");
+        return;
+      }
+
+      if(nueva.length < 4){
+        alert("La nueva contraseña debe tener al menos 4 caracteres.");
+        return;
+      }
+
+      if(nueva !== confirmar){
+        alert("La nueva contraseña y la confirmación no coinciden.");
+        return;
+      }
+
+      const usuarioEncontrado = usuarios.find(u => u.usuario === usuarioActivo.usuario);
+
+      if(!usuarioEncontrado){
+        alert("Usuario no encontrado.");
+        return;
+      }
+
+      if(usuarioEncontrado.password !== actual){
+        alert("La contraseña actual no es correcta.");
+        return;
+      }
+
+      await update(ref(db,"usuarios/"+limpiarClave(usuarioActivo.usuario)),{password:nueva});
+
+      cerrarModalMiClave();
+      alert("Tu contraseña fue actualizada correctamente. La próxima vez ingresa con tu nueva clave.");
+    }
+
     function togglePassword(id, boton){
       const input = document.getElementById(id);
 
@@ -617,13 +722,21 @@
     function escapeJS(texto){return String(texto).replaceAll("\\","\\\\").replaceAll("'","\\'");}
     function limpiarClave(texto){return String(texto).toLowerCase().trim().replace(/[.#$\[\]\/]/g,"_");}
 
-    window.cambiarTab=cambiarTab;window.cerrarSesion=cerrarSesion;window.nuevoRegistro=nuevoRegistro;window.renderTabla=renderTabla;window.limpiarFiltros=limpiarFiltros;window.exportarCSV=exportarCSV;window.imprimirReporteFiltrado=imprimirReporteFiltrado;window.editarRegistro=editarRegistro;window.eliminarRegistro=eliminarRegistro;window.sinPermisoBorrar=sinPermisoBorrar;window.imprimirComprobante=imprimirComprobante;window.eliminarTecnico=eliminarTecnico;window.abrirModalClave=abrirModalClave;window.cerrarModalClave=cerrarModalClave;window.guardarNuevaClave=guardarNuevaClave;window.togglePassword=togglePassword;window.recuperarContrasena=recuperarContrasena;window.limpiarTodo=limpiarTodo;
+    window.cambiarTab=cambiarTab;window.cerrarSesion=cerrarSesion;window.nuevoRegistro=nuevoRegistro;window.renderTabla=renderTabla;window.limpiarFiltros=limpiarFiltros;window.exportarCSV=exportarCSV;window.imprimirReporteFiltrado=imprimirReporteFiltrado;window.editarRegistro=editarRegistro;window.eliminarRegistro=eliminarRegistro;window.sinPermisoBorrar=sinPermisoBorrar;window.imprimirComprobante=imprimirComprobante;window.eliminarTecnico=eliminarTecnico;window.abrirModalClave=abrirModalClave;window.cerrarModalClave=cerrarModalClave;window.guardarNuevaClave=guardarNuevaClave;window.abrirModalMiClave=abrirModalMiClave;window.cerrarModalMiClave=cerrarModalMiClave;window.guardarMiClave=guardarMiClave;window.togglePassword=togglePassword;window.recuperarContrasena=recuperarContrasena;window.limpiarTodo=limpiarTodo;
 
 
     document.getElementById("nuevaClaveTecnico").addEventListener("keydown", function(e){
       if(e.key === "Enter"){
         guardarNuevaClave();
       }
+    });
+
+    ["claveActualUsuario","claveNuevaUsuario","claveConfirmarUsuario"].forEach(id => {
+      document.getElementById(id).addEventListener("keydown", function(e){
+        if(e.key === "Enter"){
+          guardarMiClave();
+        }
+      });
     });
 
     asegurarSupervisor().then(()=>{escucharUsuarios();iniciarSistema();}).catch(error=>{console.error(error);document.getElementById("estadoConexion").textContent="⚠️ Error Firebase";alert("No se pudo conectar con Firebase. Revisa que Realtime Database esté creado y que las reglas permitan lectura/escritura.");});
