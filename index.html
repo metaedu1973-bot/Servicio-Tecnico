@@ -85,6 +85,30 @@
       margin-top: 4px;
     }
 
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .user-box {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .user-box strong {
+      color: #ffffff;
+    }
+
     .btn {
       border: none;
       padding: 11px 16px;
@@ -382,6 +406,15 @@
         align-items: flex-start;
       }
 
+      .top-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .user-box {
+        width: 100%;
+      }
+
       .brand h1 {
         font-size: 21px;
       }
@@ -452,19 +485,22 @@
 
     <header class="topbar">
       <div class="brand">
-        <div class="logo">ST</div>
+        <div class="logo">PL</div>
         <div>
-          <h1>Sistema de Servicio Técnico</h1>
+          <h1>Punto Laser - Servicio Técnico</h1>
           <p>Registro, control y seguimiento de equipos en mantenimiento</p>
         </div>
       </div>
 
-      <div class="user-box">
-  <span>👤 Usuario:</span>
-  <strong id="nombreUsuario">Administrador</strong>
-</div>
+      <div class="top-actions">
+        <div class="user-box">
+          <span>👤 Usuario:</span>
+          <strong id="nombreUsuario">Cristian Tinizaray</strong>
+        </div>
 
-<button class="btn btn-light" onclick="limpiarTodo()">🧹 Limpiar sistema</button>
+        <button class="btn btn-light" onclick="limpiarTodo()">🧹 Limpiar sistema</button>
+      </div>
+    </header>
 
     <section class="dashboard">
       <div class="stat-card">
@@ -678,7 +714,7 @@
       if (filtrados.length === 0) {
         tbody.innerHTML = `<tr><td colspan="8" class="empty">No se encontraron registros</td></tr>`;
       } else {
-        tbody.innerHTML = filtrados.map((r, i) => {
+        tbody.innerHTML = filtrados.map((r) => {
           const indexReal = registros.indexOf(r);
           return `
             <tr>
@@ -844,7 +880,7 @@
         </head>
         <body>
           <div class="comprobante">
-            <h1>Sistema de Servicio Técnico</h1>
+            <h1>Punto Laser - Servicio Técnico</h1>
             <p class="sub">Comprobante de recepción / mantenimiento</p>
 
             <table>
