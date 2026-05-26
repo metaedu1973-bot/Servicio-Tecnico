@@ -36,9 +36,79 @@
       padding: 20px;
     }
 
+    .login-screen {
+      min-height: calc(100vh - 40px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 430px;
+      background: white;
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      padding: 28px;
+      border: 1px solid var(--border);
+    }
+
+    .login-logo {
+      width: 70px;
+      height: 70px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, #38bdf8, #2563eb);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 900;
+      font-size: 30px;
+      margin: 0 auto 15px auto;
+    }
+
+    .login-card h1 {
+      text-align: center;
+      font-size: 25px;
+      margin-bottom: 6px;
+    }
+
+    .login-card p {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 20px;
+      font-size: 14px;
+    }
+
+    .login-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #f1f5f9;
+      padding: 5px;
+      border-radius: 14px;
+      margin-bottom: 18px;
+    }
+
+    .tab-btn {
+      border: none;
+      padding: 10px;
+      border-radius: 11px;
+      cursor: pointer;
+      font-weight: 800;
+      background: transparent;
+      color: var(--muted);
+    }
+
+    .tab-btn.active {
+      background: white;
+      color: var(--accent);
+      box-shadow: 0 4px 14px rgba(15,23,42,.10);
+    }
+
     .app {
       max-width: 1250px;
       margin: auto;
+      display: none;
     }
 
     .topbar {
@@ -105,10 +175,6 @@
       gap: 6px;
     }
 
-    .user-box strong {
-      color: #ffffff;
-    }
-
     .btn {
       border: none;
       padding: 11px 16px;
@@ -156,6 +222,51 @@
       background: white;
       color: var(--primary);
       border: 1px solid rgba(255,255,255,.25);
+    }
+
+    .btn-full {
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      outline: none;
+      font-size: 14px;
+      background: #f8fafc;
+      transition: .2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, .10);
+    }
+
+    textarea {
+      min-height: 80px;
+      resize: vertical;
+    }
+
+    .form-group {
+      margin-bottom: 13px;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
     }
 
     .dashboard {
@@ -218,46 +329,6 @@
       display: flex;
       align-items: center;
       gap: 8px;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--secondary);
-      margin-bottom: 6px;
-    }
-
-    input, select, textarea {
-      width: 100%;
-      padding: 12px 13px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      outline: none;
-      font-size: 14px;
-      background: #f8fafc;
-      transition: .2s;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--accent);
-      background: white;
-      box-shadow: 0 0 0 4px rgba(37, 99, 235, .10);
-    }
-
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-
-    .form-group {
-      margin-bottom: 13px;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
     }
 
     .actions {
@@ -386,6 +457,26 @@
       font-size: 13px;
     }
 
+    .mensaje {
+      margin-top: 12px;
+      padding: 10px;
+      border-radius: 12px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .mensaje.ok {
+      background: #dcfce7;
+      color: #166534;
+      display: block;
+    }
+
+    .mensaje.error {
+      background: #fee2e2;
+      color: #991b1b;
+      display: block;
+    }
+
     @media (max-width: 1000px) {
       .dashboard {
         grid-template-columns: repeat(2, 1fr);
@@ -481,13 +572,62 @@
 </head>
 
 <body>
-  <div class="app">
+
+  <section class="login-screen" id="loginScreen">
+    <div class="login-card">
+      <div class="login-logo">ST</div>
+      <h1>Sistema de Servicio Técnico</h1>
+      <p>Ingresa con tu usuario o registra uno nuevo</p>
+
+      <div class="login-tabs">
+        <button class="tab-btn active" id="btnTabLogin" onclick="cambiarTab('login')">Ingresar</button>
+        <button class="tab-btn" id="btnTabRegistro" onclick="cambiarTab('registro')">Nuevo usuario</button>
+      </div>
+
+      <form id="formLogin">
+        <div class="form-group">
+          <label>Usuario</label>
+          <input type="text" id="loginUsuario" placeholder="Ej: cristian" required>
+        </div>
+
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" id="loginPassword" placeholder="Ingresa tu contraseña" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-full">🔐 Ingresar</button>
+      </form>
+
+      <form id="formRegistroUsuario" style="display:none;">
+        <div class="form-group">
+          <label>Nombre completo</label>
+          <input type="text" id="nuevoNombre" placeholder="Ej: Cristian Tinizaray" required>
+        </div>
+
+        <div class="form-group">
+          <label>Usuario</label>
+          <input type="text" id="nuevoUsuario" placeholder="Ej: cristian" required>
+        </div>
+
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" id="nuevoPassword" placeholder="Crea una contraseña" required>
+        </div>
+
+        <button type="submit" class="btn btn-success btn-full">✅ Guardar usuario</button>
+      </form>
+
+      <div class="mensaje" id="mensajeLogin"></div>
+    </div>
+  </section>
+
+  <div class="app" id="app">
 
     <header class="topbar">
       <div class="brand">
         <div class="logo">ST</div>
         <div>
-         <h1>Sistema de Servicio Técnico</h1>
+          <h1>Sistema de Servicio Técnico</h1>
           <p>Registro, control y seguimiento de equipos en mantenimiento</p>
         </div>
       </div>
@@ -495,10 +635,11 @@
       <div class="top-actions">
         <div class="user-box">
           <span>👤 Usuario:</span>
-          <strong id="nombreUsuario">Cristian Tinizaray</strong>
+          <strong id="nombreUsuarioActivo">Usuario</strong>
         </div>
 
-        <button class="btn btn-light" onclick="limpiarTodo()">🧹 Limpiar sistema</button>
+        <button class="btn btn-light" onclick="cerrarSesion()">🚪 Cerrar sesión</button>
+        <button class="btn btn-danger" onclick="limpiarTodo()">🧹 Limpiar registros</button>
       </div>
     </header>
 
@@ -646,17 +787,159 @@
     </main>
 
     <p class="footer-note">
-      Sistema de control técnico | Datos guardados en este navegador
+      Sistema de control técnico | Datos guardados por usuario en este navegador
     </p>
   </div>
 
   <script>
-    let registros = JSON.parse(localStorage.getItem("registrosServicioTecnico")) || [];
+    let usuarioActivo = JSON.parse(localStorage.getItem("usuarioActivoServicioTecnico")) || null;
+    let registros = [];
+
+    const formLogin = document.getElementById("formLogin");
+    const formRegistroUsuario = document.getElementById("formRegistroUsuario");
+    const mensajeLogin = document.getElementById("mensajeLogin");
 
     const form = document.getElementById("formRegistro");
     const fechaInput = document.getElementById("fecha");
 
     fechaInput.valueAsDate = new Date();
+
+    function obtenerUsuarios() {
+      return JSON.parse(localStorage.getItem("usuariosServicioTecnico")) || [];
+    }
+
+    function guardarUsuarios(usuarios) {
+      localStorage.setItem("usuariosServicioTecnico", JSON.stringify(usuarios));
+    }
+
+    function claveRegistrosUsuario() {
+      return "registrosServicioTecnico_" + usuarioActivo.usuario;
+    }
+
+    function cargarRegistrosUsuario() {
+      if (!usuarioActivo) {
+        registros = [];
+        return;
+      }
+
+      registros = JSON.parse(localStorage.getItem(claveRegistrosUsuario())) || [];
+    }
+
+    function guardar() {
+      localStorage.setItem(claveRegistrosUsuario(), JSON.stringify(registros));
+    }
+
+    function mostrarMensaje(texto, tipo) {
+      mensajeLogin.textContent = texto;
+      mensajeLogin.className = "mensaje " + tipo;
+    }
+
+    function cambiarTab(tab) {
+      mensajeLogin.className = "mensaje";
+
+      if (tab === "login") {
+        document.getElementById("formLogin").style.display = "block";
+        document.getElementById("formRegistroUsuario").style.display = "none";
+        document.getElementById("btnTabLogin").classList.add("active");
+        document.getElementById("btnTabRegistro").classList.remove("active");
+      } else {
+        document.getElementById("formLogin").style.display = "none";
+        document.getElementById("formRegistroUsuario").style.display = "block";
+        document.getElementById("btnTabLogin").classList.remove("active");
+        document.getElementById("btnTabRegistro").classList.add("active");
+      }
+    }
+
+    formRegistroUsuario.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const nombre = document.getElementById("nuevoNombre").value.trim();
+      const usuario = document.getElementById("nuevoUsuario").value.trim().toLowerCase();
+      const password = document.getElementById("nuevoPassword").value.trim();
+
+      if (!nombre || !usuario || !password) {
+        mostrarMensaje("Completa todos los campos.", "error");
+        return;
+      }
+
+      let usuarios = obtenerUsuarios();
+
+      const existe = usuarios.some(u => u.usuario === usuario);
+
+      if (existe) {
+        mostrarMensaje("Ese usuario ya existe. Usa otro nombre de usuario.", "error");
+        return;
+      }
+
+      usuarios.push({
+        nombre: nombre,
+        usuario: usuario,
+        password: password
+      });
+
+      guardarUsuarios(usuarios);
+
+      document.getElementById("nuevoNombre").value = "";
+      document.getElementById("nuevoUsuario").value = "";
+      document.getElementById("nuevoPassword").value = "";
+
+      mostrarMensaje("Usuario guardado correctamente. Ahora puedes ingresar.", "ok");
+      cambiarTab("login");
+      document.getElementById("loginUsuario").value = usuario;
+    });
+
+    formLogin.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const usuario = document.getElementById("loginUsuario").value.trim().toLowerCase();
+      const password = document.getElementById("loginPassword").value.trim();
+
+      const usuarios = obtenerUsuarios();
+
+      const encontrado = usuarios.find(u => u.usuario === usuario && u.password === password);
+
+      if (!encontrado) {
+        mostrarMensaje("Usuario o contraseña incorrectos.", "error");
+        return;
+      }
+
+      usuarioActivo = {
+        nombre: encontrado.nombre,
+        usuario: encontrado.usuario
+      };
+
+      localStorage.setItem("usuarioActivoServicioTecnico", JSON.stringify(usuarioActivo));
+
+      document.getElementById("loginUsuario").value = "";
+      document.getElementById("loginPassword").value = "";
+
+      iniciarSistema();
+    });
+
+    function iniciarSistema() {
+      if (!usuarioActivo) {
+        document.getElementById("loginScreen").style.display = "flex";
+        document.getElementById("app").style.display = "none";
+        return;
+      }
+
+      document.getElementById("loginScreen").style.display = "none";
+      document.getElementById("app").style.display = "block";
+      document.getElementById("nombreUsuarioActivo").textContent = usuarioActivo.nombre;
+
+      cargarRegistrosUsuario();
+      nuevoRegistro();
+      renderTabla();
+    }
+
+    function cerrarSesion() {
+      localStorage.removeItem("usuarioActivoServicioTecnico");
+      usuarioActivo = null;
+      registros = [];
+      document.getElementById("app").style.display = "none";
+      document.getElementById("loginScreen").style.display = "flex";
+      mensajeLogin.className = "mensaje";
+    }
 
     form.addEventListener("submit", function(e) {
       e.preventDefault();
@@ -687,10 +970,6 @@
       nuevoRegistro();
       renderTabla();
     });
-
-    function guardar() {
-      localStorage.setItem("registrosServicioTecnico", JSON.stringify(registros));
-    }
 
     function nuevoRegistro() {
       form.reset();
@@ -808,7 +1087,7 @@
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = "registros_servicio_tecnico.csv";
+      link.download = "registros_servicio_tecnico_" + usuarioActivo.usuario + ".csv";
       link.click();
     }
 
@@ -880,8 +1159,9 @@
         </head>
         <body>
           <div class="comprobante">
-            <h1>Punto Laser - Servicio Técnico</h1>
+            <h1>Sistema de Servicio Técnico</h1>
             <p class="sub">Comprobante de recepción / mantenimiento</p>
+            <p><strong>Usuario responsable:</strong> ${usuarioActivo.nombre}</p>
 
             <table>
               <tr><td><strong>N° Reporte:</strong></td><td>${index + 1}</td></tr>
@@ -914,7 +1194,7 @@
     }
 
     function limpiarTodo() {
-      if (confirm("Esto eliminará todos los registros guardados. ¿Deseas continuar?")) {
+      if (confirm("Esto eliminará solo los registros del usuario actual. ¿Deseas continuar?")) {
         registros = [];
         guardar();
         renderTabla();
@@ -927,7 +1207,7 @@
       return `${partes[2]}/${partes[1]}/${partes[0]}`;
     }
 
-    renderTabla();
+    iniciarSistema();
   </script>
 </body>
 </html>
