@@ -674,9 +674,8 @@
           <input type="hidden" id="editIndex">
 
           <div class="form-group">
-            <label>Cliente</label>
-            <input type="text" id="cliente" placeholder="Nombre del cliente" required>
-          </div>
+           <label>Responsable</label>
+<input type="text" id="responsable" placeholder="Nombre del responsable" required>
 
           <div class="form-row">
             <div class="form-group">
@@ -766,7 +765,7 @@
               <tr>
                 <th>N°</th>
                 <th>Fecha</th>
-                <th>Cliente</th>
+               <th>Responsable</th>
                 <th>Equipo</th>
                 <th>Estado</th>
                 <th>Técnico</th>
@@ -945,7 +944,7 @@
       e.preventDefault();
 
       const registro = {
-        cliente: document.getElementById("cliente").value.trim(),
+        responsable: document.getElementById("responsable").value.trim(),
         telefono: document.getElementById("telefono").value.trim(),
         fecha: document.getElementById("fecha").value,
         equipo: document.getElementById("equipo").value.trim(),
@@ -983,7 +982,7 @@
       const filtro = document.getElementById("buscar").value.toLowerCase();
 
       const filtrados = registros.filter(r =>
-        r.cliente.toLowerCase().includes(filtro) ||
+        r.responsable.toLowerCase().includes(filtro) ||
         r.equipo.toLowerCase().includes(filtro) ||
         r.tecnico.toLowerCase().includes(filtro) ||
         r.estado.toLowerCase().includes(filtro) ||
@@ -1000,7 +999,7 @@
               <td>${indexReal + 1}</td>
               <td>${formatearFecha(r.fecha)}</td>
               <td>
-                <strong>${r.cliente}</strong><br>
+              <strong>${r.responsable}</strong><br>
                 <small>${r.telefono || "Sin teléfono"}</small>
               </td>
               <td>
@@ -1041,7 +1040,7 @@
       const r = registros[index];
 
       document.getElementById("editIndex").value = index;
-      document.getElementById("cliente").value = r.cliente;
+      document.getElementById("responsable").value = r.responsable;
       document.getElementById("telefono").value = r.telefono;
       document.getElementById("fecha").value = r.fecha;
       document.getElementById("equipo").value = r.equipo;
@@ -1078,10 +1077,9 @@
         return;
       }
 
-      let csv = "N°,Fecha,Cliente,Telefono,Equipo,Marca,Area,Estado,Tecnico,Problema,Trabajo,Costo\n";
-
+      let csv = "N°,Fecha,Responsable,Telefono,Equipo,Marca,Area,Estado,Tecnico,Problema,Trabajo,Costo\n";
       registros.forEach((r, i) => {
-        csv += `${i + 1},"${r.fecha}","${r.cliente}","${r.telefono}","${r.equipo}","${r.marca}","${r.area}","${r.estado}","${r.tecnico}","${r.problema}","${r.trabajo}","${r.costo}"\n`;
+        csv += `${i + 1},"${r.fecha}","${r.responsable}""${r.telefono}","${r.equipo}","${r.marca}","${r.area}","${r.estado}","${r.tecnico}","${r.problema}","${r.trabajo}","${r.costo}"\n`;
       });
 
       const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
@@ -1166,7 +1164,7 @@
             <table>
               <tr><td><strong>N° Reporte:</strong></td><td>${index + 1}</td></tr>
               <tr><td><strong>Fecha:</strong></td><td>${formatearFecha(r.fecha)}</td></tr>
-              <tr><td><strong>Cliente:</strong></td><td>${r.cliente}</td></tr>
+              <tr><td><strong>Responsable:</strong></td><td>${r.responsable}</td></tr>
               <tr><td><strong>Teléfono:</strong></td><td>${r.telefono || ""}</td></tr>
               <tr><td><strong>Equipo:</strong></td><td>${r.equipo}</td></tr>
               <tr><td><strong>Marca / Modelo:</strong></td><td>${r.marca || ""}</td></tr>
